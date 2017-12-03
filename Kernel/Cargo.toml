@@ -3,8 +3,4 @@ name = "Kernel"
 version = "0.1.0"
 authors = ["KeyboardMayCry <eddy199883@gmail.com>"]
 
-[lib]
-crate-type = ["staticlib"]
-path = "src/Core/main.rs"
-
 [dependencies]
