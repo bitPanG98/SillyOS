@@ -7,11 +7,6 @@ else
 LIB_KERNEL_A := Kernel/target/$(TARGET)/debug/libKernel.a
 endif
 
-#git things
-push:
-	git add * && git commit -a
-	git push
-
 all: run
 
 run: bootloader kernel
