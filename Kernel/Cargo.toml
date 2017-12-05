@@ -7,3 +7,9 @@ authors = ["KeyboardMayCry <eddy199883@gmail.com>"]
 crate-type = ["staticlib"]
 
 [dependencies]
+
+# Target specificed crate
+[target.x86_64-sillyos.dependencies]
+x86 = "0.8.1"
+
+

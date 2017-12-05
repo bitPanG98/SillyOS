@@ -1,0 +1,9 @@
+
+#ignore output dirs
+Build/
+
+#ignore temp. dirs
+Kernel/target/
+
+#ignore tools
+edk2/

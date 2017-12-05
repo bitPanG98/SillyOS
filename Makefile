@@ -12,10 +12,9 @@ push:
 	git add * && git commit -a
 	git push
 
+all: run
 
-all: disk
-
-disk: bootloader kernel
+run: bootloader kernel
 
 clean:
 	@echo Cleaning Kernel...
@@ -23,6 +22,8 @@ clean:
 
 bootloader:
 	@echo Building Boot Loader...
+	#Ubuntu's 'sh' did not contain 'source' command
+	bash edk2.sh
 
 kernel: $(LIB_KERNEL_A)
 	@echo Building Kernel...
