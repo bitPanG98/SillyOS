@@ -8,7 +8,6 @@
     "target-pointer-width": "64",
     "target-c-int-width": "32",
     "disable-redzone": true,
-    "no-compiler-rt": true,
-    "features": "-mmx, -fxsr, -sse, -sse2, +soft-float"
+    "features": "-mmx,-fxsr,-sse,-sse2,+soft-float"
 
 }
