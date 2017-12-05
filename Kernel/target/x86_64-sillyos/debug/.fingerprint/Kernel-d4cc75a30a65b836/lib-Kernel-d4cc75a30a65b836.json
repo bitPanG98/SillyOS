@@ -1,1 +1,0 @@
-{"rustc":17750116485700248429,"features":"[]","target":8449229807592063646,"profile":731176819336294830,"deps":[],"local":[{"MtimeBased":[[1512465133,849013872],"/home/lty/Codes/SillyOS/Kernel/target/x86_64-sillyos/debug/.fingerprint/Kernel-d4cc75a30a65b836/dep-lib-Kernel-d4cc75a30a65b836"]}],"rustflags":["--sysroot","/home/lty/.xargo"]}
