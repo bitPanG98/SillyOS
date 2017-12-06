@@ -10,6 +10,6 @@ crate-type = ["staticlib"]
 
 # Target specificed crate
 [target.x86_64-sillyos.dependencies]
-x86 = "0.8.1"
+x86_64 = { path = "Platform/x86_64"}
 
 

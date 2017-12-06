@@ -9,3 +9,7 @@ TARGET ?= $(ARCH)-sillyos
 # Files
 CORE := $(TARGET).core
 ISO ?= $(TARGET).iso
+
+# Tools
+LD := 
+NASM := nasm

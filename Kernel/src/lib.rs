@@ -6,10 +6,14 @@
 // Dont bother my identifier naming OKAY?
 #![allow(non_snake_case)]
 
+#[cfg(target_arch = "x86_64")]
+extern crate x86_64;
+
 // Entry point of Core
 #[no_mangle]
 pub extern "C" fn entry() {
     // Call from Boot Loader
+    x86_64::donothing();
     loop {
 
     }
