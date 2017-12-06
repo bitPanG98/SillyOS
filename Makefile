@@ -2,7 +2,7 @@ include Makefiles/Config.mk
 
 #Platform specificed code
 ifeq ($(ARCH), x86_64)
-include Makefiles/Kernel/Platform/x86_64.mk
+include Makefiles/x86_64.mk
 endif
 #Kernel core
 #Path of libKernel.a
@@ -11,7 +11,7 @@ LIB_KERNEL_A := Kernel/target/$(TARGET)/release/libKernel.a
 else
 LIB_KERNEL_A := Kernel/target/$(TARGET)/debug/libKernel.a
 endif
-include Makefiles/Kernel/Core.mk
+include Makefiles/Core.mk
 
 ####################################
 #	TARGETS	AHEAD
