@@ -9,6 +9,7 @@ TARGET ?= $(ARCH)-sillyos
 # Files
 CORE := $(TARGET).core
 ISO ?= $(TARGET).iso
+BOOTLOADER := ./edk2/Build/AOS/DEBUG_GCC5/X64/AOS-Bootloader.efi
 
 # Tools
 LD := 

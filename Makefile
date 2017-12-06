@@ -2,7 +2,8 @@ include Makefiles/Config.mk
 
 #Platform specificed code
 ifeq ($(ARCH), x86_64)
-include Makefiles/x86_64.mk
+include Makefiles/Platform/x86_64/x86_64.mk
+include Makefiles/Platform/x86_64/Bootloader.mk
 endif
 #Kernel core
 #Path of libKernel.a
@@ -19,15 +20,10 @@ include Makefiles/Core.mk
 .PHONY: all clean
 all: run clean
 
-run: bootloader $(CORE)
+run: $(BOOTLOADER) $(CORE)
 #qemu
-clean: kernel_clean platform_clean
+clean: kernel_clean platform_clean bootloader_clean
 	@echo Cleaning done.
-
-bootloader:
-	@echo Building Boot Loader...
-	#Ubuntu's 'sh' did not contain 'source' command
-	bash ./Stuff/edk2.sh
 
 $(CORE): $(PLATFORM_OBJ) kernel_core
 	@echo Linking Kernel...
