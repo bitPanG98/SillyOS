@@ -1,10 +1,5 @@
 include Makefiles/Config.mk
 
-#Platform specificed code
-ifeq ($(ARCH), x86_64)
-include Makefiles/Platform/x86_64/x86_64.mk
-include Makefiles/Platform/x86_64/Bootloader.mk
-endif
 #Kernel core
 #Path of libKernel.a
 ifeq ($(DEBUG), 0)
@@ -12,19 +7,36 @@ LIB_KERNEL_A := Kernel/target/$(TARGET)/release/libKernel.a
 else
 LIB_KERNEL_A := Kernel/target/$(TARGET)/debug/libKernel.a
 endif
+#leave it the last.
 include Makefiles/Core.mk
+
+#Platform specificed code(PSCode)
+ifeq ($(ARCH), x86_64)
+#Contain bootloader and PSCode building method of x86_64.
+include Makefiles/x86_64.mk
+else
+#Contain bootloader and PSCode building method of RPi.
+endif
+
 
 ####################################
 #	TARGETS	AHEAD
 ####################################
-.PHONY: all clean
-all: run clean
+.PHONY: create_build iso
 
-run: $(BOOTLOADER) $(CORE)
-#qemu
-clean: kernel_clean platform_clean bootloader_clean
-	@echo Cleaning done.
+all: create_build iso
 
-$(CORE): $(PLATFORM_OBJ) kernel_core
-	@echo Linking Kernel...
+create_build:
+	@echo Creating output dirs...
+	@mkdir -p $(OUTPUT_DIR)
+
+iso: bootloader $(CORE)
+
+# Cleaning
+clean: $(OUTPUT_DIR)
+	@echo Cleaning...
+	@rm -R $(OUTPUT_DIR)
+purge: clean kernel_clean platform_clean 
+	@echo Purging...
+	
 	

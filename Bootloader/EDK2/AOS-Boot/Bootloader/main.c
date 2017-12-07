@@ -103,9 +103,9 @@ EFI_STATUS GetMemMap(UINT64 *Key, UINT32 *DesVersion, UINT64 *DesSize, EFI_MEMOR
 	EFI_STATUS status;
 	UINT64 Size = 0;
 	UINT64 Pages = 1;
-	//Get Memory Map Size frist
+	//Get Memory Map Size frist 
 	while(1){
-		status = gBS->AllocatePages(AllocateAnyPages, EfiBootServicesData, Pages, (UINT64 *)*Memmap);
+		status = gBS->AllocatePages(AllocateAnyPages, EfiLoaderData, Pages, (UINT64 *)*Memmap);
 		if(status != EFI_SUCCESS){
 			return status;
 		}
@@ -167,7 +167,7 @@ EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data, OUT UINTN 
 	status = file->GetInfo(file, &gEfiFileInfoGuid, &InfoBuffSize, NULL);
 	if(status == EFI_BUFFER_TOO_SMALL){
 		//Need more space!
-		status = gBS->AllocatePool(EfiLoaderData, InfoBuffSize, (VOID **)&info);
+		status = gBS->AllocatePool(EfiBootServicesData, InfoBuffSize, (VOID **)&info);
 		if(status != EFI_SUCCESS){
 		return status;
 	}

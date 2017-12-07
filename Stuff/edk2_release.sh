@@ -16,4 +16,4 @@ else
 fi
 echo Copying needed files...
 cp -r ./Bootloader/EDK2/AOS-Boot ./edk2/
-cd edk2 && source ./edksetup.sh && build -p AOS-Boot/AOS-Bootloader.dsc -t GCC5 -a X64 -d 0
+cd edk2 && source ./edksetup.sh && build -b RELEASE -p AOS-Boot/AOS-Bootloader.dsc -q -t GCC5 -a X64

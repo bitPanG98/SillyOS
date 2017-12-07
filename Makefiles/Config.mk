@@ -7,10 +7,13 @@ ARCH ?= x86_64
 TARGET ?= $(ARCH)-sillyos
 
 # Files
-CORE := $(TARGET).core
-ISO ?= $(TARGET).iso
-BOOTLOADER := ./edk2/Build/AOS/DEBUG_GCC5/X64/AOS-Bootloader.efi
+OUTPUT_DIR := ./Build
+CORE := $(OUTPUT_DIR)/$(TARGET).core
+ISO ?= $(OUTPUT_DIR)/$(TARGET).iso
+
+# Path
+LINKER_SCRIPT := ./Stuff/$(TARGET).ld
 
 # Tools
-LD := 
+LD := ld
 NASM := nasm

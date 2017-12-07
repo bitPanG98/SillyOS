@@ -1,8 +1,9 @@
+#Common Core building method
 
 #Kernel itself
-kernel_core:
+$(LIB_KERNEL_A):
 	@echo Building Core... 
-	#@cd Kernel && xargo build --target $(TARGET)
+	@cd Kernel && xargo build --target $(TARGET)
 
 kernel_clean: 
 	@echo Cleaning Kernel...
