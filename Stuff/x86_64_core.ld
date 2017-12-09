@@ -23,7 +23,7 @@ SECTIONS{
         *(.rodata)
     }
     . = ALIGN(4K);
-    .tempo_heap: AT(ADDR(.tempo_heap) - OFFSET){
+    .kernel_heap: AT(ADDR(.tempo_heap) - OFFSET){
 
     }
 
