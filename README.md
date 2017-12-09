@@ -10,5 +10,6 @@ error sections
 '''
 Go patch your edk2 Makefile with 
 '''bash
-$ patch  /<path of your edk2 dir>/BaseTools/ ./Stuff/edk2_fix.patch
+$ patch  /<path of your edk2 dir>/BaseTools/Source/C/Makefiles/headers.makefile\
+./Stuff/edk2_fix.patch
 '''
