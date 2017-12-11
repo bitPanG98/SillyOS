@@ -3,6 +3,8 @@
 #![no_std]
 //  'language item' is required.
 #![feature(lang_items)]
+//  We would like to have some assembly :D
+#![feature(asm)]
 // Dont bother my identifier naming OKAY?
 #![allow(non_snake_case)]
 
@@ -11,12 +13,18 @@ extern crate x86_64;
 
 // Entry point of Core
 #[no_mangle]
-pub extern "C" fn entry() {
+//Assumed we got called by EFI, so we need a win64 call convention entry. 
+pub extern "win64" fn platform_rust_entry(magic: u32, table: *const u64) {
     // Call from Boot Loader
-    x86_64::donothing();
-    loop {
-
+    if (magic != 0x1a2b3c4d){
+        //  Wrong spell!
+        x86_64::halt();
     }
+
+
+    x86_64::donothing();
+
+    x86_64::halt();
 }
 
 
