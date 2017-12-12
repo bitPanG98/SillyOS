@@ -14,15 +14,12 @@ extern crate x86_64;
 // Entry point of Core
 #[no_mangle]
 //Assumed we got called by EFI, so we need a win64 call convention entry. 
-pub extern "win64" fn platform_rust_entry(magic: u32, table: *const u64) {
+pub extern "C" fn platform_rust_entry(magic: u32, table: *const u64) {
     // Call from Boot Loader
     if (magic != 0x1a2b3c4d){
         //  Wrong spell!
         x86_64::halt();
     }
-
-
-    x86_64::donothing();
 
     x86_64::halt();
 }

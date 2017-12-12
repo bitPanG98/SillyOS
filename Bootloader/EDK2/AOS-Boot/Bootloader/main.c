@@ -5,8 +5,6 @@
 
 #include "Librarys.h"
 
-#define ML_ADDR 0x100000
-
 AOS_BOOT_HEADER boot_hdr;
 
 EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data, OUT UINTN *Size);
@@ -19,6 +17,8 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST)
 	VOID *Loader = (VOID*)ML_ADDR;
 	UINTN LoaderSize;
 	EFI_GRAPHICS_OUTPUT_PROTOCOL *GOP;
+	kernel_entry *kernel = (kernel_entry *)Loader;
+
 
 	Print(L"AccessOS Bootloader\n");
 	Print(L"Version: Alpha\n");
@@ -92,7 +92,9 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST)
     		ST->BootServices->Exit(IH, status, 0, NULL);
     	}
 
-    	ST->RuntimeServices->SetVirtualAddressMap(MemMapSize, DesSize, DesVersion, MemMap);
+    ST->RuntimeServices->SetVirtualAddressMap(MemMapSize, DesSize, DesVersion, MemMap);
+
+	kernel(0x1a2b3c4d, 0x12345678);
 
 	return EFI_SUCCESS; //We'll never go here, but we must make compiler happy ;)
 }

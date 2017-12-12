@@ -24,19 +24,21 @@ endif
 ####################################
 .PHONY: create_build iso
 
-all: create_build iso
+all: create_build iso clean
 
 create_build:
 	@echo Creating output dirs...
-	@mkdir -p $(OUTPUT_DIR)
+	@mkdir -p $(BUILD_DIR)
+	@mkdir -p $(TEMP_DIR)
 
 iso: bootloader $(CORE)
 
 # Cleaning
-clean: $(OUTPUT_DIR)
+clean: kernel_clean platform_clean
 	@echo Cleaning...
-	@rm -R $(OUTPUT_DIR)
-purge: clean kernel_clean platform_clean 
+	@rm -R $(TEMP_DIR)
+purge: 
 	@echo Purging...
+	@rm -R $(BUILD_DIR)
 	
 	

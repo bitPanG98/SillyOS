@@ -13,18 +13,18 @@ endif
 # Assembly code
 PLATFORM_DIR := ./Kernel/Platform/x86_64
 PLATFORM_SRC := $(wildcard $(PLATFORM_DIR)/src/*.asm)
-PLATFORM_OBJ := $(patsubst $(PLATFORM_DIR)/src/%.asm, $(PLATFORM_DIR)/src/%.o, $(PLATFORM_SRC))
+PLATFORM_OBJ := $(patsubst $(PLATFORM_DIR)/src/%.asm, $(TEMP_DIR)/%.o, $(PLATFORM_SRC))
 
 ###########################################
 #	Public targets
 ##########################################
 $(CORE): $(PLATFORM_OBJ) $(LIB_KERNEL_A)
 	@echo Linking Kernel...
-	#@$(LD)
+	$(LD) -T $(LINKER_SCRIPT) -nostdlib $^ -o $@
 
 bootloader: edk2_build
 	@echo 	Copying Boot Loader...
-	@mkdir -p $(OUTPUT_DIR)/efi/boot
+	@mkdir -p $(BUILD_DIR)/efi/boot
 	@cp -f $(EDK2_OUTPUT) $(BOOTLOADER)
 
 platform_clean:
@@ -34,7 +34,7 @@ platform_clean:
 ###########################################
 #	Internel targets
 ##########################################
-$(PLATFORM_DIR)/%.o: $(PLATFORM_DIR)/%.asm
+$(TEMP_DIR)/%.o: $(PLATFORM_DIR)/%.asm
 	@echo Compiling x86_64 code... $<
 	@$(NASM) -f elf64 $< -o $@ 
 

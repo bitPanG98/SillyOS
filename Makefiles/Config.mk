@@ -7,12 +7,13 @@ ARCH ?= x86_64
 TARGET ?= $(ARCH)-sillyos
 
 # Files
-OUTPUT_DIR := ./Build
-CORE := $(OUTPUT_DIR)/$(TARGET).core
-ISO ?= $(OUTPUT_DIR)/$(TARGET).iso
+BUILD_DIR := ./Build
+TEMP_DIR := $(BUILD_DIR)/temp
+CORE := $(BUILD_DIR)/$(TARGET).core
+ISO ?= $(BUILD_DIR)/$(TARGET).iso
 
 # Path
-LINKER_SCRIPT := ./Stuff/$(TARGET).ld
+LINKER_SCRIPT := ./Stuff/$(ARCH)-core.ld
 
 # Tools
 LD := ld

@@ -13,7 +13,9 @@ pub fn donothing(){
 //Less Jump Less Error
 pub fn halt(){
     //shutdown interrupt
-    unsafe asm!("cli" : : :);
+    unsafe{
+        asm!("cli" : : :);
+    }
     //Going~around~and around~
     loop{}
 }

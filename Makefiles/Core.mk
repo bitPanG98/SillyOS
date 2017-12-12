@@ -3,7 +3,7 @@
 #Kernel itself
 $(LIB_KERNEL_A):
 	@echo Building Core... 
-	@cd Kernel && xargo build --target $(TARGET)
+	@cd Kernel && xargo clean && xargo build --target $(TARGET)
 
 kernel_clean: 
 	@echo Cleaning Kernel...

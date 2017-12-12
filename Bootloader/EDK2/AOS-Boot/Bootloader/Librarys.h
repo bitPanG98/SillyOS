@@ -41,10 +41,9 @@ const char* pixel_format[5] = {
 	"PixelFormatMax"
 };
 
-#define MAGIC "MAGIC"
+#define ML_ADDR 0x100000
+#define MAGIC 0x1a2b3c4d
 typedef struct{
-	char Magic[8];
-
 	UINT32 VideoHeight;
 	UINT32 VideoWidth;
 
@@ -62,7 +61,7 @@ typedef struct{
 	UINT64 MemMapSize;
 	UINT64 DesSize;
 
-    	UINT64 *MLAddress;
+    UINT64 *MLAddress;
 	//we need to know what ML size is 
 	UINT64 MLSize;
 	//ACPI
@@ -74,5 +73,7 @@ typedef struct{
 	EFI_RUNTIME_SERVICES *RuntimeServices;
 	EFI_CONFIGURATION_TABLE *ConfigurationTable;
 } AOS_BOOT_HEADER;
+
+typedef void kernel_entry(UINT32, UINT64);
 
 #endif
