@@ -15,7 +15,7 @@ global KERNEL_HEAP_BOTTOM
 ;We assume the caller are using fastcall call convention,
 ;by default, the caller will pass a magic number and a address that point to the needed info. though
 ;rcx and rdx.
-
+section .start
 ;Everything start from here.
 PLATFORM_ENTRY:
     ;Setup stack
