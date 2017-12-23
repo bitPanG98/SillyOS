@@ -8,7 +8,7 @@ TARGET ?= $(ARCH)-sillyos
 
 # Files
 BUILD_DIR := ./Build
-TEMP_DIR := $(BUILD_DIR)/temp
+TEMP_DIR := ./temp
 CORE := $(BUILD_DIR)/$(TARGET).core
 ISO ?= $(BUILD_DIR)/$(TARGET).iso
 

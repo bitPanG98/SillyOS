@@ -46,26 +46,26 @@ $ patch  /<path of your edk2 dir>/BaseTools/Source/C/Makefiles/headers.makefile\
 <details>
 <summary>Boot Loader</summary>
 <p>
-    - [x] Get the boot loader prints something<br>
-    - [x] Change video mode<br>
-    - [x] Get memory map<br>
-    - [x] Loading Kernel to RAM<br>
-    - [ ] Pass control to Kernel with packed info.<br>
-    - [ ] Loading and install mods<br>
+    -   [x] Get the boot loader prints something<br>
+    -   [x] Change video mode<br>
+    -   [x] Get memory map<br>
+    -   [x] Loading Kernel to RAM<br>
+    -   [ ] Pass control to Kernel with packed info.<br>
+    -   [ ] Loading and install mods<br>
 </p>
 </details>
 <!--PSC contents-->
 <details>
 <summary>Platform Specified Code(PSC)</summary>
 <p>
-    - [ ] 
+    -   [ ] 
 </p>
 </details>
 <!--Core-->
 <details>
 <summary>Core</summary>
 <p>
-    - [ ]
+    -   [ ]
 </p>
 </details>
 

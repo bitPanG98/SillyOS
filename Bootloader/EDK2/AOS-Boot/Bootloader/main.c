@@ -1,9 +1,7 @@
 //File: Bootloader.c
 //Author: KeyboardMayCry
-//Last update: 22 / 5 / 2017
-
-
-#include "Librarys.h"
+//Last update: 18 / 12 / 2017
+#include "main.h"
 
 AOS_BOOT_HEADER boot_hdr;
 
@@ -12,34 +10,27 @@ EFI_STATUS GetMemMap(UINT64 *Key, UINT32 *DesVersion, UINT64 *DesSize, EFI_MEMOR
 
 EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST)
 {
-	
 	EFI_STATUS status;
-	VOID *Loader = (VOID*)ML_ADDR;
-	UINTN LoaderSize;
+	UINTN KernelSize;
 	EFI_GRAPHICS_OUTPUT_PROTOCOL *GOP;
-	kernel_entry *kernel = (kernel_entry *)Loader;
-
+	kernel_entry *Kernel = (kernel_entry *)KERNEL_ADDR;
 
 	Print(L"AccessOS Bootloader\n");
 	Print(L"Version: Alpha\n");
 
-	//Load Loader
-	status = LoadFileFromTheDrive(L"\\Loader\\kernel.bin", &Loader, &LoaderSize);
-	if(status != EFI_SUCCESS) {
-		Print(L"Fail to load kernel.");
-		ST->BootServices->Exit(IH, status, 0, NULL);
-	}
-	Print(L"Loader Size: %d byte\n", LoaderSize);
-	Print(L"Loader pages: %d \n", LoaderSize/4096);
-	//toKernel = Loader;
+	Print(L"Loading kernel...");
+	status = LoadFileFromTheDrive(KERNEL_FILE, (VOID **)&Kernel, &KernelSize);
+	CHECK(status);
+	Print(L"Success");
+	//Just let me know the size of kernel
+	Print(L"Kernel Size: %d page (%d byte)\n", KernelSize/4096, KernelSize);
 
+	Print(L"Getting GOProtocol...");
 	status = ST->BootServices->LocateProtocol(&gEfiGraphicsOutputProtocolGuid, NULL, (VOID **)&GOP);
-	if(status != EFI_SUCCESS) {
-		Print(L"Can't locate GOP");
-		ST->BootServices->Exit(IH, status, 0, NULL);
-	}
-	//#TODO: Get EDID
-	//Try to get better graphics setting
+	CHECK(status);
+	Print(L"Success");
+
+	Print(L"Attempt to get better graphics setting...");
 	UINTN info_size;
 	EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *gop_info;
 	UINT32 max_mode = GOP->Mode->MaxMode;
@@ -48,28 +39,21 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST)
 	for (int i = 0; i < max_mode; ++i)
 	{
 		status = GOP->QueryMode(GOP, i, &info_size, &gop_info);
-		if(status == EFI_SUCCESS){
+		if(!EFI_ERROR(status)){
 			if ((gop_info->PixelsPerScanLine) > biggest_ppsl){
 				biggest_ppsl = gop_info->PixelsPerScanLine;
 				target_mode = i;
 			}
 		}
 	}
-	if(status != EFI_SUCCESS){
-		Print(L"Can't change video mode.");
-		ST->BootServices->Exit(IH, status, 0, NULL);
-	}
-
+	// Apply video mode
 	status = GOP->SetMode(GOP, target_mode);
-	if(status != EFI_SUCCESS) {
-		Print(L"Can't apply new video mode");
-		ST->BootServices->Exit(IH, status, 0, NULL);
-	}
+	CHECK(status);
+	Print(L"Success");
 
-	/*	Get memory for EFI and us
-	*	Because of our memory map has been corrupted, so we need to do it again.
-	*/
-	//we not sure this address is "usable", but still better than a constant.
+	// Place video info. to boot_hdr
+
+	/*	Get memory for EFI and us*/
 	EFI_MEMORY_DESCRIPTOR *MemMap;
 	UINT64 MemMapSize = 0;
 	UINT64 MapKey = 0;
@@ -77,7 +61,7 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST)
 	UINT32 DesVersion = 0;
 	//Get memory map for SetVirtualAddressMap() and ExitBootServices().
 	status = GetMemMap(&MapKey, &DesVersion, &DesSize, &MemMap, &MemMapSize);
-	if(status != EFI_SUCCESS){
+	if(EFI_ERROR(status)){
 		Print(L"Can't get memory map.\n");
 		ST->BootServices->Exit(IH, status, 0, NULL);
 	}
@@ -86,15 +70,20 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST)
 	Print(L"If you stuck, that mean we failed to boot up.  :/");
 
 	status = ST->BootServices->ExitBootServices(IH, MapKey);
-    	if (status != EFI_SUCCESS)
+    	if (EFI_ERROR(status))
     	{
     		Print(L"Fail to call ExitBootServices(), Reason: %r\n", status);
     		ST->BootServices->Exit(IH, status, 0, NULL);
     	}
 
     ST->RuntimeServices->SetVirtualAddressMap(MemMapSize, DesSize, DesVersion, MemMap);
+	
+	//put all needed things into a structure
+	boot_hdr.VideoHeight = gop_info->VerticalResolution;
+	boot_hdr.VideoWidth =  gop_info->HorizontalResolution;
+	boot_hdr.FrameBufferBase = 
 
-	kernel(0x1a2b3c4d, 0x12345678);
+	kernel(0x1a2b3c4d, &boot_hdr);
 
 	return EFI_SUCCESS; //We'll never go here, but we must make compiler happy ;)
 }
@@ -137,21 +126,21 @@ EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data, OUT UINTN 
 	UINTN InfoBuffSize = 0;
 	
 	status = gBS->LocateHandleBuffer(ByProtocol, &gEfiSimpleFileSystemProtocolGuid, NULL, &MaxHandles, &handles);
-	if(status != EFI_SUCCESS){
+	if(EFI_ERROR(status)){
 		return status;
 	}
 	for(UINTN i = 0; i < MaxHandles; i++){
 		status = gBS->HandleProtocol(handles[i], &gEfiSimpleFileSystemProtocolGuid, (void **)&SFS);
-		if(status != EFI_SUCCESS){
+		if(EFI_ERROR(status)){
 			return status;
 		}
 		status = SFS->OpenVolume(SFS, &root);
-		if(status != EFI_SUCCESS){
+		if(EFI_ERROR(status)){
 			return status;
 		}
 		//check is needed file exist?
 		status = root->Open(root, &file, FileName, EFI_FILE_MODE_READ, 0);
-		if(status != EFI_SUCCESS){
+		if(EFI_ERROR(status)){
 			//found!
 			break;
 		}
@@ -170,17 +159,17 @@ EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data, OUT UINTN 
 	if(status == EFI_BUFFER_TOO_SMALL){
 		//Need more space!
 		status = gBS->AllocatePool(EfiBootServicesData, InfoBuffSize, (VOID **)&info);
-		if(status != EFI_SUCCESS){
+		if(EFI_ERROR(status)){
 		return status;
 	}
-	}else if(status != EFI_SUCCESS){
+	}else if(EFI_ERROR(status)){
 		return status;
 	}
 
 	//if go here, mean sucess to allocate pool.
 	//do the real getinfo().
 	status = file->GetInfo(file, &gEfiFileInfoGuid, &InfoBuffSize, info);
-	if(status != EFI_SUCCESS){
+	if(EFI_ERROR(status)){
 		return status;
 	}	
 	*Size = info->FileSize;
@@ -188,19 +177,19 @@ EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data, OUT UINTN 
 	gBS->FreePool(info);
 
 	status = gBS->AllocatePages(AllocateAddress, EfiLoaderData, *Size / 4096, *Data);
-	if(status != EFI_SUCCESS){
+	if(EFI_ERROR(status)){
 		return status;
 	}
 	
 	//Read file
 	status = file->Read(file, Size, (UINT8 *)*Data);
-	if(status != EFI_SUCCESS){
+	if(EFI_ERROR(status)){
 		return status;
 	}
 	
 	//Finish!
 	status = file->Close(file);
-	if(status != EFI_SUCCESS){
+	if(EFI_ERROR(status)){
 		return status;
 	}
 	root->Close(root);

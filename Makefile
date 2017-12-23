@@ -22,11 +22,11 @@ endif
 ####################################
 #	TARGETS	AHEAD
 ####################################
-.PHONY: create_build iso
+.PHONY: all
 
-all: create_build iso clean
+all: create_dirs iso clean
 
-create_build:
+create_dirs:
 	@echo Creating output dirs...
 	@mkdir -p $(BUILD_DIR)
 	@mkdir -p $(TEMP_DIR)

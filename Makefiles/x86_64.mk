@@ -1,5 +1,5 @@
 # Makefile for x86_64 platform
-BOOTLOADER := $(OUTPUT_DIR)/efi/boot/bootx64.efi
+BOOTLOADER := $(BUILD_DIR)/efi/boot/bootx64.efi
 ifeq ($(DEBUG), 1)
 # In debug mode
 EDK2_OUTPUT := ./edk2/Build/AOS/DEBUG_GCC5/X64/AOS-Bootloader.efi
@@ -20,7 +20,7 @@ PLATFORM_OBJ := $(patsubst $(PLATFORM_DIR)/src/%.asm, $(TEMP_DIR)/%.o, $(PLATFOR
 ##########################################
 $(CORE): $(PLATFORM_OBJ) $(LIB_KERNEL_A)
 	@echo Linking Kernel...
-	$(LD) -T $(LINKER_SCRIPT) -nostdlib $^ -o $@
+	@$(LD) -T $(LINKER_SCRIPT) -nostdlib $^ -o $@
 
 bootloader: edk2_build
 	@echo 	Copying Boot Loader...
@@ -30,11 +30,12 @@ bootloader: edk2_build
 platform_clean:
 	@echo Cleaning Platform code...
 	@rm -fv $(PLATFORM_OBJ)
+	@cd Kernel/Platform && cargo clean
 
 ###########################################
 #	Internel targets
 ##########################################
-$(TEMP_DIR)/%.o: $(PLATFORM_DIR)/%.asm
+$(TEMP_DIR)/%.o: $(PLATFORM_SRC)
 	@echo Compiling x86_64 code... $<
 	@$(NASM) -f elf64 $< -o $@ 
 

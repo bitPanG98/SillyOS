@@ -1,15 +1,27 @@
 #![feature(asm)]
 
 #![no_std]
+extern crate x86;
 pub mod APIC;
 pub mod ACPI;
 pub mod Paging;
 
-pub fn donothing(){
-    
+//EFI only
+#[cfg(feature = "efi")]
+pub mod EFI;
+#[cfg(feature = "efi")]
+pub fn platform_init(contents: EFI::BootContents){
+
+
 }
 
-#[inline]
+#[cfg(not(feature = "efi"))]
+pub fn platform_init(){
+
+
+}
+
+#[inline(always)]
 //Less Jump Less Error
 pub fn halt(){
     //shutdown interrupt
