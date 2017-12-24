@@ -1,6 +1,8 @@
 /*
     Implementing EFI stuff
 */
+extern crate x86;
+
 #[repr(C)]
 pub struct PixelBitmask {
     RedMask: u32,
@@ -21,10 +23,10 @@ pub enum ColorFormat {
 #[repr(C)]
 pub struct EfiMemoryDescriptor {
     Type: u32,
-    PhysStart: x86::paging::PAddr,
-    VirtStart: x86::paging::PAddr,
+    PhysStart: x86::current::paging::PAddr,
+    VirtStart: x86::current::paging::PAddr,
     NumberOfPages: u64,
-    AttributeL u64
+    Attribute: u64
 }
 
 pub const MIN_VERSION: u8 = 0x1a;
@@ -34,18 +36,18 @@ pub struct BootContents {
     Checksum: u32,
     Version: u8,
     //Kernel
-    KernelAddress: x86::paging::PAddr,
+    KernelAddress: x86::current::paging::PAddr,
     KernelSize: u64,
     //Video
     VideoHeight: u32,
     VideoWidth: u32,
-    FrameBufferBase: x86::paging::PAddr,
-    FrameBufferSize: x86::paging::PAddr,
+    FrameBufferBase: x86::current::paging::PAddr,
+    FrameBufferSize: x86::current::paging::PAddr,
     PixelPerScanLine: u64,
     ColorFormat: ColorFormat,
     Bitmask: PixelBitmask,
     //Memory
-    MemoryMap: x86::paging::PAddr,
+    MemoryMap: x86::current::paging::PAddr,
     MemoryMapSize: u64,
     MemoryDesSize: u64
 }

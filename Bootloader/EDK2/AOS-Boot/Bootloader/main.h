@@ -12,15 +12,11 @@
 #include <Protocol/SimpleFileSystem.h>
 #include <Guid/FileInfo.h>
 
-#include "conifg.h"
+#include "config.h"
 
 //status check marco
-#define CHECK(X)\
-(if(EFI_ERROR(X)){\
-Print(L"Fail\n");\
-Print(L"** Reason: %R", X);\
-return X;\
-})
+#define CHECK(X) 	{	\
+if(EFI_ERROR(X)) Print(L"Fail\n**Reason: %R", X);	return X;}
 
 
 const char *EFIMemMapText[] = { 
@@ -66,12 +62,12 @@ typedef struct{
 	UINT64 FrameBufferBase;
 	UINT64 FrameBufferSize;
 	UINT32 PixelPerScanLine;
-	UINT8 ColorFormat;
-	EFI_PIXEL_BITMASK *Bitmask;
+	UINT8 PixelFormat;
+	EFI_PIXEL_BITMASK Bitmask;
 	//Memory
-	EFI_MEMORY_DESCRIPTOR *MemMap;
-	UINT64 MemMapSize;
-	UINT64 DesSize;
+	EFI_MEMORY_DESCRIPTOR *MemoryMap;
+	UINT64 MemoryMapSize;
+	UINT64 DescriptorSize;
 	//ACPI
 
 	//Partitions
@@ -83,5 +79,8 @@ typedef struct{
 } AOS_BOOT_HEADER;
 
 typedef void kernel_entry(UINT32, UINT64);
+
+EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data, OUT UINTN *Size);
+EFI_STATUS GetMemMap(UINT64 *Key, UINT32 *DesVersion, UINT64 *DesSize, EFI_MEMORY_DESCRIPTOR **Memmap, UINT64 *MemmapSize);
 
 #endif

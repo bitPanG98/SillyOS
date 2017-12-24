@@ -5,18 +5,15 @@
 
 AOS_BOOT_HEADER boot_hdr;
 
-EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data, OUT UINTN *Size);
-EFI_STATUS GetMemMap(UINT64 *Key, UINT32 *DesVersion, UINT64 *DesSize, EFI_MEMORY_DESCRIPTOR **Memmap, UINT64 *MemmapSize);
+EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 
-EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST)
-{
 	EFI_STATUS status;
 	UINTN KernelSize;
 	EFI_GRAPHICS_OUTPUT_PROTOCOL *GOP;
 	kernel_entry *Kernel = (kernel_entry *)KERNEL_ADDR;
 
 	Print(L"AccessOS Bootloader\n");
-	Print(L"Version: Alpha\n");
+	Print(L"Version: Beta\n");
 
 	Print(L"Loading kernel...");
 	status = LoadFileFromTheDrive(KERNEL_FILE, (VOID **)&Kernel, &KernelSize);
@@ -51,45 +48,66 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST)
 	CHECK(status);
 	Print(L"Success");
 
-	// Place video info. to boot_hdr
-
-	/*	Get memory for EFI and us*/
+	//	Get memory map
 	EFI_MEMORY_DESCRIPTOR *MemMap;
 	UINT64 MemMapSize = 0;
 	UINT64 MapKey = 0;
 	UINT64 DesSize  = 0;
 	UINT32 DesVersion = 0;
-	//Get memory map for SetVirtualAddressMap() and ExitBootServices().
+	//Get memory map
+	Print(L"Getting memory map...");
 	status = GetMemMap(&MapKey, &DesVersion, &DesSize, &MemMap, &MemMapSize);
-	if(EFI_ERROR(status)){
-		Print(L"Can't get memory map.\n");
-		ST->BootServices->Exit(IH, status, 0, NULL);
-	}
-	//box->MemMap = MemMap;
+	CHECK(status);
+	Print(L"Success");
 
+	//put all needed things into a structure
+	boot_hdr.Platform = PLATFORM_EFI;
+	boot_hdr.Version = CONTENT_VERSION;
+	//Kernel
+	boot_hdr.KernelAddress = (VOID *)Kernel;
+	boot_hdr.KernelSize = KernelSize;
+	//Video
+	boot_hdr.VideoHeight = gop_info->VerticalResolution;
+	boot_hdr.VideoWidth = gop_info->HorizontalResolution;
+	boot_hdr.FrameBufferBase = GOP->Mode->FrameBufferBase;
+	boot_hdr.FrameBufferSize = GOP->Mode->FrameBufferSize;
+	boot_hdr.PixelPerScanLine = gop_info->PixelsPerScanLine;
+	boot_hdr.PixelFormat = (UINT8)gop_info->PixelFormat;
+	//BitMask is only available when PixelFormat is PixelBitMask.
+	if (gop_info->PixelFormat == PixelBitMask){
+		boot_hdr.Bitmask = gop_info->PixelInformation;;
+	}
+
+	boot_hdr.MemoryMap = MemMap;
+	boot_hdr.MemoryMapSize = MemMapSize;
+	boot_hdr.DescriptorSize = DesSize;
+
+	boot_hdr.Checksum = sizeof(boot_hdr);
+
+
+	Print(L"=== Critical Area ===");
 	Print(L"If you stuck, that mean we failed to boot up.  :/");
 
+	Print(L"Disconnecting BootServices...");
 	status = ST->BootServices->ExitBootServices(IH, MapKey);
-    	if (EFI_ERROR(status))
-    	{
-    		Print(L"Fail to call ExitBootServices(), Reason: %r\n", status);
-    		ST->BootServices->Exit(IH, status, 0, NULL);
-    	}
+    CHECK(status);
+
+	/***	WARNING!	WARNING!	WARNING!	WARNING!	WARNING!	WARNI***/
+	
+	/***			DO	NOT	PUT	ANY	BOOT SERVICES	FUNCTION	BELOW				***/
+	/***	If we passed status check, then BootServices is no longer usable.	***/
+	
+	/***	WARNING!	WARNING!	WARNING!	WARNING!	WARNING!	WAR	***/
 
     ST->RuntimeServices->SetVirtualAddressMap(MemMapSize, DesSize, DesVersion, MemMap);
-	
-	//put all needed things into a structure
-	boot_hdr.VideoHeight = gop_info->VerticalResolution;
-	boot_hdr.VideoWidth =  gop_info->HorizontalResolution;
-	boot_hdr.FrameBufferBase = 
 
-	kernel(0x1a2b3c4d, &boot_hdr);
+	//See you in Kernel :)
+	Kernel(MAGIC, (UINT64)&boot_hdr);
 
 	return EFI_SUCCESS; //We'll never go here, but we must make compiler happy ;)
 }
 
 EFI_STATUS GetMemMap(UINT64 *Key, UINT32 *DesVersion, UINT64 *DesSize, EFI_MEMORY_DESCRIPTOR **Memmap, UINT64 *MemmapSize){
-
 	//lazy..
 	EFI_STATUS status;
 	UINT64 Size = 0;
@@ -114,8 +132,8 @@ EFI_STATUS GetMemMap(UINT64 *Key, UINT32 *DesVersion, UINT64 *DesSize, EFI_MEMOR
 	return EFI_SUCCESS;
 }
 
-EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data, OUT UINTN *Size)
-{
+EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data, OUT UINTN *Size){
+
 	EFI_STATUS status;
 	EFI_HANDLE *handles = NULL;
 	EFI_FILE *root = NULL;
