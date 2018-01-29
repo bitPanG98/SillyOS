@@ -8,6 +8,6 @@
     "target-pointer-width": "64",
     "target-c-int-width": "32",
     "disable-redzone": true,
+    "panic": "abort",
     "features": "-mmx,-fxsr,-sse,-sse2,+soft-float"
-
 }

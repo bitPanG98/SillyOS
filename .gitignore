@@ -1,11 +1,18 @@
-
-#ignore output dirs
+#ignore build dirs
 Build/
-
-temp/
 
 #ignore temp. dirs
 Kernel/target/
 
 #ignore tools
 edk2/
+
+#ignore VS Code setting
+.vscode/
+
+#ignore Modules for now
+
+#ignore Documents
+Documents/
+#ignore C Tools
+CC/

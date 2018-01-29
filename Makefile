@@ -1,44 +1,43 @@
-include Makefiles/Config.mk
+include Config.mk
 
-#Kernel core
-#Path of libKernel.a
-ifeq ($(DEBUG), 0)
-LIB_KERNEL_A := Kernel/target/$(TARGET)/release/libKernel.a
-else
-LIB_KERNEL_A := Kernel/target/$(TARGET)/debug/libKernel.a
+default: CreateDirs bootloader kernel
+
+pack:
+	@echo Packing... 
+
+kernel: .force CreateDirs
+	@echo Building kernel...
+	@$(MAKE) -C Kernel
+
+bootloader: .force CreateDirs
+ifeq ($(BOOT_TYPE), EFI)
+	@echo Building bootloader... Type: EFI
+	@$(MAKE) -C ./Bootloader/x86_64/EDK2
 endif
-#leave it the last.
-include Makefiles/Core.mk
-
-#Platform specificed code(PSCode)
-ifeq ($(ARCH), x86_64)
-#Contain bootloader and PSCode building method of x86_64.
-include Makefiles/x86_64.mk
-else
-#Contain bootloader and PSCode building method of RPi.
+ifeq ($(BOOT_TYPE), LEGACY)
+	@echo Building bootloader... Type: Legacy
+	@$(MAKE) -C ./Bootloader/x86_64/Legacy
+endif
+ifeq ($(BOOT_TYPE), GRUB)
+	@echo Building bootloader... Type: Grub
 endif
 
+iso: .force bootloader kernel
+	@Scripts/mkiso.sh
 
-####################################
-#	TARGETS	AHEAD
-####################################
-.PHONY: all
+qemu: .force iso
+	@sudo qemu-system-$(PLAT) -L ./ -bios /usr/share/ovmf/OVMF.fd -drive file=Build/fat.img -m 5G
 
-all: create_dirs iso clean
-
-create_dirs:
+CreateDirs: .force 
 	@echo Creating output dirs...
 	@mkdir -p $(BUILD_DIR)
-	@mkdir -p $(TEMP_DIR)
 
-iso: bootloader $(CORE)
-
-# Cleaning
-clean: kernel_clean platform_clean
+clean:
 	@echo Cleaning...
-	@rm -R $(TEMP_DIR)
-purge: 
-	@echo Purging...
-	@rm -R $(BUILD_DIR)
+ifneq ($(BOOT_TYPE), EFI)
+	@$(MAKE) -C ./Bootloader/x86_64/Legacy clean
+endif
+	@$(MAKE) -C Kernel clean
+
 	
-	
+.force:

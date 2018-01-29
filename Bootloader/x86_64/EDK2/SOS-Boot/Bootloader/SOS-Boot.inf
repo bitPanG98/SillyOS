@@ -1,0 +1,23 @@
+[Defines]
+	INF_VERSION                     = 0x00010006
+    BASE_NAME                       = SOS-Bootloader
+    FILE_GUID                       = edf1e98e-3fd1-44c1-b400-f189b1d40a0c
+    MODULE_TYPE                     = UEFI_APPLICATION
+    VERSION_STRING                  = 1.0
+    ENTRY_POINT                     = UefiMain
+
+[Sources]
+    main.c
+[Packages]
+    MdePkg/MdePkg.dec
+    ShellPkg/ShellPkg.dec
+[LibraryClasses]
+    UefiLib
+    UefiApplicationEntryPoint
+    UefiBootServicesTableLib
+    MemoryAllocationLib
+    DevicePathLib
+    ShellLib
+[Protocols]
+  gEfiLoadedImageProtocolGuid
+  gEfiLoadFileProtocolGuid
