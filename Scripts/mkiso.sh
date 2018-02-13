@@ -1,5 +1,5 @@
 #!/bin/bash
-cd Build/
+cd $BUILD_DIR
 if [ -e "fat.img" ]
 then
     rm fat.img
@@ -13,7 +13,7 @@ mmd -i fat.img ::/efi/boot
 #copy bootloader
 mcopy -i fat.img bootx64.efi ::/efi/boot
 #copy kernel
-mcopy -i fat.img ../Kernel/Build/*-sillyos.core ::/
+mcopy -i fat.img ./*-sillyos.core ::/
 
 if [ -e "iso" ]
 then
@@ -21,4 +21,4 @@ then
 fi
 mkdir iso
 cp fat.img iso
-xorriso -as mkisofs -R -f -e fat.img -no-emul-boot -o sillyos.iso iso
+xorriso -as mkisofs -R -f -e fat.img -no-emul-boot -o $BUILD_ROOT/sillyos.iso iso

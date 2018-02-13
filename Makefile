@@ -18,9 +18,6 @@ ifeq ($(BOOT_TYPE), LEGACY)
 	@echo Building bootloader... Type: Legacy
 	@$(MAKE) -C ./Bootloader/x86_64/Legacy
 endif
-ifeq ($(BOOT_TYPE), GRUB)
-	@echo Building bootloader... Type: Grub
-endif
 
 iso: .force bootloader kernel
 	@Scripts/mkiso.sh
@@ -34,6 +31,7 @@ CreateDirs: .force
 
 clean:
 	@echo Cleaning...
+	@rm -fvr $(BUILD_DIR)
 ifneq ($(BOOT_TYPE), EFI)
 	@$(MAKE) -C ./Bootloader/x86_64/Legacy clean
 endif

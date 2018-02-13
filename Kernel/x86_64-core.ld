@@ -1,15 +1,14 @@
 ENTRY(PLATFORM_ENTRY)
-OUTPUT_FORMAT(elf64-x86-64)
-/*OUTPUT_FORMAT(binary)*/
+OUTPUT_FORMAT(binary)
 
-OFFSET = 0x100000;
+OFFSET = 1M;
 
 SECTIONS {
 
     . = OFFSET;
     
     .text : AT(ADDR(.text) - OFFSET){
-        *(.entry)
+        *(.entry)   /*  Include header  */
         *(.text)
         . = ALIGN(4K);
     }
@@ -30,6 +29,7 @@ SECTIONS {
     }
 
     .kernel_heap : AT(ADDR(.kernel_heap) - OFFSET){
+        *(.kernel_heap)
         . = ALIGN(4K);
     }
 

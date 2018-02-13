@@ -14,9 +14,9 @@ else
 	make -C ./edk2/BaseTools
 fi
 echo Copying needed files...
-if [ -e "./edk2/SOS-Boot"]
+if [ -e "./edk2/SOS-Boot" ]
 then
  rm -R ./edk2/SOS-Boot 
  fi
 cp -r ./SOS-Boot ./edk2/
-cd edk2 && source edksetup.sh && build --buildtarget=RELEASE -p SOS-Boot/SOS-Bootloader.dsc -q -t GCC5 -a X64 && cp -r ./Build/SOS/RELEASE_GCC5/X64/SOS-Bootloader.efi ../../../../Build/bootx64.efi
+cd edk2 && source edksetup.sh && build --buildtarget=RELEASE -p SOS-Boot/SOS-Bootloader.dsc -q -t GCC5 -a X64 && cp -r ./Build/SOS/RELEASE_GCC5/X64/SOS-Bootloader.efi $BUILD_DIR/bootx64.efi

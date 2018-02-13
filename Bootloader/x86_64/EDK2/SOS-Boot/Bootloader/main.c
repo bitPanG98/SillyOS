@@ -1,7 +1,7 @@
 /*
 3==========================================D
     @File:	main.c
-    @Path:  /Bootloader/x86_64/EDK2/AOS-Boot/Bootloader
+    @Path:  /Bootloader/x86_64/EDK2/SOS-Boot/Bootloader
     @Authors:   KeyboardMayCry[eddy199883@gmail.com]
     @Descriptions:  
     @Updates:
@@ -19,7 +19,8 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 	EFI_STATUS status;
 	UINTN KernelSize;
 	EFI_GRAPHICS_OUTPUT_PROTOCOL *GOP;
-	kernel_entry *KernelEntry = (kernel_entry *)KERNEL_ADDR;
+	VOID *KernelFile = NULL;
+
 	Print(L"SillyOS Bootloader\n");
 	Print(L"Version: Beta\n");
 
@@ -61,14 +62,29 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 	ST->ConOut->ClearScreen(ST->ConOut);
 
 	Print(L"Loading kernel...");
-	status = LoadFileFromTheDrive(KERNEL_FILE, (VOID**)&KernelEntry, &KernelSize);
+	status = LoadFileFromTheDrive(KERNEL_FILE, &KernelFile, &KernelSize);
 	CHECK(status);
 	//Just let me know the size of kernel
 	Print(L"Kernel Size: %d byte\n", KernelSize);
-	//Validate kernel
-	// status = ValidateELF((VOID **)&KernelEntry);
-	// CHECK(status);
-	// Print(L"Success\n");
+
+	UINT32 header[3];
+	const UINT32 magic = 0x1a534f53;
+	CopyMem(&header, KernelFile, sizeof(header));
+	//check magic
+	if(CompareMem(&(header[0]), &magic, sizeof(magic)) != 0){
+		Print(L"Kernel's magic not match!\n");
+		return EFI_ABORTED;
+	}
+	Print(L"Magic valid!\n");
+
+	UINT32 checksum = -(header[0] + header[1]);
+	if(CompareMem(&(header[2]), &checksum, sizeof(checksum)) != 0){
+		Print(L"Invalid kernel's checksum\n");
+		return EFI_ABORTED;
+	}
+	Print(L"Checksum correct!\n");
+
+	kernel_entry *KernelEntry = (kernel_entry *)((UINT8 *)KernelFile + header[1]);
 
 	//	Getting ACPI tables
 	Print(L"Fetching ACPI Tables...");
@@ -110,10 +126,19 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 		CHECK(EFI_NOT_FOUND);
 	}
 	Print(L"Success\n");
-	
 
 	Print(L"=== Critical Area ===\n");
-	Print(L"If you stuck, that mean we failed to boot up.  :/ \n");
+	Print(L"If u stuck with one of these lines shown below, that mean somethings wrong!\n");
+	Print(L"* Blue line: I failed to escape from the BootServices :/ \n");
+	Print(L"* Red line: I cant pass control to kernel @@\n");
+	Print(L"* Purple line: Somewhere at the kernel are faulty LLOAO\n");
+
+	//Draw a blue line on top of the screen
+	UINT32 *vb = (UINT32 *)GOP->Mode->FrameBufferBase;
+	for(int i = 0; i < gop_info->HorizontalResolution; i++){
+		*vb = 0x0000ff;
+		vb++;
+	}
 
 	//	Get memory map
 	EFI_MEMORY_DESCRIPTOR *MemMap = (EFI_MEMORY_DESCRIPTOR *)0x1000;
@@ -151,7 +176,7 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 	boot_info.Header = &boot_hdr;
 
 	//Kernel
-	boot_info.KernelAddress = (UINT64 *)KernelEntry;
+	boot_info.KernelAddress = (VOID *)KernelEntry;
 	boot_info.KernelSize = KernelSize;
 	//Video
 	boot_video.VerticalResolution = gop_info->VerticalResolution;
@@ -177,31 +202,24 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 
 	boot_info.VideoInfo = &boot_video;
 
-	boot_info.MemoryMap = (UINT64 *)MemMap;
+	boot_info.MemoryMap = (VOID *)MemMap;
 	boot_info.MemoryMapSize = MemMapSize;
 	boot_info.DescriptorSize = DesSize;
 	//ACPI Table
 	boot_info.AcpiVersion = Acpi_version;
-	boot_info.RSDP = (UINT64 *)RSDP;
+	boot_info.RSDP = (VOID *)RSDP;
 
-	boot_info.RuntimeServices = (UINT64 *)(ST->RuntimeServices);
+	boot_info.RuntimeServices = (VOID *)(ST->RuntimeServices);
 
 	//calculate ckecksum
-	boot_hdr.Checksum = -(boot_hdr.Magic + boot_hdr.Platform + boot_hdr.Version +
-						   *(boot_info.KernelAddress) + boot_info.KernelSize +
-						   boot_video.VerticalResolution + boot_video.HorizontalResolution +
-						   boot_video.FrameBufferBase + boot_video.FrameBufferSize +
-						   boot_video.MaxX + boot_video.Bitmask + boot_video.PixelType +
-						   *(boot_info.MemoryMap) + boot_info.MemoryMapSize +
-						   boot_info.DescriptorSize + *(boot_info.RSDP) + *(boot_info.RuntimeServices));
+	boot_hdr.Checksum = 0;
 
-	//test video buff
-	// UINT32 *vb = (UINT32 *)boot_video.FrameBufferBase;
-	// for(int i = 0; i < boot_video.HorizontalResolution; i++){
-	// 	*vb = 0xff0000;
-	// 	vb++;
-	// }
-
+	//Draw a red line on screen
+	vb = (UINT32 *)GOP->Mode->FrameBufferBase;
+	for(int i = 0; i < gop_info->HorizontalResolution; i++){
+		*vb = 0xff0000;
+		vb++;
+	}
 
 	//See you in Kernel :)
 	KernelEntry(&boot_info);

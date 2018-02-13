@@ -1,23 +1,25 @@
 # SillyOS
-A silly operating system fulfills my dream.
+A silly operating system
 
-## How to run SillyOS?
+## :running:How to run SillyOS?
 1. Install needed packages
     * APT side:
         * nasm
         * gcc (version: 5+)
-        * rustc
-        * git (A MUST HAVE PACKAGE FOR UNIX USER!)
+        * rustup
+        * git (A MUST HAVE PACKAGE!)
         * make (I had tried tup, python, lua. And found out make is the best. :expressionless: )
         * mtools (For .iso image)
         * qemu (For testing)
-        * ovmf (Also for testing)
+        * ovmf (For UEFI)
     * Cargo side:
         * xargo
+2. Exporting environment variables by ```source ./setup.h```
+3. Type ``` make all ``` for full system compilation. 
+4. Type ``` make qemu ``` for emulating at host's qemu. (NDY!)
+ 
 
-2. Type ``` make all ``` for full system compilation. 
-3. Type ``` make run ``` for emulating at host's qemu or virtualbox. (NDY!)
-## Something goes wrong!
+## :warning:Something goes wrong!
 <details>
 <summary>Getting error when building EDK2 tools?</summary>
 <p>If you received errors like: 
@@ -27,7 +29,7 @@ In file included from ../Include/Common/UefiBaseTypes.h:19:0,
                  from GenSec.c:20:
     /*
         A lot of details here... Gonna skip it anyway.
-        The following error is the reason it failed.
+        The following error told us why its failed.
         |   |   |   |   |   |   |   |   |
         v   v   v   v   v   v   v   v   v
     */
@@ -44,7 +46,7 @@ $ patch  /<path of your edk2 dir>/BaseTools/Source/C/Makefiles/headers.makefile\
 </p>
 </details>
 
-## Milestone
+## :blub:Milestone
 <!--Boot loader-->
 <details>
 <summary>Boot Loader</summary>

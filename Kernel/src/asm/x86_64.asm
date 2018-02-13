@@ -7,9 +7,6 @@
   ;        12 Jan 2018    ||  KeyboardMayCry  ||  File Created. 
   ; 3=====================================================================D
 [bits 64]
-;Road to Rusty core
-extern platform_init ;ssss~sss~ss~s~snake_case!
-;
 global PLATFORM_ENTRY
 ;Global our addresses
 global KERNEL_STACK_TOP
@@ -17,25 +14,28 @@ global KERNEL_STACK_BOTTOM
 global KERNEL_HEAP_TOP
 global KERNEL_HEAP_BOTTOM
 
-[bits 64]
-;We assume the caller are using fastcall call convention,
-;by default, the caller will pass a magic number and a address that point to the needed info. though
-;rcx and rdx.
+extern kernel_init
+
+;Header defines
+MAGIC equ 0x1A534F53 ;Magic spell (4 bytes)   0x1A, 'SOS'
+ENTRY_OFFSET equ PLATFORM_ENTRY - HEADER_START  ;Entry offset
+CHECKSUM equ -(ENTRY_OFFSET + MAGIC)
+
 section .entry
+HEADER_START:
+  dd MAGIC
+  dd ENTRY_OFFSET
+  dd CHECKSUM
+HEADER_END:
 ;Everything start from here.
 PLATFORM_ENTRY:
     ;Setup stack
     mov rsp, KERNEL_STACK_TOP
     mov rbp, KERNEL_STACK_TOP
 
-
-    ;In win64 to Rust call convention
-    mov rdi, rcx    ;Argument contain the BootInfo
-
-    ;Didnt move arguments of EFI function, so the arguments the bootloader passed will still in place.
-    ;ecx: Magic number  rdx: Pointer of the table
-    call platform_init
-    ;if we unluckily go here, we need to stop it
+    ; we assume rdi stored the address of the booting infomation
+    jmp kernel_init
+    ;if we unluckily get here, we need to stop it
     cli
     hlt
 
