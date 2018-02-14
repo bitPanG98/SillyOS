@@ -26,9 +26,10 @@ typedef struct{
     UINT32 HorizontalResolution;
     UINT64 FrameBufferBase;
     UINT64 FrameBufferSize;
-    UINT32 MaxX;
-    UINT8 PixelType;
-    UINT32 Bitmask;
+	UINT8 PixelSize;
+    UINT8 RIndex;
+	UINT8 GIndex;
+	UINT8 BIndex;
 } __attribute__((packed)) SOS_BOOT_VIDEO_INFO;
 
 typedef struct{

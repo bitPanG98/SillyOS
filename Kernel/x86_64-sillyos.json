@@ -9,5 +9,5 @@
     "target-c-int-width": "32",
     "disable-redzone": true,
     "panic-strategy": "abort",
-    "features": "-mmx,-fxsr,-sse,-sse2,+soft-float"
+    "features": "+soft-float,-mmx,-sse"
 }

@@ -48,6 +48,7 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 		
 		if (!EFI_ERROR(status) && gop_info->PixelFormat != PixelBltOnly && gop_info->PixelFormat < PixelBitMask) //ignore BitMask for now
 		{
+			
 			if(gop_info->HorizontalResolution == DEFAULT_HR && gop_info->VerticalResolution == DEFAULT_VR){
 				target_mode = i;
 				break;
@@ -127,19 +128,6 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 	}
 	Print(L"Success\n");
 
-	Print(L"=== Critical Area ===\n");
-	Print(L"If u stuck with one of these lines shown below, that mean somethings wrong!\n");
-	Print(L"* Blue line: I failed to escape from the BootServices :/ \n");
-	Print(L"* Red line: I cant pass control to kernel @@\n");
-	Print(L"* Purple line: Somewhere at the kernel are faulty LLOAO\n");
-
-	//Draw a blue line on top of the screen
-	UINT32 *vb = (UINT32 *)GOP->Mode->FrameBufferBase;
-	for(int i = 0; i < gop_info->HorizontalResolution; i++){
-		*vb = 0x0000ff;
-		vb++;
-	}
-
 	//	Get memory map
 	EFI_MEMORY_DESCRIPTOR *MemMap = (EFI_MEMORY_DESCRIPTOR *)0x1000;
 	UINT64 MemMapSize = 0;
@@ -167,7 +155,6 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 	/***	WARNING!	WARNING!	WARNING!	WARNING!	WARNING!	WAR	***/
 
     //ST->RuntimeServices->SetVirtualAddressMap(MemMapSize, DesSize, DesVersion, MemMap);
-
     //put all needed things into a structure
 	boot_hdr.Magic = MAGIC;
 	boot_hdr.Platform = PLATFORM_EFI;
@@ -180,26 +167,37 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 	boot_info.KernelSize = KernelSize;
 	//Video
 	boot_video.VerticalResolution = gop_info->VerticalResolution;
-	boot_video.HorizontalResolution = gop_info->HorizontalResolution;
+	boot_video.HorizontalResolution = gop_info->PixelsPerScanLine;
 	boot_video.FrameBufferBase = GOP->Mode->FrameBufferBase;
 	boot_video.FrameBufferSize = GOP->Mode->FrameBufferSize;
-	boot_video.MaxX = gop_info->PixelsPerScanLine;
-	boot_video.Bitmask = 0;
+	boot_video.PixelSize = 4;
+
+	//temporary
+	boot_video.RIndex = 0;
+	boot_video.GIndex = 1;
+	boot_video.BIndex = 2;
+
 	switch(gop_info->PixelFormat){
 		case PixelRedGreenBlueReserved8BitPerColor:
-			boot_video.PixelType = EFI_RGBR;
+			boot_video.RIndex = 0;
+			boot_video.GIndex = 1;
+			boot_video.BIndex = 2;
 			break;
 		case PixelBlueGreenRedReserved8BitPerColor:
-			boot_video.PixelType = EFI_BGRR;
+			boot_video.RIndex = 2;
+			boot_video.GIndex = 1;
+			boot_video.BIndex = 0;
 			break;
-		/*case PixelBitMask:
+			/*
+		case PixelBitMask:
 			boot_info.PixelType = BITMASK;
 			boot_info.Bitmask = (UINT32)((UINT8)(gop_info->PixelInformation->RedMask) ;
-			break;*/
+			break;
+			*/
 		default:
 			break;
 	}
-
+	
 	boot_info.VideoInfo = &boot_video;
 
 	boot_info.MemoryMap = (VOID *)MemMap;
@@ -213,13 +211,6 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 
 	//calculate ckecksum
 	boot_hdr.Checksum = 0;
-
-	//Draw a red line on screen
-	vb = (UINT32 *)GOP->Mode->FrameBufferBase;
-	for(int i = 0; i < gop_info->HorizontalResolution; i++){
-		*vb = 0xff0000;
-		vb++;
-	}
 
 	//See you in Kernel :)
 	KernelEntry(&boot_info);
