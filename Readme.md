@@ -1,7 +1,7 @@
 # SillyOS
 A silly operating system
 
-## :running:How to run SillyOS?
+## How do I build it?
 1. Install needed packages
     * APT side:
         * nasm
@@ -16,8 +16,15 @@ A silly operating system
         * xargo
 2. Exporting environment variables by ```source ./setup.h```
 3. Type ``` make all ``` for full system compilation. 
-4. Type ``` make qemu ``` for emulating at host's qemu. (NDY!)
- 
+4. Type ``` make qemu ``` emulate at host's qemu.
+
+
+## :running:How to run SillyOS?
+Requirement:
+* x86_64 machine
+* UEFI bios supported (optional)
+
+
 
 ## :warning:Something goes wrong!
 <details>
