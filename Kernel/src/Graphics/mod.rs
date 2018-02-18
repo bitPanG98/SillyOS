@@ -1,5 +1,7 @@
 extern crate rlibc;
 
+pub mod EDID;
+
 pub struct Video {
     pub max_x: u32,    //unit: Pixel
     pub max_y: u32,

@@ -14,9 +14,10 @@ A silly operating system
         * ovmf (For UEFI)
     * Cargo side:
         * xargo
-2. Exporting environment variables by ```source ./setup.h```
-3. Type ``` make all ``` for full system compilation. 
-4. Type ``` make qemu ``` for emulating at host's qemu. (NDY!)
+2. Get your own cross compiler
+3. Exporting environment variables by ```source ./setup.h```
+4. Type ``` make all ``` for full system compilation. 
+5. Type ``` make qemu ``` for emulating at host's qemu. (NDY!)
  
 
 ## :warning:Something goes wrong!
@@ -58,13 +59,6 @@ $ patch  /<path of your edk2 dir>/BaseTools/Source/C/Makefiles/headers.makefile\
     -   [ ] Fetch ACPI tables
     -   [ ] Pass control to Kernel with packed info.<br>
     -   [ ] Loading and install mods<br>
-</p>
-</details>
-<!--PSC contents-->
-<details>
-<summary>Platform Specified Code(PSC)</summary>
-<p>
-    -   [ ] 
 </p>
 </details>
 <!--Core-->

@@ -18,7 +18,7 @@ pub unsafe extern "C" fn kernel_init(info: *const boot::BootloadInformation) {
             frame_buffer_size: (*video_info).FrameBufferSize
      };
     
-    video.splash_screen(0xffffff);    
+    video.splash_screen(0x727272);    
      
      loop {}
 }

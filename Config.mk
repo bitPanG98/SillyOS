@@ -9,5 +9,5 @@ CORE_FILE := $(TARGET).core
 ISO_FILE ?= sillyos.iso
 # Tools
 CC := $(PLAT)-elf-g++
-LD := ld
+LD := $(PLAT)-elf-ld
 NASM := nasm
