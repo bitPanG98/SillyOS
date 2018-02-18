@@ -14,13 +14,6 @@ A silly operating system
         * ovmf (For UEFI)
     * Cargo side:
         * xargo
-<<<<<<< HEAD
-2. Get your own cross compiler
-3. Exporting environment variables by ```source ./setup.h```
-4. Type ``` make all ``` for full system compilation. 
-5. Type ``` make qemu ``` for emulating at host's qemu. (NDY!)
- 
-=======
 2. Exporting environment variables by ```source ./setup.h```
 3. Type ``` make all ``` for full system compilation. 
 4. Type ``` make qemu ``` emulate at host's qemu.
@@ -32,7 +25,6 @@ Requirement:
 * UEFI bios supported (optional)
 
 
->>>>>>> dce736c1c2a48d4c22230f28b7735c1a6f2c0fa8
 
 ## :warning:Something goes wrong!
 <details>
