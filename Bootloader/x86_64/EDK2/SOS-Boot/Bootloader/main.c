@@ -11,7 +11,6 @@
 #include "main.h"
 
 static SOS_BOOT_INFO boot_info;
-static SOS_BOOT_INFO_HEADER boot_hdr;
 static SOS_BOOT_VIDEO_INFO boot_video;
 
 EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
@@ -156,11 +155,9 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 
     //ST->RuntimeServices->SetVirtualAddressMap(MemMapSize, DesSize, DesVersion, MemMap);
     //put all needed things into a structure
-	boot_hdr.Magic = MAGIC;
-	boot_hdr.Platform = PLATFORM_EFI;
-	boot_hdr.Version = CONTENT_VERSION;
-
-	boot_info.Header = &boot_hdr;
+	boot_info.Magic = MAGIC;
+	boot_info.Platform = PLATFORM_EFI;
+	boot_info.Version = CONTENT_VERSION;
 
 	//Kernel
 	boot_info.KernelAddress = (VOID *)KernelEntry;
@@ -197,6 +194,10 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 		default:
 			break;
 	}
+
+	boot_video.Checksum = -(boot_video.VerticalResolution + boot_video.HorizontalResolution \
+	+ boot_video.FrameBufferBase + boot_video.FrameBufferSize + boot_video.PixelSize \
+	+ boot_video.RIndex + boot_video.GIndex + boot_video.BIndex);
 	
 	boot_info.VideoInfo = &boot_video;
 
@@ -210,7 +211,10 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST){
 	boot_info.RuntimeServices = (VOID *)(ST->RuntimeServices);
 
 	//calculate ckecksum
-	boot_hdr.Checksum = 0;
+	boot_info.Checksum = -(MAGIC + PLATFORM_EFI + CONTENT_VERSION \
+	+ (UINT64)(boot_info.KernelAddress) + boot_info.KernelSize + (UINT64)(boot_info.VideoInfo) \
+	+ (UINT64)(boot_info.MemoryMap) + boot_info.MemoryMapSize + boot_info.DescriptorSize \
+	+ boot_info.AcpiVersion + (UINT64)(boot_info.RSDP) + (UINT64)(boot_info.RuntimeServices));
 
 	//See you in Kernel :)
 	KernelEntry(&boot_info);

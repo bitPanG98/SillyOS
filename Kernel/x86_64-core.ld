@@ -1,6 +1,6 @@
 ENTRY(PLATFORM_ENTRY)
-/*OUTPUT_FORMAT(binary)*/
-OUTPUT_FORMAT(elf64-x86-64)
+OUTPUT_FORMAT(binary)
+
 OFFSET = 1M;
 
 SECTIONS {
@@ -13,6 +13,11 @@ SECTIONS {
         . = ALIGN(4K);
     }
 
+    .rodata : AT(ADDR(.rodata) - OFFSET){
+        *(.rodata)
+        . = ALIGN(4K);
+    }
+    
     .data : AT(ADDR(.data) - OFFSET){
         *(.data)
         . = ALIGN(4K);
@@ -20,11 +25,6 @@ SECTIONS {
 
     .bss : AT(ADDR(.bss) - OFFSET){
         *(.bss)
-        . = ALIGN(4K);
-    }
-
-    .rodata : AT(ADDR(.rodata) - OFFSET){
-        *(.rodata)
         . = ALIGN(4K);
     }
 

@@ -5,15 +5,12 @@
 1. Install needed packages
     * APT side:
         * nasm
-        * gcc (version: 5+)
-        * rustup
+        * clang
         * git (A MUST HAVE PACKAGE!)
         * make (I had tried tup, python, lua. And found out make is the best. :expressionless: )
         * mtools (For .iso image)
         * qemu (For testing)
         * ovmf (For UEFI)
-    * Cargo side:
-        * xargo
 2. Exporting environment variables by ```source ./setup.h```
 3. Type ``` make all ``` for full system compilation. 
 4. Type ``` make qemu ``` emulate at host's qemu.

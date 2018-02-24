@@ -2,7 +2,7 @@
 Build/
 
 #ignore temp. dirs
-Kernel/target/
+Kernel (copy)
 
 #ignore tools
 edk2/

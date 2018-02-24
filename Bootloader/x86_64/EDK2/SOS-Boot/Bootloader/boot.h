@@ -32,19 +32,15 @@ typedef struct{
 	UINT8 BIndex;
 } __attribute__((packed)) SOS_BOOT_VIDEO_INFO;
 
-typedef struct{
-	UINT32 Magic;
-    UINT8 Platform;
-    UINT64 Checksum;
-    UINT8 Version;
-} __attribute__((packed)) SOS_BOOT_INFO_HEADER;
-
 #define MAGIC 0x1a2b3c4d
 #define PLATFORM_EFI 0x1
 #define CONTENT_VERSION 0x1
 
 typedef struct{
-	SOS_BOOT_INFO_HEADER *Header; 
+	UINT32 Magic;
+    UINT8 Platform;
+    UINT64 Checksum;
+    UINT8 Version;
 	//Kernel
 	VOID *KernelAddress;
 	UINT64 KernelSize;
