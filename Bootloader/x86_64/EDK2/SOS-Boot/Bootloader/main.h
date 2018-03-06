@@ -13,18 +13,17 @@
 #define _MAIN_H_
 
 #include <Uefi.h>
-#include <Library/DevicePathLib.h>
 #include <Library/MemoryAllocationLib.h>
 #include <Library/BaseMemoryLib.h>
 #include <Library/UefiLib.h>
 #include <Library/UefiApplicationEntryPoint.h>
 #include <Library/UefiBootServicesTableLib.h>
-#include <Library/DevicePathLib.h>
 #include <IndustryStandard/Acpi.h>
 #include <Protocol/SimpleFileSystem.h>
 #include <Guid/FileInfo.h>
 #include <Guid/Acpi.h>
 
+#include <elf.h>
 
 #include "boot.h"
 
@@ -55,11 +54,13 @@ if(EFI_ERROR(X)) {Print(L"Fail\n**Reason: %r\n", X);	return X;}}
 #define DEFAULT_VR 720
 
 
-typedef void kernel_entry(SOS_BOOT_INFO *);
-
+typedef void KERNEL_ENTRY(SOS_BOOT_INFO *);
+//main.c
 EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data, OUT UINTN *Size);
 EFI_STATUS GetMemMap(UINT64 *Key, UINT32 *DesVersion, UINT64 *DesSize, EFI_MEMORY_DESCRIPTOR **Memmap, UINT64 *MemmapSize);
 
-//EFI_STATUS ValidateELF64(VOID **);
+//loader.c
+EFI_STATUS load_kernel(VOID **kernel, UINTN *kmem_size, UINTN *kfile_size);
+UINT8 is_ELF(Elf64_Ehdr elf_header);
 
 #endif

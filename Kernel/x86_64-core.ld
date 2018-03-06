@@ -1,14 +1,13 @@
 ENTRY(PLATFORM_ENTRY)
-OUTPUT_FORMAT(binary)
-
+OUTPUT_FORMAT(elf64-x86-64)
 OFFSET = 1M;
 
 SECTIONS {
 
     . = OFFSET;
-    
+
     .text : AT(ADDR(.text) - OFFSET){
-        *(.entry)   /*  Include header  */
+        *(.entry)
         *(.text)
         . = ALIGN(4K);
     }
@@ -17,7 +16,7 @@ SECTIONS {
         *(.rodata)
         . = ALIGN(4K);
     }
-    
+
     .data : AT(ADDR(.data) - OFFSET){
         *(.data)
         . = ALIGN(4K);
@@ -25,11 +24,7 @@ SECTIONS {
 
     .bss : AT(ADDR(.bss) - OFFSET){
         *(.bss)
-        . = ALIGN(4K);
-    }
-
-    .kernel_heap : AT(ADDR(.kernel_heap) - OFFSET){
-        *(.kernel_heap)
+        *(.COMMON)
         . = ALIGN(4K);
     }
 

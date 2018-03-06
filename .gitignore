@@ -2,10 +2,11 @@
 Build/
 
 #ignore temp. dirs
-Kernel (copy)
+KernelR
 
 #ignore tools
 edk2/
+cross-llvm/
 
 #ignore VS Code setting
 .vscode/

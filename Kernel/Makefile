@@ -5,42 +5,45 @@ LINKER_SCRIPT := $(PLAT)-core.ld
 PLAT_ASM_SRC := $(wildcard Platform/$(PLAT)/asm/*.asm)
 PLAT_ASM_SRC += $(wildcard Platform/$(PLAT)/asm/**/*.asm)
 
-PLAT_CPP_SRC := $(wildcard Platform/$(PLAT)/*.cpp)
-PLAT_CPP_SRC += $(wildcard Platform/$(PLAT)/**/*.cpp)
+PLAT_CPP_SRC := $(wildcard Platform/$(PLAT)/*.c)
+PLAT_CPP_SRC += $(wildcard Platform/$(PLAT)/**/*.c)
 
 PLAT_OBJ := $(patsubst %.asm, %.o, $(PLAT_ASM_SRC))
-PLAT_OBJ += $(patsubst %.cpp, %.o, $(PLAT_CPP_SRC))
+PLAT_OBJ += $(patsubst %.c, %.o, $(PLAT_CPP_SRC))
 
-CORE_SRC := $(wildcard Core/*.cpp)
-CORE_SRC += $(wildcard Core/**/*.cpp)
+CORE_SRC := $(wildcard Core/*.c)
+CORE_SRC += $(wildcard Core/**/*.c)
 
-CORE_OBJ := $(patsubst %.cpp, %.o, $(CORE_SRC))
+CORE_OBJ := $(patsubst %.c, %.o, $(CORE_SRC))
 
-ifeq ($(PLAT), x86_64)
-C_FLAG := -target x86_64-none-elf
-endif
-C_FLAG += -ffreestanding -fno-builtin -nostdlib -nostdinc -nostdinc++ -fno-rtti -mno-red-zone -fno-exceptions -O2
-C_FLAG += -Wall -std=c++11
+LD_FLAG :=  -nostdlib -z max-page-size=0x1000
+
+# C_FLAG := -target x86_64-pc-none-elf
+C_FLAG += -std=c11  -ffreestanding  -mno-red-zone -nostdlib -fno-builtin -nostdinc
+# C_FLAG += -fno-rtti -fno-exceptions
+C_FLAG += -O2 
+C_FLAG +=  -Wall
 # stdlib
-C_FLAG += -I $(BUILD_ROOT)/Library/include -I $(BUILD_ROOT)/Kernel/Platform/$(PLAT)/include
+C_FLAG += -I $(PROJECT_ROOT)/Library/Include 
+C_FLAG += -I $(PROJECT_ROOT)/Kernel/Platform/$(PLAT)/Include
 
-LD_FLAG := --gc-sections
+CRTBEGIN := $(shell $(CC) $(C_FLAG) -print-file-name=crtbegin.o)
+CRTEND := $(shell $(CC) $(C_FLAG) -print-file-name=crtend.o)
 
 all: $(BUILD_DIR)/$(CORE_FILE)
 
 $(BUILD_DIR)/$(CORE_FILE): $(PLAT_OBJ) 
-	$(LD)  -T $(LINKER_SCRIPT) $(LD_FLAG) $(PLAT_OBJ) $(CORE_A) -o $@
+	$(LD)  -T $(LINKER_SCRIPT) $(LD_FLAG)  $(PLAT_OBJ) $(CORE_A)  -o $@ -lgcc
 
-
-%.o: %.cpp
-	$(CC) $(C_FLAG) $< -o $@
+%.o: %.c
+	$(CC) $(C_FLAG) -c $< -o $@
 
 # Assembly code
 %.o: %.asm
 	$(NASM) -f elf64 $< -o $@
 
 clean:
-	@xargo clean
-	@rm -fvr $(PLATFORM_OBJ)
+	@rm -fvr $(PLAT_OBJ)
+	@rm -fvr $(CORE_OBJ)
 
 .force:

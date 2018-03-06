@@ -1,13 +1,3 @@
-/*
-3==========================================D
-    @File:	boot.h
-    @Path:  /Bootloader/x86_64/EDK2/SOS-Boot/Bootloader
-    @Authors:   KeyboardMayCry[eddy199883@gmail.com]
-    @Descriptions:  
-    @Updates:
-        04 Feb 2018	||	KeyboardMayCry	||	File Created. 
-3==========================================D
-*/
 #ifndef _BOOT_H_
 #define _BOOT_H_
 
@@ -56,5 +46,8 @@ typedef struct{
 	//UEFI only
 	VOID *RuntimeServices;
 } __attribute__((packed)) SOS_BOOT_INFO;
+
+//loader.c
+
 
 #endif

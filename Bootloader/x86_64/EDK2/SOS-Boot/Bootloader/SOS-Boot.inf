@@ -8,6 +8,7 @@
 
 [Sources]
     main.c
+    loader.c
 [Packages]
     MdePkg/MdePkg.dec
     ShellPkg/ShellPkg.dec

@@ -1,5 +1,7 @@
 #!/bin/bash
 
 #Exporting global variables
-export BUILD_ROOT=$PWD
+export PROJECT_ROOT=$PWD
 export BUILD_DIR=$PWD/Build
+
+export PATH="$PWD/CC/bin:$PATH"

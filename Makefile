@@ -23,9 +23,9 @@ iso: .force bootloader kernel
 	@Scripts/mkiso.sh
 
 qemu: .force iso
-	@sudo qemu-system-$(PLAT) -L ./ -bios /usr/share/ovmf/OVMF.fd -drive file=Build/fat.img -m 5G
+	@sudo qemu-system-$(PLAT)  -serial stdio -cpu Haswell  -bios /usr/share/ovmf/OVMF.fd  -drive file=./sillyos.iso -m 5G
 
-CreateDirs: .force 
+CreateDirs: .force clean
 	@echo Creating output dirs...
 	@mkdir -p $(BUILD_DIR)
 

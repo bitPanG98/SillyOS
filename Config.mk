@@ -8,7 +8,7 @@ BOOT_TYPE ?= EFI
 CORE_FILE := $(TARGET).core
 ISO_FILE ?= sillyos.iso
 # Tools
-CC := clang
-LD := ld
-AR := llvm-ar
+CC := x86_64-elf-g++
+LD := x86_64-elf-ld
+AR := ar
 NASM := nasm
