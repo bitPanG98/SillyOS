@@ -44,5 +44,5 @@ PLATFORM_ENTRY:
 
 section .bss
 KERNEL_STACK_BOTTOM:
-resb 4096
+resb 4096 * 2 ; 2 * 4K page
 KERNEL_STACK_TOP:

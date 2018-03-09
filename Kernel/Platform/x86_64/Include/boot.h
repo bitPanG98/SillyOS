@@ -8,8 +8,7 @@
         20 Feb 2018	||	KeyboardMayCry	||	File Created.
 3==========================================D
 */
-#ifndef _BOOT_H_
-#define _BOOT_H_
+#pragma once
 #include <types.h>
 
 typedef struct {
@@ -49,4 +48,3 @@ typedef struct {
     void *RuntimeServices;
 } __attribute__((packed)) SOS_BOOT_INFO;
 
-#endif

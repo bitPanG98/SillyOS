@@ -1,27 +1,37 @@
 # SillyOS
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">SillyOS</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">GarbageCollections</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
 
+## What is it?
+A OS
+
 ## How do I build it?
 1. Install needed packages
     * APT side:
         * nasm
-        * clang
+        * build-essential
         * git (A MUST HAVE PACKAGE!)
         * make (I had tried tup, python, lua. And found out make is the best. :expressionless: )
-        * mtools (For .iso image)
+        * mtools
+        * xorriso
         * qemu (For testing)
-        * ovmf (For UEFI)
-2. Exporting environment variables by ```source ./setup.h```
-3. Type ``` make all ``` for full system compilation. 
-4. Type ``` make qemu ``` emulate at host's qemu.
-
+        * ovmf (For UEFI Testing)
+        * uuid-dev (EDK2)
+2. Build tools
+```bash
+# GCC
+$ source ./Scripts/mkgcc.sh
+# Clang
+$ source ./Scripts/mkllvm.sh
+```
+3. Edit ```Config.mk```
+4. Setup environment by ```source ./setup.h```
+5. Type ``` make all ``` for full system compilation. 
+6. Type ``` make qemu ``` emulate at host's qemu.
 
 ## :running:How to run SillyOS?
 Requirement:
 * x86_64 machine
 * UEFI bios supported (optional)
-
-
 
 ## :warning:Something goes wrong!
 <details>
@@ -59,17 +69,39 @@ $ patch  /<path of your edk2 dir>/BaseTools/Source/C/Makefiles/headers.makefile\
     -   [x] Change video mode<br>
     -   [x] Get memory map<br>
     -   [x] Loading Kernel to RAM<br>
-    -   [ ] Fetch ACPI tables
-    -   [ ] Pass control to Kernel with packed info.<br>
+    -   [X] Loading ELF<br>
+    -   [X] Get ACPI<br>
+    -   [X] Pass control to Kernel with env. variables<br>
     -   [ ] Loading and install mods<br>
+    -   [ ] Configuration mechanism<br>
+</p>
+</details>
+<!--Platform-x86_64-->
+<details>
+<summary>Platform-x86_64</summary>
+<p>
+    -   [ ] Paging<br>
+    -   [ ] Floating point<br>
+    -   [ ] Port libc<br>
+    -   [ ] Graphics<br>
+    -   [ ] Disk<br>
+    -   [ ] System Serial<br>
+    -   [ ] USB<br>
 </p>
 </details>
 <!--Core-->
 <details>
 <summary>Core</summary>
 <p>
-    -   [ ]
+    -   [ ] 
+</p>
+</details>
+<!--Modules-->
+<details>
+<summary>Modules</summary>
+<p>
+    -   [ ] Ready to write Modules<br>
 </p>
 </details>
 
-Currently working on: ___PSC___ & __Boot Loader__
+Currently working on: ___Platform-x86_64___

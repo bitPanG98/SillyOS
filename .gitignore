@@ -1,19 +1,12 @@
 #ignore build dirs
 Build/
 
-#ignore temp. dirs
-KernelR
-
 #ignore tools
 edk2/
+CC/
 cross-llvm/
 
-#ignore VS Code setting
-.vscode/
-
 #ignore Modules for now
-
+Modules/
 #ignore Documents
 Documents/
-#ignore C Tools
-CC/

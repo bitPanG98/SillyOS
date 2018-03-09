@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "x86_64-Kernel",
+            "includePath": [
+                "${workspaceRoot}/Library/Include",
+                "${workspaceRoot}/Kernel/Platform/x86_64/Include",
+                "${workspaceRoot}/CC/lib/gcc/x86_64-elf/7.3.0/include"
+            ],
+            "defines": [],
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "${workspaceRoot}/Library/Include",
+                    "${workspaceRoot}/Kernel/Platform/x86_64/Include"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        }
+    ],
+    "version": 3
+}

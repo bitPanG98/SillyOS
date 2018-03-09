@@ -53,29 +53,6 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
     Print(L"Version: Beta\n");
 
     Print(L"Loading kernel...");
-    // VOID *KernelFile;
-    // UINT64 KernelSize = 0;
-    // status = LoadFileFromTheDrive(KERNEL_FILE, &KernelFile, &KernelSize);
-    // CHECK(status);
-    // // Just let me know the size of kernel
-    // Print(L"Kernel Size: %d byte\n", KernelSize);
-
-    // UINT32 header[3];
-    // const UINT32 magic = 0x1a534f53;
-    // CopyMem(&header, KernelFile, sizeof(header));
-    // // check magic
-    // if (CompareMem(&(header[0]), &magic, sizeof(magic)) != 0) {
-    //     Print(L"Kernel's magic not match!\n");
-    //     return EFI_ABORTED;
-    // }
-    // Print(L"Magic valid!\n");
-
-    // UINT32 checksum = -(header[0] + header[1]);
-    // if (CompareMem(&(header[2]), &checksum, sizeof(checksum)) != 0) {
-    //     Print(L"Invalid kernel's checksum\n");
-    //     return EFI_ABORTED;
-    // }
-    // Print(L"Checksum correct!\n");
     UINTN kmem_size = 0;
     UINTN kfile_size = 0;
     VOID *KERNEL = NULL;
@@ -133,7 +110,7 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
     UINT32 DesVersion = 0;
     // Get memory map
     Print(L"Getting memory map and terminating BootServices...\n");
-    Print(L"Serial will be disconnected for now.");
+    Print(L"Serial will be disconnected for now.\n");
     status = GetMemMap(&MapKey, &DesVersion, &DesSize, &MemMap, &MemMapSize);
     CHECK(status);
     // Do not put any calls between GetMemMap() and ExitBootServices()!

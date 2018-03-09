@@ -1,4 +1,4 @@
-#!/usr/bin/python3.5
+#!/usr/bin/python3
 import os
 import argparse
 
@@ -37,16 +37,16 @@ data = in_buff[data_offset:data_offset+data_size]
 
 out_file = open(p.parse_args().o, 'a') 
 out_file.writelines('// '+ p.parse_args().f + '\n')
-out_file.write('[')
+out_file.write('{')
 j = []
 for y in range(height):
     temp = 0
     for x in range(width):
         if data[y*width + x] == 0xff or data[y*width + x] == 0x15:
             temp += pow(2, x)
-    j.append(hex(temp))
+    j.insert(0, hex(temp))
 for c in str(j):
     if not (c == '[' or c == ']' or c == "'"):
         out_file.write(c)
-out_file.write("]\n")
+out_file.write("},\n")
 out_file.close()
