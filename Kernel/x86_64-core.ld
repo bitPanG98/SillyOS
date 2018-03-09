@@ -30,5 +30,6 @@ SECTIONS {
 
     /DISCARD/ : {
         *(.comment)
+        *(.eh_frame)
     }
 }
