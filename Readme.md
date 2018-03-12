@@ -54,7 +54,7 @@ make[2]: *** [GenSec.o] Error 1
 * Go patch your edk2 Makefile with:
 ```bash
 $ patch  /<path of your edk2 dir>/BaseTools/Source/C/Makefiles/headers.makefile\
-./Stuff/edk2_fix.patch
+ /<path of your edk dir>/edk2_fix.patch
 ```
 </p>
 </details>
@@ -80,8 +80,8 @@ $ patch  /<path of your edk2 dir>/BaseTools/Source/C/Makefiles/headers.makefile\
 <summary>Platform-x86_64</summary>
 <p>
     -   [ ] Paging<br>
-    -   [ ] Floating point<br>
-    -   [ ] Port libc<br>
+    -   [ ] Support Floating point<br>
+    -   [ ] Port libc, libc++<br>
     -   [ ] Graphics<br>
     -   [ ] Disk<br>
     -   [ ] System Serial<br>

@@ -8,7 +8,8 @@
 
 [Sources]
     main.c
-    loader.c
+    mapping.c
+    elf_loader.c
 [Packages]
     MdePkg/MdePkg.dec
     ShellPkg/ShellPkg.dec

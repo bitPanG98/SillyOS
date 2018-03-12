@@ -1,5 +1,7 @@
 #include "main.h"
 
+#define BOOTLOADER_VERSION L"beta"
+
 static SOS_BOOT_INFO boot_info;
 static SOS_BOOT_VIDEO_INFO boot_video;
 
@@ -9,6 +11,10 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
     /*
             FUTURE TASK
             Read config file and mode submition
+    */
+
+    /*
+        1. Graphics settings
     */
     EFI_GRAPHICS_OUTPUT_PROTOCOL *GOP;
     Print(L"Getting GOProtocol...");
@@ -49,21 +55,29 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
     // clear screen
     ST->ConOut->ClearScreen(ST->ConOut);
 
+    /*
+        2. Print header
+    */
     Print(L"SillyOS Bootloader\n");
-    Print(L"Version: Beta\n");
+    Print(L"Version: %s\n", BOOTLOADER_VERSION);
 
+    /*
+        3. Load kernel
+    */
     Print(L"Loading kernel...");
     UINTN kmem_size = 0;
     UINTN kfile_size = 0;
     VOID *KERNEL = NULL;
     status = load_kernel(&KERNEL, &kmem_size, &kfile_size);
     CHECK(status);
-    Print(L"=> Size of kernel file: %dBytes\n", kfile_size);
-    Print(L"=> Size of kernel: %dBytes\n", kmem_size);
+    Print(L"=> Size of kernel file: %d bytes\n", kfile_size);
+    Print(L"=> Size of kernel: %d bytes\n", kmem_size);
     KERNEL_ENTRY *KernelEntry = (KERNEL_ENTRY *)KERNEL;
 
-    //	Getting ACPI tables
-    Print(L"Fetching ACPI Tables...");
+    /*
+        4. Get RSDP
+    */
+    Print(L"Getting RSDP Table...");
     EFI_CONFIGURATION_TABLE *CT = ST->ConfigurationTable;
     EFI_GUID Acpi20_guid = EFI_ACPI_20_TABLE_GUID;
     EFI_GUID Acpi10_guid = ACPI_10_TABLE_GUID;
@@ -122,19 +136,15 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
     }
     CHECK(status);
 
-    /***	WARNING!	WARNING!	WARNING!	WARNING!	WARNING!
-     * WARNI***/
+    /*
+    	WARNING!	WARNING!	WARNING!	WARNING!	WARNING!
 
-    /***			DO	NOT	PUT	ANY	BOOT SERVICES	FUNCTION	BELOW
-     * ***/
-    /***	If we passed status check, then BootServices is no longer usable.
-     * ***/
+    	DO	NOT	PUT	ANY	BOOT SERVICES FUNCTION BELOW
+    	If we passed status check, then BootServices is no longer usable.
 
-    /***	WARNING!	WARNING!	WARNING!	WARNING!	WARNING!	WAR
-     * ***/
+    	WARNING!	WARNING!	WARNING!	WARNING!	WARNING!
+    */
 
-    // ST->RuntimeServices->SetVirtualAddressMap(MemMapSize, DesSize,
-    // DesVersion, MemMap);  put all needed things into a structure
     boot_info.Magic = MAGIC;
     boot_info.Platform = PLATFORM_EFI;
     boot_info.Version = CONTENT_VERSION;
@@ -210,7 +220,6 @@ case PixelBitMask:
 
 EFI_STATUS GetMemMap(UINT64 *Key, UINT32 *DesVersion, UINT64 *DesSize,
                      EFI_MEMORY_DESCRIPTOR **Memmap, UINT64 *MemmapSize) {
-    // lazy..
     EFI_STATUS status;
     UINT64 Size = 0;
     UINT64 Pages = 1;

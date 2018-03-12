@@ -5,16 +5,16 @@ LINKER_SCRIPT := $(PLAT)-core.ld
 PLAT_ASM_SRC := $(wildcard Platform/$(PLAT)/asm/*.asm)
 PLAT_ASM_SRC += $(wildcard Platform/$(PLAT)/asm/**/*.asm)
 
-PLAT_CPP_SRC := $(wildcard Platform/$(PLAT)/*.cpp)
-PLAT_CPP_SRC += $(wildcard Platform/$(PLAT)/**/*.cpp)
+PLAT_CXX_SRC := $(wildcard Platform/$(PLAT)/*.cxx)
+PLAT_CXX_SRC += $(wildcard Platform/$(PLAT)/**/*.cxx)
 
 PLAT_OBJ := $(patsubst %.asm, %.o, $(PLAT_ASM_SRC))
-PLAT_OBJ += $(patsubst %.cpp, %.o, $(PLAT_CPP_SRC))
+PLAT_OBJ += $(patsubst %.cxx, %.o, $(PLAT_CXX_SRC))
 
-CORE_SRC := $(wildcard Core/*.cpp)
-CORE_SRC += $(wildcard Core/**/*.cpp)
+CORE_SRC := $(wildcard Core/*.cxx)
+CORE_SRC += $(wildcard Core/**/*.cxx)
 
-CORE_OBJ := $(patsubst %.cpp, %.o, $(CORE_SRC))
+CORE_OBJ := $(patsubst %.cxx, %.o, $(CORE_SRC))
 
 C_FLAG := -std=c++11  -ffreestanding  -mno-red-zone -nostdlib -fno-builtin -nostdinc
 LD_FLAG :=  -nostdlib -z max-page-size=0x1000
@@ -36,18 +36,20 @@ C_FLAG +=  -Wall -Wextra
 C_FLAG += -I $(PROJECT_ROOT)/Library/Include 
 C_FLAG += -I $(PROJECT_ROOT)/Kernel/Platform/$(PLAT)/Include
 
-
 all: $(BUILD_DIR)/$(CORE_FILE)
 
 $(BUILD_DIR)/$(CORE_FILE): $(PLAT_OBJ) 
-	$(LD)  -T $(LINKER_SCRIPT) $(LD_FLAG) -o $@ $(PLAT_OBJ) $(C_LIB)
+	@echo "[\033[0;32mLinker\033[0m] <= \033[0;33mCore objects + Platform objects\033[0m"
+	@$(LD)  -T $(LINKER_SCRIPT) $(LD_FLAG) -o $@ $(PLAT_OBJ) $(C_LIB)
 
-%.o: %.cpp
-	$(CC) $(C_FLAG) -c $< -o $@ $(C_LIB)
+%.o: %.cxx
+	@echo "[\033[0;32mCC\033[0m] <= \033[0;33m$<\033[0m"
+	@$(CC) $(C_FLAG) -c $< -o $@ $(C_LIB)
 
 # Assembly code
 %.o: %.asm
-	$(NASM) -f elf64 $< -o $@
+	@echo "[\033[0;32mASM\033[0m] <= \033[0;33m$<\033[0m"
+	@$(NASM) -f elf64 $< -o $@
 
 clean:
 	@rm -fvr $(PLAT_OBJ)

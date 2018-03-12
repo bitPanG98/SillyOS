@@ -25,7 +25,7 @@
 
 #include <elf.h>
 
-#include "boot.h"
+#include "sillyos.h"
 
 //status check marco
 #define CHECK(X) 	{	\

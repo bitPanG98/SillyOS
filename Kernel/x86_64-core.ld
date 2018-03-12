@@ -28,6 +28,11 @@ SECTIONS {
         . = ALIGN(4K);
     }
 
+    .heap : AT(ADDR(.heap) - OFFSET){
+        *(.heap)
+        . = ALIGN(4K);
+    }
+
     /DISCARD/ : {
         *(.comment)
         *(.eh_frame)

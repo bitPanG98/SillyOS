@@ -8,26 +8,24 @@
   ; 3=====================================================================D
 [bits 64]
 global PLATFORM_ENTRY
+global flush
 ;Global our addresses
 global KERNEL_STACK_TOP
 global KERNEL_STACK_BOTTOM
-global KERNEL_HEAP_TOP
-global KERNEL_HEAP_BOTTOM
+
+global KERNEL_BLOCK_TABLE_START
+global KERNEL_BLOCK_TABLES_END
+
+global KERNEL_HEAP_START
+global KERNEL_HEAP_END
 
 extern kernel_init
 
-
-;Header defines
-; MAGIC equ 0x1A534F53 ;Magic spell (4 bytes)   0x1A, 'SOS'
-; ENTRY_OFFSET equ PLATFORM_ENTRY - HEADER_START  ;Entry offset
-; CHECKSUM equ -(ENTRY_OFFSET + MAGIC)
+BLOCK_SIZE equ 4
+KERNEL_HEAP_SIZE equ 2
+KERNEL_STACK_SIZE equ 2
 
 section .entry
-; HEADER_START:
-;   dd MAGIC
-;   dd ENTRY_OFFSET
-;   dd CHECKSUM
-; HEADER_END:
 ;Everything start from here.
 PLATFORM_ENTRY:
     ;no interrupt for now
@@ -41,8 +39,40 @@ PLATFORM_ENTRY:
     ;if we unluckily get here, we need to stop it
     cli
     hlt
+    dd BLOCK_SIZE
 
+;See https://github.com/tianocore/edk2/blob/master/UefiCpuPkg/CpuDxe/X64/CpuAsm.nasm
+;Thanks to MouseOS: http://www.mouseos.com/os/tools/nasm.html
+flush:
+  ;edi: code esi: data
+  ;allocate 16 byte
+  sub     rsp, 0x10
+  lea     rax, [rocket_jump]
+  mov     [rsp], rax
+  mov     [rsp+4], di
+  jmp     dword far [rsp]
+rocket_jump:
+  ;restore stack
+  add rsp, 0x10
+
+  mov ax, si
+  mov es, ax
+  mov ds, ax
+  mov gs, ax
+  mov fs, ax
+  mov ss, ax
+  ret
+
+  
 section .bss
 KERNEL_STACK_BOTTOM:
-resb 4096 * 2 ; 2 * 4K page
+resb 4096 * KERNEL_STACK_SIZE ; 2 * 4K page
 KERNEL_STACK_TOP:
+
+section .heap
+KERNEL_BLOCK_TABLE_START:
+resb 4096 * KERNEL_HEAP_SIZE / BLOCK_SIZE
+KERNEL_BLOCK_TABLES_END:
+KERNEL_HEAP_START:
+resb 4096 * KERNEL_HEAP_SIZE
+KERNEL_HEAP_END:

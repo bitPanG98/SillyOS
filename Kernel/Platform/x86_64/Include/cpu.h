@@ -1,6 +1,35 @@
 #pragma once
 #include <types.h>
 
+//gdt.cxx
+namespace CPU::GDT {
+/*
+    Global Descriptor Table
+    See Figure 5-1 on page 2829 of 'Intel's osdev bible'
+*/
+typedef struct {
+    u16 Limit;
+    u64 Base;
+} __attribute__((packed)) GDT_PTR;
+
+typedef struct {
+    u16 LimitLow;
+    u16 BaseLow;
+    u8 BaseMid;
+    u8 Access;
+    u8 Flags;    
+    u8 BaseHigh;
+} __attribute__((packed)) GDT_ENTRY;
+
+
+void init();
+void read(GDT_PTR *);
+void write(GDT_PTR *, u16, u16);
+void print();
+
+}
+
+//cpuid.cxx
 namespace CPU::CPUID {
 u32 get_cpu();
 extern "C" void run_cpuid(u32 func, u32 *ax, u32 *bx, u32 *cx, u32 *dx);
@@ -128,12 +157,12 @@ typedef struct {
 */
 }
 
+//io.asm
 namespace CPU::IO {
-extern "C" u8 inb(u16 port);
-extern "C" u16 inw(u16 port);
-extern "C" u32 indw(u16 port);
-
-extern "C" void outb(u16 port, u8 data);
-extern "C" void outw(u16 port, u16 data);
-extern "C" void outdw(u16 port, u32 data);
+    u8 inb(u16 port);
+    u16 inw(u16 port);
+    u32 indw(u16 port);
+    void outb(u16 port, u8 data);
+    void outw(u16 port, u16 data);
+    void outdw(u16 port, u32 data);
 }
