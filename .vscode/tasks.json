@@ -6,7 +6,7 @@
         {
             "label": "Test",
             "type": "shell",
-            "command": "source ./setup.sh && make qemu",
+            "command": "source ./preset.sh && make qemu",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -15,7 +15,7 @@
         {
             "label": "Build",
             "type": "shell",
-            "command": "source ./setup.sh && make all"
+            "command": "source ./preset.sh && make all"
         }
     ]
 }

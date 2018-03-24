@@ -46,7 +46,7 @@ endif
 	@xorriso -as mkisofs -R -f -e efi.img -no-emul-boot -o $(PROJECT_ROOT)/sillyos.iso $(BUILD_DIR)/iso
 
 qemu: .force efi_iso
-	@sudo qemu-system-$(PLAT)  -monitor stdio -cpu Haswell  -bios /usr/share/ovmf/OVMF.fd  -drive file=./sillyos.iso -m 5G
+	@sudo qemu-system-$(PLAT)  -serial stdio -cpu Haswell  -bios /usr/share/ovmf/OVMF.fd  -drive file=./sillyos.iso -m 5G
 
 CreateDirs: .force clean
 	@mkdir -p $(BUILD_DIR)

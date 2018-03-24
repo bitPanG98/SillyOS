@@ -12,5 +12,5 @@ Modules/
 Documents/
 
 #ignore all object files
+**/*.o
 *.o
-**/.*o
