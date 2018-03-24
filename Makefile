@@ -1,4 +1,4 @@
-include Config.mk
+include config.mk
 
 default: CreateDirs bootloader kernel
 
@@ -19,6 +19,14 @@ ifeq ($(BOOT_TYPE), LEGACY)
 	@$(MAKE) -s -C ./Bootloader/x86_64/Legacy
 endif
 
+library_silly:
+	@echo "[\033[0;32mMake\033[0m] <= \033[0;33m'Make me a Silly Library'\033[0m"
+	@$(MAKE) -s -C library silly
+
+library_standard:
+	@echo "[\033[0;32mMake\033[0m] <= \033[0;33m'Make me a Standard Library'\033[0m"
+	@$(MAKE) -s -C library standard
+
 efi_iso: .force bootloader kernel
 	@echo "[\033[0;32mISO\033[0m] <= \033[0;33mSillyOS\033[0m"
 	@rm -fvr $(BUILD_DIR)/efi.img
@@ -38,7 +46,7 @@ endif
 	@xorriso -as mkisofs -R -f -e efi.img -no-emul-boot -o $(PROJECT_ROOT)/sillyos.iso $(BUILD_DIR)/iso
 
 qemu: .force efi_iso
-	@sudo qemu-system-$(PLAT)  -serial stdio -cpu Haswell  -bios /usr/share/ovmf/OVMF.fd  -drive file=./sillyos.iso -m 5G
+	@sudo qemu-system-$(PLAT)  -monitor stdio -cpu Haswell  -bios /usr/share/ovmf/OVMF.fd  -drive file=./sillyos.iso -m 5G
 
 CreateDirs: .force clean
 	@mkdir -p $(BUILD_DIR)

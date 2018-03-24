@@ -25,7 +25,8 @@ typedef struct {
 void init();
 void read(GDT_PTR *);
 void write(GDT_PTR *, u16, u16);
-void print();
+//BUGGY
+// void print();
 
 }
 

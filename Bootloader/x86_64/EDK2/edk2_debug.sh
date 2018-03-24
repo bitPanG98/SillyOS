@@ -13,12 +13,18 @@ else
 	#				Dunno how wrong this move could be :\ 
 	make -C ./edk2/BaseTools
 fi
-echo Copying needed files...
+
 if [ -e "./edk2/SOS-Boot" ] 
 then 
-	rm -R ./edk2/SOS-Boot
+	rm -fR ./edk2/SOS-Boot
 fi
+echo Cleaning output...
+if [ -e "./edk2/Build" ]
+then
+	rm -fR ./edk2/Build
+fi
+echo Copying needed files...
 cp -r ./SOS-Boot ./edk2/
 
-cd edk2 && source edksetup.sh && build --buildtarget=DEBUG -p SOS-Boot/SOS-Bootloader.dsc -q -t GCC5 -a X64 -d 0 && cp -r ./Build/SOS/DEBUG_GCC5/X64/SOS-Bootloader.efi $BUILD_DIR/bootloader.efi
+cd edk2 && source edksetup.sh && build --buildtarget=DEBUG -p SOS-Boot/SOS-Bootloader.dsc -s -q -t GCC5 -a X64 -d 0 && cp -r ./Build/SOS/DEBUG_GCC5/X64/SOS-Bootloader.efi $BUILD_DIR/bootloader.efi
 

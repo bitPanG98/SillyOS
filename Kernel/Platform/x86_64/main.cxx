@@ -1,7 +1,7 @@
 #include <compiler.h>
 #include <boot.h>
 #include <graphics.h>
-#include <terminal.h>
+#include <ui.h>
 #include <cpu.h>
 #include <peripheral.h>
 
@@ -9,20 +9,19 @@ extern "C" void kernel_init(SOS_BOOT_INFO *boot_info)
 {
     //Initialize serial
     Peripheral::Serial::init(Peripheral::Serial::SERIAL_PORTA);
-    Peripheral::Serial::write("3===================D\n");
-    Peripheral::Serial::write(" SillyOS Debug Port\n");
-    Peripheral::Serial::write("3===================D\n");
+    Peripheral::Serial::write("3======================D\n");
+    Peripheral::Serial::write(" SillyOS Debugging Port\n");
+    Peripheral::Serial::write("3======================D\n");
 
     //Initialize graphics (Frame Buffer, EDID...)
     Graphics::init(boot_info->VideoInfo);
     // 'self comment' code
-    Graphics::clear_screen();
-    Terminal::write("[Graphics] => OK\n");
+    UI::Terminal::init();
+    UI::Logging::log("[Graphics] => OK\n");
 
     //Initialize GDT
     CPU::GDT::init();
-    Terminal::write("[GDT] => OK\n");
-
+    UI::Logging::log("[GDT] => OK\n");
     //Early memory allocation (Basic malloc, free)
     //Initialize memory management
     //End early memory allocation

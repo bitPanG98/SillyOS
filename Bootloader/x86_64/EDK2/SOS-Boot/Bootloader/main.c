@@ -5,6 +5,25 @@
 static SOS_BOOT_INFO boot_info;
 static SOS_BOOT_VIDEO_INFO boot_video;
 
+const char *EFIMemMapText[] = { 
+	"ReservedMemory         ", 
+    "LoaderCode             ", 
+    "LoaderData             ", 
+    "BootServicesCode       ", 
+    "BootServicesData       ", 
+    "RuntimeServicesCode    ", 
+    "RuntimeServicesData    ", 
+    "ConventionalMemory     ", 
+    "UnusableMemory         ", 
+    "ACPIReclaimMemory      ", 
+    "ACPIMemoryNVS          ", 
+    "MemoryMappedIO         ", 
+    "MemoryMappedIOPortSpace", 
+    "PalCode                ",
+    "PersistentMemory       ", 
+    "MaxMemory              "
+};
+
 EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
 
     EFI_STATUS status;
@@ -127,6 +146,14 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
     Print(L"Serial will be disconnected for now.\n");
     status = GetMemMap(&MapKey, &DesVersion, &DesSize, &MemMap, &MemMapSize);
     CHECK(status);
+    /* TEMPO */
+    /*UINT8 *ptr = (UINT8 *)MemMap;
+    while(ptr < (UINT8 *)MemMap + MemMapSize){
+        EFI_MEMORY_DESCRIPTOR *temp = (EFI_MEMORY_DESCRIPTOR *)ptr;
+        Print(L"TYPE: %x PADDR: 0x%x VADDR: 0x%x PNUM: 0x%x ATTR: 0x%x\n", temp->Type, \
+        temp->PhysicalStart, temp->VirtualStart, temp-> NumberOfPages, temp->Attribute);
+        ptr += DesSize;
+    } */   
     // Do not put any calls between GetMemMap() and ExitBootServices()!
     for (int i = 0; i < 5; i++) {
         status = ST->BootServices->ExitBootServices(IH, MapKey);

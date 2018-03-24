@@ -48,6 +48,24 @@ typedef struct{
 	VOID *RuntimeServices;
 } __attribute__((packed)) SOS_BOOT_INFO;
 
+#define SOS_PAGE_TYPE_4K 1
+#define SOS_PAGE_TYPE_2M 2
+#define SOS_PAGE_TYPE_1G 3
 
+#define SOS_MEM_TYPE_UNUSABLE 0
+#define SOS_MEM_TYPE_ACPI 1
+#define SOS_MEM_TYPE_IO 2
+#define SOS_MEM_TYPE_KERNAL 3
+#define SOS_MEM_TYPE_MODULE 4
+#define SOS_MEM_TYPE_USERLAND 5
+#define SOS_MEM_TYPE_FREE 6
+
+typedef struct {
+	UINT64 PhyStart;
+	UINT64 VirtStart;
+	UINT64 Number;
+	UINT64 PageType;
+	UINT64 Type;
+} __attribute__((packed)) SOS_MEM_INFO;
 
 #endif

@@ -31,25 +31,6 @@
 #define CHECK(X) 	{	\
 if(EFI_ERROR(X)) {Print(L"Fail\n**Reason: %r\n", X);	return X;}}
 
-// const char *EFIMemMapText[] = { 
-// 	"ReservedMemory         ", 
-//     "LoaderCode             ", 
-//     "LoaderData             ", 
-//     "BootServicesCode       ", 
-//     "BootServicesData       ", 
-//     "RuntimeServicesCode    ", 
-//     "RuntimeServicesData    ", 
-//     "ConventionalMemory     ", 
-//     "UnusableMemory         ", 
-//     "ACPIReclaimMemory      ", 
-//     "ACPIMemoryNVS          ", 
-//     "MemoryMappedIO         ", 
-//     "MemoryMappedIOPortSpace", 
-//     "PalCode                ",
-//     "PersistentMemory       ", 
-//     "MaxMemory              "
-// };
-
 #define DEFAULT_HR 1280
 #define DEFAULT_VR 720
 

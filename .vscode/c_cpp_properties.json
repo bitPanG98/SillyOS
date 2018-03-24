@@ -3,7 +3,7 @@
         {
             "name": "x86_64-Kernel",
             "includePath": [
-                "${workspaceRoot}/Library/Include",
+                "${workspaceRoot}/Library/Silly/Include",
                 "${workspaceRoot}/Kernel/Platform/x86_64/Include",
                 "${workspaceRoot}/CC/lib/gcc/x86_64-elf/7.3.0/include"
             ],
