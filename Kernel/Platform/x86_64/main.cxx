@@ -17,11 +17,28 @@ extern "C" void kernel_init(SOS_BOOT_INFO *boot_info)
     Graphics::init(boot_info->VideoInfo);
     // 'self comment' code
     UI::Terminal::init();
-    UI::Logging::log("[Graphics] => OK\n");
+    //Graphics OK msg
+    UI::Logging::log("[");
+    UI::Terminal::set_color(0xf4f141);
+    UI::Logging::log("Graphics");
+    UI::Terminal::set_color(DEFAULT_TEXT_COLOR);
+    UI::Logging::log("] => ");
+    UI::Terminal::set_color(0x42f486);
+    UI::Logging::log("OK\n");
+    UI::Terminal::set_color(DEFAULT_TEXT_COLOR);
 
     //Initialize GDT
     CPU::GDT::init();
-    UI::Logging::log("[GDT] => OK\n");
+    CPU::GDT::print();
+    //GDT OK msg
+    UI::Logging::log("[");
+    UI::Terminal::set_color(0xf4f141);
+    UI::Logging::log("GDT");
+    UI::Terminal::set_color(DEFAULT_TEXT_COLOR);
+    UI::Logging::log("] => ");
+    UI::Terminal::set_color(0x42f486);
+    UI::Logging::log("OK\n");
+    UI::Terminal::set_color(DEFAULT_TEXT_COLOR);
     //Early memory allocation (Basic malloc, free)
     //Initialize memory management
     //End early memory allocation

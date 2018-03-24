@@ -26,7 +26,7 @@ void init();
 void read(GDT_PTR *);
 void write(GDT_PTR *, u16, u16);
 //BUGGY
-// void print();
+void print();
 
 }
 

@@ -69,20 +69,17 @@ namespace CPU::GDT {
         asm("sgdt (%0)"::"r"(ptr));
     }
 
-/*
-    BUGGY
-*/
-    // void print(){
-    //     GDT_PTR ptr;
-    //     read(&ptr);
-    //     UI::Logging::log("PTR ADDR: 0x%x\n", ptr.Base);
-    //     u16 size = ptr.Limit / sizeof(GDT_ENTRY) + 1;
-    //     GDT_ENTRY *temp_gdt = (GDT_ENTRY *)ptr.Base;
-    //     UI::Logging::log("num. of GDT: %i\n", size);
-    //     for(u16 i = 0; i < size; i++){
-    //         UI::Logging::log("0x%x: LL:0x%x BL:0x%x BM:%x Access:%b LM:0x%x Flags:%b BH:0x%x\n", i*8, temp_gdt->LimitLow, temp_gdt->BaseLow, temp_gdt->BaseMid, temp_gdt->Access, temp_gdt->Flags, temp_gdt->BaseHigh);
-    //         temp_gdt++;
-    //     }
+    void print(){
+        GDT_PTR ptr;
+        read(&ptr);
+        UI::Logging::log("PTR ADDR: 0x%x\n", ptr.Base);
+        u16 size = ptr.Limit / sizeof(GDT_ENTRY) + 1;
+        GDT_ENTRY *temp_gdt = (GDT_ENTRY *)ptr.Base;
+        UI::Logging::log("num. of GDT: %i\n", size);
+        for(u16 i = 0; i < size; i++){
+            UI::Logging::log("0x%x: LL:0x%x BL:0x%x BM:%x Access:%b LM:0x%x Flags:%b BH:0x%x\n", i*8, temp_gdt->LimitLow, temp_gdt->BaseLow, temp_gdt->BaseMid, temp_gdt->Access, temp_gdt->Flags, temp_gdt->BaseHigh);
+            temp_gdt++;
+        }
 
-    // }
+    }
 }

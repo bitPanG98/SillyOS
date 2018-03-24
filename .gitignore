@@ -13,3 +13,4 @@ Documents/
 
 #ignore all object files
 *.o
+**/.*o
