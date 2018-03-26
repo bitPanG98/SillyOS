@@ -4,6 +4,7 @@
 #include <ui.h>
 #include <cpu.h>
 #include <peripheral.h>
+#include <string.h>
 
 extern "C" void kernel_init(SOS_BOOT_INFO *boot_info)
 {
@@ -29,7 +30,6 @@ extern "C" void kernel_init(SOS_BOOT_INFO *boot_info)
 
     //Initialize GDT
     CPU::GDT::init();
-    CPU::GDT::print();
     //GDT OK msg
     UI::Logging::log("[");
     UI::Terminal::set_color(0xf4f141);
@@ -39,6 +39,11 @@ extern "C" void kernel_init(SOS_BOOT_INFO *boot_info)
     UI::Terminal::set_color(0x42f486);
     UI::Logging::log("OK\n");
     UI::Terminal::set_color(DEFAULT_TEXT_COLOR);
+    char buff[255];
+    u8 r = to_int(123, 'd', buff);
+    UI::Logging::log(buff);
+    UI::Logging::log(format(buff, "r: %i\n", r));
+    
     //Early memory allocation (Basic malloc, free)
     //Initialize memory management
     //End early memory allocation

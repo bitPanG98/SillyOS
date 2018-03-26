@@ -11,12 +11,18 @@ typedef short i16;
 typedef int i32;
 typedef long long i64;
 
-typedef unsigned long int size_t;
-
 #define null (void *)0
 
-#define bool u8
-#define true 1
-#define false 0
+/*
+    Coding sugar!
+*/
+#define UNSAFE
+
+
+#ifndef __C_PLUS_PLUS
+    #define bool u8
+    #define true 1
+    #define false 0
+#endif
 
 #endif

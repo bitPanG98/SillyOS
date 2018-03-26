@@ -13,9 +13,9 @@ ifeq ($(TOOL), LLVM)
 CC := $(PROJECT_ROOT)/cross-llvm/build/llvm/bin/clang
 LD := $(PROJECT_ROOT)/cross-llvm/build/llvm/bin/ld.lld
 else
-CC := x86_64-elf-g++
-LD := x86_64-elf-g++
+CC := $(PLAT)-elf-g++
+LD := $(PLAT)-elf-g++
 endif
 
-AR := ar
+AR := $(PLAT)-elf-ar
 NASM := nasm

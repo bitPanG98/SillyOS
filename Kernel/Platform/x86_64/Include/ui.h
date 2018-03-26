@@ -1,11 +1,5 @@
 #pragma once
 #include <types.h>
-#include <stdarg.h>
-
-namespace UI {
-/* ui.cxx*/
-u32 str_format(char *buff, char *str, ...);
-}
 
 #define DEFAULT_TEXT_COLOR 0xffffff
 #define DEFAULT_BG_COLOR 0x252525
@@ -23,7 +17,7 @@ void set_color(u32);
 
 namespace UI::Logging {
 /* logging.cxx */
-void log(char*, ...);
+void log(char*);
 void assert(bool);
 }
 

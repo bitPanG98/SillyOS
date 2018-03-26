@@ -5,7 +5,7 @@ default: CreateDirs bootloader kernel
 pack:
 	@echo Packing... 
 
-kernel: .force CreateDirs
+kernel: .force libsilly CreateDirs
 	@echo "[\033[0;32mMake\033[0m] <= \033[0;33m'Make me a Kernel'\033[0m"
 	@$(MAKE) -s -C Kernel
 
@@ -19,13 +19,13 @@ ifeq ($(BOOT_TYPE), LEGACY)
 	@$(MAKE) -s -C ./Bootloader/x86_64/Legacy
 endif
 
-library_silly:
+libsilly:
 	@echo "[\033[0;32mMake\033[0m] <= \033[0;33m'Make me a Silly Library'\033[0m"
-	@$(MAKE) -s -C library silly
+	@$(MAKE) -s -C Library silly
 
-library_standard:
+libstd:
 	@echo "[\033[0;32mMake\033[0m] <= \033[0;33m'Make me a Standard Library'\033[0m"
-	@$(MAKE) -s -C library standard
+	@$(MAKE) -s -C Library standard
 
 efi_iso: .force bootloader kernel
 	@echo "[\033[0;32mISO\033[0m] <= \033[0;33mSillyOS\033[0m"
@@ -58,6 +58,7 @@ ifneq ($(BOOT_TYPE), EFI)
 	@$(MAKE) -C ./Bootloader/x86_64/Legacy clean
 endif
 	@$(MAKE) -C Kernel clean
+	@$(MAKE) -C Library clean
 
 	
 .force:

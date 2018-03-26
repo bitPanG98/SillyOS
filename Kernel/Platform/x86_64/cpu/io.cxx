@@ -30,7 +30,7 @@ namespace CPU::IO {
     }
 
     void outdw(u16 port, u32 data){
-        outdw(port, data);
+        _outdw(port, data);
     }
 
 }
