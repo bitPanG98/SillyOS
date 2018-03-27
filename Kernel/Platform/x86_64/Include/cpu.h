@@ -160,10 +160,11 @@ typedef struct {
 
 //io.asm
 namespace CPU::IO {
-    u8 inb(u16 port);
-    u16 inw(u16 port);
-    u32 indw(u16 port);
-    void outb(u16 port, u8 data);
-    void outw(u16 port, u16 data);
-    void outdw(u16 port, u32 data);
+    extern "C" u8 inb(u16 port);
+    extern "C" u16 inw(u16 port);
+    extern "C" u32 indw(u16 port);
+
+    extern "C" void outb(u16 port, u8 data);
+    extern "C" void outw(u16 port, u16 data);
+    extern "C" void outdw(u16 port, u32 data);
 }

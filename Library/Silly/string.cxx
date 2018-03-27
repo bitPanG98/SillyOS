@@ -48,32 +48,28 @@ UNSAFE u32 vformat(char *buff, const char *fmt, va_list vl)
             case 'd':
             {
                 unsafe_i64 = va_arg(vl, i64);
-                u32 result = to_int(unsafe_i64, 'd', buff + buff_index);
-                buff_index += result;
+                buff_index += to_int(unsafe_i64, 'd', buff + buff_index);
                 break;
             }
             //octal
             case 'o':
             {
                 unsafe_u64 = va_arg(vl, u64);
-                u32 result = to_int(unsafe_u64, 'o', buff + buff_index);
-                buff_index += result;
+                buff_index += to_int(unsafe_u64, 'o', buff + buff_index);
                 break;
             }
             //binary
             case 'b':
             {
                 unsafe_u64 = va_arg(vl, u64);
-                u32 result = to_int(unsafe_u64, 'b', &(buff[buff_index]));
-                buff_index += result;
+                buff_index += to_int(unsafe_u64, 'b', &(buff[buff_index]));
                 break;
             }
             //lower heximal
             case 'x':
             {
                 unsafe_u64 = va_arg(vl, u64);
-                u32 result = to_int(unsafe_u64, 'x', &(buff[buff_index]));
-                buff_index += result;
+                buff_index += to_int(unsafe_u64, 'x', &(buff[buff_index]));
                 break;
             }
             //upper heximal
@@ -114,6 +110,7 @@ UNSAFE u32 vformat(char *buff, const char *fmt, va_list vl)
         }
         temp++;
     }
+    buff[buff_index] = '\0';
     return buff_index;
 }
 

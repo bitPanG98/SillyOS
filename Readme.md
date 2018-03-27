@@ -1,9 +1,15 @@
 # SillyOS
+Currently screenshot:
 
-## What is it?
-A OS
+![alt text](screenshot_format.png "Ayy boiiiiiiiiiiii")
+## WTF is this?
+When a 14yo ignorance kid day dreaming, he always dream big, bigger than everything.
+He decided to create an OS to prove himself,
+so this warrior wasted 6+ years to learn about how the fuck can he code an OS.  
 
-## How do I build it?
+And now he still have no closer...
+
+## :hammer:How do I build it?
 1. Install needed packages
     * APT side:
         * nasm
@@ -15,6 +21,7 @@ A OS
         * qemu (For testing)
         * ovmf (For UEFI Testing)
         * uuid-dev (EDK2)
+        * python3 (I wrote script in Python3)
 2. Build tools
 ```bash
 # GCC
@@ -27,10 +34,18 @@ $ source ./Scripts/mkllvm.sh
 5. Type ``` make all ``` for full system compilation. 
 6. Type ``` make qemu ``` emulate at host's qemu.
 
-## :running:How to run SillyOS?
-Requirement:
+## :running:What do I need to run SillyOS?
+Running on real machine:
 * x86_64 machine
 * UEFI bios supported (optional)
+* DETERMINATION!
+
+Running on VM:
+1. make your own image file
+    ```bash
+    $ make efi_iso
+    ```
+2. use it on virtual machine (qemu, Virtual Box, VMWare etc.)
 
 ## :warning:Something goes wrong!
 <details>
@@ -59,7 +74,7 @@ $ patch  /<path of your edk2 dir>/BaseTools/Source/C/Makefiles/headers.makefile\
 </p>
 </details>
 
-## :blub:Milestone
+## :bulb:Milestone
 <!--Boot loader-->
 <details>
 <summary>Boot Loader</summary>

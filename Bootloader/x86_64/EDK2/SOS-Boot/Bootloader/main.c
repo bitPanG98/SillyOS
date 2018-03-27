@@ -143,7 +143,7 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
     UINT32 DesVersion = 0;
     // Get memory map
     Print(L"Getting memory map and terminating BootServices...\n");
-    Print(L"Serial will be disconnected for now.\n");
+    Print(L"Serial will be disconnected for now, see u in kernel!\n");
     status = GetMemMap(&MapKey, &DesVersion, &DesSize, &MemMap, &MemMapSize);
     CHECK(status);
     /* TEMPO */
