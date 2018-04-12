@@ -55,7 +55,6 @@ namespace CPU::GDT {
 
         gdt_ptr.Limit = sizeof(gdt)-1;
         gdt_ptr.Base = (u64)&gdt[0];
-        
         write(&gdt_ptr, 0x8, 0x10);
     }
 

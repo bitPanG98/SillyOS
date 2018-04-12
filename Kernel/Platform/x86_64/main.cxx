@@ -41,20 +41,6 @@ extern "C" void kernel_init(SOS_BOOT_INFO *boot_info)
     UI::Terminal::set_color(DEFAULT_TEXT_COLOR);
 
     UI::Logging::log("Formatting test.\n");
-    char buff[255];
-    i64 A = -123456789;
-    u64 B = 0x1234ABCDEF;
-    char *C = "Aim high fly high?\nNope.";
-    u16 D = 0x1234;
-    UI::Logging::log("i64 A = -123456789;\n");
-    UI::Logging::log("u64 B = 0x1234ABCDEF;\n");
-    UI::Logging::log("char *C = \"Aim high fly high?\\nNope.\";\n");
-    UI::Logging::log("u16 D = 0x1234;\n\n");
-    UI::Logging::log(format(buff, "Decimal value of A: %i\n", A));
-    UI::Logging::log(format(buff, "Heximal value of B: 0x%x\n", B));
-    UI::Logging::log(format(buff, "Octal value of B: %o\n", B));
-    UI::Logging::log(format(buff, "Value of C: %s\n", C));
-    UI::Logging::log(format(buff, "Binary value of D: %b\n", D));
     
     //Early memory allocation (Basic malloc, free)
     //Initialize memory management
