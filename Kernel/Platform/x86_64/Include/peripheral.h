@@ -7,7 +7,7 @@ namespace Peripheral::Serial {
     const u16 SERIAL_PORTC = 0x3e8;
     const u16 SERIAL_PORTD = 0x2e8;
 
-    void init(u16);
-    void put(char);
-    void write(char *);
+    void Initialize(u16);
+    void Write(char);
+    void Write(char *);
 }

@@ -22,18 +22,15 @@ typedef struct {
 } __attribute__((packed)) GDT_ENTRY;
 
 
-void init();
-void read(GDT_PTR *);
-void write(GDT_PTR *, u16, u16);
-//BUGGY
-void print();
-
+void Initialize();
+void ReadGDT(GDT_PTR *);
+void ApplyGDT(GDT_PTR *, u16, u16);
 }
 
 //cpuid.cxx
 namespace CPU::CPUID {
-u32 get_cpu();
-extern "C" void run_cpuid(u32 func, u32 *ax, u32 *bx, u32 *cx, u32 *dx);
+u32 GetFeatures();
+extern "C" void CPUID(u32 func, u32 *ax, u32 *bx, u32 *cx, u32 *dx);
 
 enum CPU_VENDOR {
     UNKNOWN = 0,

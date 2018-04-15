@@ -14,7 +14,7 @@
 
 */
 namespace CPU::GDT {
-    extern "C" void flush(u16 code, u16 data);
+    extern "C" void AsmFlushGdt(u16 code, u16 data);
 
     //null, Ring0 Code, Ring0 data
     const u16 GDT_ENTRIES_NUMBER = 3;
@@ -22,7 +22,7 @@ namespace CPU::GDT {
     GDT_PTR gdt_ptr;
     GDT_ENTRY gdt[GDT_ENTRIES_NUMBER];
 
-    void init(){
+    void Initialize(){
         /*
             null is nothing
         */
@@ -55,32 +55,16 @@ namespace CPU::GDT {
 
         gdt_ptr.Limit = sizeof(gdt)-1;
         gdt_ptr.Base = (u64)&gdt[0];
-        write(&gdt_ptr, 0x8, 0x10);
+        ApplyGDT(&gdt_ptr, 0x8, 0x10);
     }
 
-    void write(GDT_PTR *ptr, u16 code, u16 data){
+    void ApplyGDT(GDT_PTR *ptr, u16 code, u16 data){
         asm volatile("lgdt (%0)"::"r"(ptr));
-        flush(code, data);
+        AsmFlushGdt(code, data);
     }
 
-    void read(GDT_PTR *ptr){
+    void ReadGDT(GDT_PTR *ptr){
         asm("sgdt (%0)"::"r"(ptr));
     }
 
-    void print(){
-        GDT_PTR ptr;
-        char buff[255];
-        set_mem(buff, 0, 255);
-        read(&ptr);
-
-        UI::Logging::log(format(buff, "PTR ADDR: 0x%x\n", ptr.Base));
-        u16 size = ptr.Limit / sizeof(GDT_ENTRY) + 1;
-        GDT_ENTRY *temp_gdt = (GDT_ENTRY *)ptr.Base;
-        UI::Logging::log(format(buff, "num. of GDT: %i\n", size));
-        for(u16 i = 0; i < size; i++){
-            UI::Logging::log(format(buff, "0x%x: LL:0x%x BL:0x%x BM:%x Access:%b LM:0x%x Flags:%b BH:0x%x\n", i*8, temp_gdt->LimitLow, temp_gdt->BaseLow, temp_gdt->BaseMid, temp_gdt->Access, temp_gdt->Flags, temp_gdt->BaseHigh));
-            temp_gdt++;
-        }
-
-    }
 }

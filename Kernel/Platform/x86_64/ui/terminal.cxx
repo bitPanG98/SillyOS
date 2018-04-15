@@ -19,36 +19,36 @@ static u32 max_y = 0;
 static u32 text_color = DEFAULT_TEXT_COLOR;
 static u32 bg_color = DEFAULT_BG_COLOR; //NDY
 
-void plot_virtal(u32 x, u32 y, u32 c);
+void plot_virtual(u32 x, u32 y, u32 c);
 
-void init()
+void Initialize()
 {
   //initialize max_x, max_y
-  max_x = Graphics::get_width() / (FONT_WIDTH + FONT_GAP_SIZE) * size_ratio;
-  max_y = Graphics::get_height() / (FONT_HEIGHT + FONT_GAP_SIZE) * size_ratio;
-  Graphics::clear_screen(bg_color);
+  max_x = Graphics::GetWidth() / (FONT_WIDTH + FONT_GAP_SIZE) * size_ratio;
+  max_y = Graphics::GetHeight() / (FONT_HEIGHT + FONT_GAP_SIZE) * size_ratio;
+  Graphics::Clear(bg_color);
 }
 
-void write(char *str)
+void Write(char *str)
 {
   while(*str != '\0'){
-    put(*str);
+    Write(*str);
     str++;
   }
 }
 
-void put(char letter)
+void Write(char letter)
 {
   //border checking
-  if(!valid_pos(cursor_x + 1, cursor_y)){
+  if(!CheckPos(cursor_x + 1, cursor_y)){
     //no more space on this line
-    if(!valid_pos(cursor_x, cursor_y + 1)){
+    if(!CheckPos(cursor_x, cursor_y + 1)){
       //no more space on canvas
-      Graphics::clear_screen(bg_color);
-      set_pos(0, 0);
+      Graphics::Clear(bg_color);
+      SetPos(0, 0);
     }else{
       //go new line
-      set_pos(0, cursor_y + 1);
+      SetPos(0, cursor_y + 1);
     }
   }
 
@@ -167,8 +167,8 @@ void put(char letter)
       index = FONT_SYMBOL_START + 30;
       break;
     case '\n':
-      if(valid_pos(cursor_x, cursor_y + 1)){
-        set_pos(0, cursor_y + 1);
+      if(CheckPos(cursor_x, cursor_y + 1)){
+        SetPos(0, cursor_y + 1);
       } //dont want to destory current view, so dont implement else condition.
       return;
       break;
@@ -177,7 +177,7 @@ void put(char letter)
       return;
       break;
     case '\t':
-      if (valid_pos(cursor_x + 4, cursor_y))
+      if (CheckPos(cursor_x + 4, cursor_y))
       {
         cursor_x += 4;
       }
@@ -202,31 +202,31 @@ void put(char letter)
       }
 
       //plotting scaled font
-      plot_virtal(FONT_WIDTH - x, y, color);
+      plot_virtual(FONT_WIDTH - x, y, color);
     }
   }
-  set_pos(cursor_x + 1, cursor_y);
+  SetPos(cursor_x + 1, cursor_y);
 }
 
-void plot_virtal(u32 x, u32 y, u32 c){
+void plot_virtual(u32 x, u32 y, u32 c){
   for(u8 py = 0; py < size_ratio; py++){
     for(u8 px = 0; px < size_ratio; px++){
-      Graphics::plot(size_ratio * (cursor_x * (FONT_WIDTH + FONT_GAP_SIZE) +  x) + px, size_ratio * (cursor_y * FONT_HEIGHT + y) + py,
+      Graphics::Plot(size_ratio * (cursor_x * (FONT_WIDTH + FONT_GAP_SIZE) +  x) + px, size_ratio * (cursor_y * FONT_HEIGHT + y) + py,
                        c);
     }
   }
 }
 
-void set_pos(u32 x, u32 y)
+void SetPos(u32 x, u32 y)
 {
-  if (valid_pos(x, y))
+  if (CheckPos(x, y))
   {
     cursor_x = x;
     cursor_y = y;
   }
 }
 
-void get_pos(u32 *x, u32 *y)
+void GetPos(u32 *x, u32 *y)
 {
   if (x != null)
   {
@@ -238,10 +238,10 @@ void get_pos(u32 *x, u32 *y)
   }
 }
 
-bool valid_pos(u32 x, u32 y)
+bool CheckPos(u32 x, u32 y)
 {
   return (x <= max_x) && (y <= max_y);
 }
 
-void set_color(u32 c) { text_color = c; }
+void SetColor(u32 c) { text_color = c; }
 }

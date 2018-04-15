@@ -1,3 +1,10 @@
+if [ ! -f "preset.sh" ]
+then
+echo Looks like you are calling this script in wrong place!
+echo Try call this script at project root directory.
+exit
+fi
+
 mkdir -p $PWD/CC
 mkdir -p $PWD/CC/build-binutils
 mkdir -p $PWD/CC/build-gcc

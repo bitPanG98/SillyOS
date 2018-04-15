@@ -7,5 +7,5 @@
 #endif
 
 #ifndef __x86_64__
-#error "Wrong target!"
+#error "Wrong compiler target!"
 #endif

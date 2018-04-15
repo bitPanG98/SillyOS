@@ -8,7 +8,7 @@
   ; 3=====================================================================D
 [bits 64]
 global PLATFORM_ENTRY
-global flush
+global AsmFlushGdt
 ;Global our addresses
 global KERNEL_STACK_TOP
 global KERNEL_STACK_BOTTOM
@@ -19,39 +19,40 @@ global KERNEL_BLOCK_TABLES_END
 global KERNEL_HEAP_START
 global KERNEL_HEAP_END
 
-extern kernel_init
+extern PlatformMain
 
-BLOCK_SIZE equ 4
+BLOCK_SIZE equ 8
 KERNEL_HEAP_SIZE equ 2
 KERNEL_STACK_SIZE equ 2
 
 section .entry
 ;Everything start from here.
 PLATFORM_ENTRY:
-    ;no interrupt for now
+    ;Disable interrupt
     cli
     ;Setup stack
     mov rbp, KERNEL_STACK_TOP
     mov rsp, rbp
     
     ; we assume rdi stored the address of the booting infomation
-    call kernel_init
-    ;if we unluckily get here, we need to stop it
+    call PlatformMain
+    ;if we somehow get in here, we need to stop it
     cli
     hlt
     dd BLOCK_SIZE
 
 ;See https://github.com/tianocore/edk2/blob/master/UefiCpuPkg/CpuDxe/X64/CpuAsm.nasm
 ;Thanks to MouseOS: http://www.mouseos.com/os/tools/nasm.html
-flush:
+AsmFlushGdt:
   ;edi: code esi: data
   ;allocate 16 byte
   sub     rsp, 0x10
-  lea     rax, [rocket_jump]
+  lea     rax, [.rocket_jump]
   mov     [rsp], rax
   mov     [rsp+4], di
   jmp     dword far [rsp]
-rocket_jump:
+
+.rocket_jump:
   ;restore stack
   add rsp, 0x10
 

@@ -4,21 +4,24 @@
 #define DEFAULT_TEXT_COLOR 0xffffff
 #define DEFAULT_BG_COLOR 0x252525
 
+/*  Marcos  */
+#define LOG(x)\
+Peripheral::Serial::Write(x);\
+UI::Terminal::Write(x);
+
+#define DEBUG(x, y)\
+if(x == true){\
+    LOG(y);\
+}
+
 namespace UI::Terminal {
 /*  terminal.cxx   */
-void init();
-void write(char *);
-void put(char);
-void set_pos(u32, u32);
-void get_pos(u32*, u32*);
-bool valid_pos(u32, u32);
-void set_color(u32);
+void Initialize();
+void Write(char *);
+void Write(char);
+void SetPos(u32, u32);
+void GetPos(u32*, u32*);
+bool CheckPos(u32, u32);
+void SetColor(u32);
 }
-
-namespace UI::Logging {
-/* logging.cxx */
-void log(char*);
-void assert(bool);
-}
-
 

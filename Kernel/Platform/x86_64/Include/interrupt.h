@@ -2,10 +2,10 @@
 #include <types.h>
 
 namespace Interrupt {
-inline void enable_interrupt();
-inline void disable_interrupt();
+inline void EnableInterrupt();
+inline void DisableInterrupt();
 
-void init();
+void Initialize();
 
 typedef struct{
     u16 Limit;

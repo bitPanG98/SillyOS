@@ -1,9 +1,9 @@
 #include <cpu.h>
 
 namespace CPU::CPUID {
-u32 get_cpu() {
+u32 GetFeatures() {
     u32 regs[4];
-    CPU::CPUID::run_cpuid(0x0, &regs[0], &regs[1], &regs[2], &regs[3]);
+    CPU::CPUID::CPUID(0x0, &regs[0], &regs[1], &regs[2], &regs[3]);
     // In fact we can tell which cpu we running on by compare single signature.
     // but Ughh whatever..
     if (regs[1] == 0x414d4469 && regs[2] == 0x73626574 &&
@@ -71,7 +71,7 @@ u32 get_cpu() {
     }
 }
 
-void run_cpuid(u32 func, u32 *ax, u32 *bx, u32 *cx, u32 *dx) {
+void CPUID(u32 func, u32 *ax, u32 *bx, u32 *cx, u32 *dx) {
     __asm__("cpuid" : "=a"(*ax), "=b"(*bx), "=c"(*cx), "=d"(*dx) : "a"(func));
 }
 

@@ -4,11 +4,11 @@
 
 namespace Graphics {
 /*  graphics.c    */
-void init(SOS_BOOT_VIDEO_INFO *);
-void plot(u32, u32, u32);
-void clear_screen();
-void clear_screen(u32);
-u32 get_width();
-u32 get_height();
+void Initialize(SOS_BOOT_VIDEO_INFO *);
+void Plot(u32, u32, u32);
+void Clear();
+void Clear(u32);
+u32 GetWidth();
+u32 GetHeight();
 }
 

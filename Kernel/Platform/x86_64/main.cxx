@@ -6,41 +6,39 @@
 #include <peripheral.h>
 #include <string.h>
 
-extern "C" void kernel_init(SOS_BOOT_INFO *boot_info)
+extern "C" void PlatformMain(SOS_BOOT_INFO *boot_info)
 {
     //Initialize serial
-    Peripheral::Serial::init(Peripheral::Serial::SERIAL_PORTA);
-    Peripheral::Serial::write("\n3==============================D\n");
-    Peripheral::Serial::write(" SillyOS Kernel Debugging Port\n");
-    Peripheral::Serial::write("3==============================D\n");
+    Peripheral::Serial::Initialize(Peripheral::Serial::SERIAL_PORTA);
+    Peripheral::Serial::Write("\n3==============================D\n");
+    Peripheral::Serial::Write(" SillyOS Kernel Debugging Port\n");
+    Peripheral::Serial::Write("3==============================D\n");
 
     //Initialize graphics (Frame Buffer, EDID...)
-    Graphics::init(boot_info->VideoInfo);
+    Graphics::Initialize(boot_info->VideoInfo);
     // 'self comment' code
-    UI::Terminal::init();
+    UI::Terminal::Initialize();
     //Graphics OK msg
-    UI::Logging::log("[");
-    UI::Terminal::set_color(0xf4f141);
-    UI::Logging::log("Graphics");
-    UI::Terminal::set_color(DEFAULT_TEXT_COLOR);
-    UI::Logging::log("] => ");
-    UI::Terminal::set_color(0x42f486);
-    UI::Logging::log("OK\n");
-    UI::Terminal::set_color(DEFAULT_TEXT_COLOR);
+    LOG("[");
+    UI::Terminal::SetColor(0xf4f141);
+    LOG("Graphics");
+    UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
+    LOG("] => ");
+    UI::Terminal::SetColor(0x42f486);
+    LOG("OK\n");
+    UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
 
     //Initialize GDT
-    CPU::GDT::init();
+    CPU::GDT::Initialize();
     //GDT OK msg
-    UI::Logging::log("[");
-    UI::Terminal::set_color(0xf4f141);
-    UI::Logging::log("GDT");
-    UI::Terminal::set_color(DEFAULT_TEXT_COLOR);
-    UI::Logging::log("] => ");
-    UI::Terminal::set_color(0x42f486);
-    UI::Logging::log("OK\n");
-    UI::Terminal::set_color(DEFAULT_TEXT_COLOR);
-
-    UI::Logging::log("Formatting test.\n");
+    LOG("[");
+    UI::Terminal::SetColor(0xf4f141);
+    LOG("GDT");
+    UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
+    LOG("] => ");
+    UI::Terminal::SetColor(0x42f486);
+    LOG("OK\n");
+    UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
     
     //Early memory allocation (Basic malloc, free)
     //Initialize memory management

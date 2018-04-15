@@ -1,10 +1,10 @@
 #include <interrupt.h>
 
 namespace Interrupt {
-inline void enable() { asm("cli"); }
-inline void disable() { asm("sti"); }
+inline void EnableInterrupt() { asm("cli"); }
+inline void DisableInterrupt() { asm("sti"); }
 
-void init(){
+void Initialize(){
     
 }
 

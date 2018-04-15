@@ -2,10 +2,10 @@
 DEBUG ?= 1
 # Platform
 PLAT ?= x86_64
-TARGET ?= $(PLAT)-sillyos
+TARG ?= $(PLAT)-sillyos
 BOOT_TYPE ?= EFI
 # Files
-CORE_FILE := $(TARGET).core
+CORE_FILE := $(TARG).core
 ISO_FILE ?= sillyos.iso
 # Tools
 TOOL := GCC
