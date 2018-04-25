@@ -5,6 +5,7 @@
 #include <cpu.h>
 #include <peripheral.h>
 #include <string.h>
+#include <interrupt.h>
 
 extern "C" void PlatformMain(SOS_BOOT_INFO *boot_info)
 {
@@ -40,6 +41,7 @@ extern "C" void PlatformMain(SOS_BOOT_INFO *boot_info)
     LOG("OK\n");
     UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
     
+    Interrupt::Initialize();
     //Early memory allocation (Basic malloc, free)
     //Initialize memory management
     //End early memory allocation

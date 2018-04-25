@@ -30,7 +30,7 @@ void ApplyGDT(GDT_PTR *, u16, u16);
 //cpuid.cxx
 namespace CPU::CPUID {
 u32 GetFeatures();
-extern "C" void CPUID(u32 func, u32 *ax, u32 *bx, u32 *cx, u32 *dx);
+void CPUID(u32 func, u32 *ax, u32 *bx, u32 *cx, u32 *dx);
 
 enum CPU_VENDOR {
     UNKNOWN = 0,
@@ -80,79 +80,82 @@ typedef struct {
     u8 APIC_ID;
 } __attribute__((packed)) CPUID_EBX_FEATURE_ONE;
 
-typedef struct {
-    u8 SSE3 : 1;
-    u8 PCLMULDQ : 1;
-    u8 DTES64 : 1;
-    u8 MONITOR : 1;
-    u8 DS_CPL : 1;
-    u8 VMX : 1;
-    u8 SMX : 1;
-    u8 EIST : 1;
-    u8 TM2 : 1;
-    u8 SSSE3 : 1;
-    u8 CNXT_ID : 1;
-    u8 Reserved_bit11 : 1;
-    u8 FMA : 1;
-    u8 CX16 : 1;
-    u8 xTPR : 1;
-    u8 PDCM : 1;
-    u8 Reserved_bit16 : 1;
-    u8 PCID : 1;
-    u8 DCA : 1;
-    u8 SSE41 : 1;
-    u8 SSE42 : 1;
-    u8 x2APIC : 1;
-    u8 MOVBE : 1;
-    u8 POPCNT : 1;
-    u8 TSC_DEADLINE : 1;
-    u8 AES : 1;
-    u8 XSAVE : 1;
-    u8 OSXSAVE : 1;
-    u8 AVX : 1;
-    u8 F16C : 1;
-    u8 RDRAND : 1;
-    u8 ZERO : 1;
-} __attribute__((packed)) CPUID_ECX_FEATURE_ONE;
+#define F1_ECX_SSE3 1 << 0
+#define F1_ECX_PCLMULDQ 1 << 1
+#define F1_ECX_DTES64 1 << 2
+#define F1_ECX_MONITOR 1 << 3
+#define F1_ECX_DS_CPL 1 << 4
+#define F1_ECX_VMX 1 << 5
+#define F1_ECX_SMX 1 << 6
+#define F1_ECX_EIST 1 << 7
+#define F1_ECX_TM2 1 << 8
+#define F1_ECX_SSSE3 1 << 9 
+#define F1_ECX_CNXT_ID 1 << 10
+// #define F1_ECX_Reserved_bit11 1 << 11
+#define F1_ECX_FMA 1 << 12
+#define F1_ECX_CX16 1 << 13
+#define F1_ECX_xTPR 1 << 14
+#define F1_ECX_PDCM 1 << 15
+// #define F1_ECX_Reserved_bit16 1 << 16
+#define F1_ECX_PCID 1 << 17
+#define F1_ECX_DCA 1 << 18
+#define F1_ECX_SSE41 1 << 19
+#define F1_ECX_SSE42 1 << 20
+#define F1_ECX_x2APIC 1 << 21
+#define F1_ECX_MOVBE 1 << 22
+#define F1_ECX_POPCNT 1 << 23
+#define F1_ECX_TSC_DEADLINE 1 << 24
+#define F1_ECX_AES 1 << 25
+#define F1_ECX_XSAVE 1 << 26
+#define F1_ECX_OSXSAVE 1 << 27
+#define F1_ECX_AVX 1 << 28
+#define F1_ECX_F16C 1 << 29
+#define F1_ECX_RDRAND 1 << 30
+#define F1_ECX_ZERO 1 << 31
 
-typedef struct {
-    u8 FPU : 1;
-    u8 VME : 1;
-    u8 DE : 1;
-    u8 PSE : 1;
-    u8 TSC : 1;
-    u8 MSR : 1;
-    u8 PAE : 1;
-    u8 MCE : 1;
-    u8 CX8 : 1;
-    u8 APIC : 1;
-    u8 Reserved_bit10 : 1;
-    u8 SEP : 1;
-    u8 MTRR : 1;
-    u8 PGE : 1;
-    u8 MCA : 1;
-    u8 CMOV : 1;
-    u8 PAT : 1;
-    u8 PSE_36 : 1;
-    u8 PSN : 1;
-    u8 CLFSH : 1;
-    u8 Reserved_bit20 : 1;
-    u8 DS : 1;
-    u8 ACPI : 1;
-    u8 MMX : 1;
-    u8 FXSR : 1;
-    u8 SSE : 1;
-    u8 SSE2 : 1;
-    u8 SS : 1;
-    u8 HTT : 1;
-    u8 TM : 1;
-    u8 Reserved_bit30 : 1;
-    u8 PBE : 1;
-} __attribute__((packed)) CPUID_EDX_FEATURE_ONE;
+#define F1_EDX_FPU 1 << 0
+#define F1_EDX_VME 1 << 1
+#define F1_EDX_DE 1 << 2
+#define F1_EDX_PSE 1 << 3
+#define F1_EDX_TSC 1 << 4
+#define F1_EDX_MSR 1 << 5
+#define F1_EDX_PAE 1 << 6
+#define F1_EDX_MCE 1 << 7
+#define F1_EDX_CX8 1 << 8
+#define F1_EDX_APIC 1 << 9
+//#define Reserved_bit10 1 << 10
+#define F1_EDX_SEP 1 << 11
+#define F1_EDX_MTRR 1 << 12
+#define F1_EDX_PGE 1 << 13
+#define F1_EDX_MCA 1 << 14
+#define F1_EDX_CMOV 1 << 15
+#define F1_EDX_PAT 1 << 16
+#define F1_EDX_PSE_36 1 << 17
+#define F1_EDX_PSN 1 << 18
+#define F1_EDX_CLFSH 1 << 19
+// #define F1_EDX_Reserved_bit20 1 << 20
+#define F1_EDX_DS 1 << 21
+#define F1_EDX_ACPI 1 << 22
+#define F1_EDX_MMX 1 << 23
+#define F1_EDX_FXSR 1 << 24
+#define F1_EDX_SSE 1 << 25
+#define F1_EDX_SSE2 1 << 26
+#define F1_EDX_SS 1 << 27
+#define F1_EDX_HTT 1 << 28
+#define F1_EDX_TM 1 << 29
+// #define F1_EDX_Reserved_bit30 1 << 30
+#define F1_EDX_PBE 1 << 31
 
 /*
     NDY
 */
+}
+
+namespace CPU::MSR{
+    //msr.cxx
+    bool IsAvailable();
+    void ReadMSR(u32 addr, u32 *high, u32 *low);
+    void WriteMSR(u32 addr, u32 high, u32 low);
 }
 
 //io.asm

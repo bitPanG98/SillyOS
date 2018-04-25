@@ -3,9 +3,8 @@ Currently screenshot:
 
 ![alt text](screenshot_format.png "Ayy boiiiiiiiiiiii")
 ## WTF is this?
-When a 14yo ignorance kid day dreaming, he always dream big, bigger than everything.
-He decided to create an OS to prove himself,
-so this warrior wasted 6+ years to learn about how the fuck can he code an OS.  
+A 14yo ignorance kid day dream.
+This warrior wasted 6+ years to learn about how the fuck can he code an OS.  
 
 And now he still have no closer...
 
@@ -26,7 +25,7 @@ And now he still have no closer...
 ```bash
 # GCC
 $ source ./Scripts/mkgcc.sh
-# Clang
+# Clang (Not done yet, do not use)
 $ source ./Scripts/mkllvm.sh
 ```
 3. Edit ```Config.mk```

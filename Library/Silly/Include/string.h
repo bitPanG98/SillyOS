@@ -3,15 +3,17 @@
 #include <types.h>
 #include <stdarg.h>
 
+#define MAX_STRING_LENGTH 512
+
 /* string.cxx */
-UNSAFE char* format(char *buff, const char *fmt, ...);
-UNSAFE u32 vformat(char *buff, const char *fmt, va_list vl);
+char* Format(const char *fmt, ...);
+u32 vFormat(char *buff, const char *fmt, va_list vl);
 
-UNSAFE u8 to_int(u64 num, char base, char *buff);
+u8 ToInt(u64 num, char base, char *buff);
 
-UNSAFE void to_lower(char *text);
-UNSAFE void to_upper(char *text);
+void ToLower(char *text);
+void ToUpper(char *text);
 
-UNSAFE u64 copy_mem(void *des, const void *src, u64 n);
-UNSAFE u64 set_mem(void *des, u8 src, u64 n);
-UNSAFE bool cmp_mem(void *to, void *from);
+u64 CopyMemory(void *des, const void *src, u64 n);
+u64 SetMemory(void *des, u8 src, u64 n);
+bool CmpMemory(void *to, void *from);

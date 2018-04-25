@@ -9,16 +9,18 @@
 // %s: string
 // %%: print %
 // %c: color
-UNSAFE char* format(char *buff, const char* fmt, ...){
+char* Format(const char* fmt, ...){
+    char buff[MAX_STRING_LENGTH];
+    SetMemory(buff, 0, MAX_STRING_LENGTH);
     va_list vl;
     va_start(vl, fmt);
-    u32 result = vformat(buff, fmt, vl);
+    u32 result = vFormat(buff, fmt, vl);
     va_end(vl);
     if(result == 0) return (char *)null;
     return buff;
 }
 
-UNSAFE u32 vformat(char *buff, const char *fmt, va_list vl)
+u32 vFormat(char *buff, const char *fmt, va_list vl)
 {
     u8 percent_num = 0;
     i64 unsafe_i64 = 0;
@@ -36,7 +38,7 @@ UNSAFE u32 vformat(char *buff, const char *fmt, va_list vl)
     }
     //reset tempo pointer
     temp = (char *)fmt;
-    while (*temp != '\0')
+    while (*temp != '\0' && buff_index <= 255)
     {
         //argument found
         if (*temp == '%' && percent_num != 0)
@@ -48,35 +50,35 @@ UNSAFE u32 vformat(char *buff, const char *fmt, va_list vl)
             case 'd':
             {
                 unsafe_i64 = va_arg(vl, i64);
-                buff_index += to_int(unsafe_i64, 'd', buff + buff_index);
+                buff_index += ToInt(unsafe_i64, 'd', buff + buff_index);
                 break;
             }
             //octal
             case 'o':
             {
                 unsafe_u64 = va_arg(vl, u64);
-                buff_index += to_int(unsafe_u64, 'o', buff + buff_index);
+                buff_index += ToInt(unsafe_u64, 'o', buff + buff_index);
                 break;
             }
             //binary
             case 'b':
             {
                 unsafe_u64 = va_arg(vl, u64);
-                buff_index += to_int(unsafe_u64, 'b', &(buff[buff_index]));
+                buff_index += ToInt(unsafe_u64, 'b', &(buff[buff_index]));
                 break;
             }
             //lower heximal
             case 'x':
             {
                 unsafe_u64 = va_arg(vl, u64);
-                buff_index += to_int(unsafe_u64, 'x', &(buff[buff_index]));
+                buff_index += ToInt(unsafe_u64, 'x', &(buff[buff_index]));
                 break;
             }
             //upper heximal
             case 'X':
             {
                 unsafe_u64 = va_arg(vl, u64);
-                buff_index += to_int(unsafe_u64, 'X', &(buff[buff_index]));
+                buff_index += ToInt(unsafe_u64, 'X', &(buff[buff_index]));
                 break;
             }
             //string
@@ -114,13 +116,13 @@ UNSAFE u32 vformat(char *buff, const char *fmt, va_list vl)
     return buff_index;
 }
 
-UNSAFE u8 to_int(u64 num, char base, char *buff)
+u8 ToInt(u64 num, char base, char *buff)
 {
     const char *hex_lower = "0123456789abcdef";
     u8 written = 0;
     char temp[255];
     //wipe before use
-    set_mem(temp, 0, 255);
+    SetMemory(temp, 0, 255);
     switch (base)
     {
     //binary
@@ -215,7 +217,7 @@ UNSAFE u8 to_int(u64 num, char base, char *buff)
             temp[written++] = hex_lower[num % 16];
             num /= 16; // divide by 16
         }
-        to_upper(temp);
+        ToUpper(temp);
         break;
     }
     default:
@@ -234,7 +236,7 @@ UNSAFE u8 to_int(u64 num, char base, char *buff)
     return 0;
 }
 
-UNSAFE void to_lower(char *text)
+void ToLower(char *text)
 {
     char *temp = text;
     while (*temp != '\0')
@@ -247,7 +249,7 @@ UNSAFE void to_lower(char *text)
         temp++;
     }
 }
-UNSAFE void to_upper(char *text)
+void ToUpper(char *text)
 {
     char *temp = text;
     while (*temp != '\0')
@@ -261,7 +263,7 @@ UNSAFE void to_upper(char *text)
     }
 }
 
-UNSAFE u64 copy_mem(void *des, const void *src, u64 n)
+u64 CopyMemory(void *des, const void *src, u64 n)
 {
     u64 i = 0;
     while (i != n)
@@ -272,7 +274,7 @@ UNSAFE u64 copy_mem(void *des, const void *src, u64 n)
     return i;
 }
 
-UNSAFE u64 set_mem(void *des, u8 src, u64 n)
+u64 SetMemory(void *des, u8 src, u64 n)
 {
     u64 i = 0;
     while (i != n)
@@ -282,7 +284,7 @@ UNSAFE u64 set_mem(void *des, u8 src, u64 n)
     return i;
 }
 
-UNSAFE bool cmp_mem(void *to, void *from, u64 n)
+bool CmpMemory(void *to, void *from, u64 n)
 {
     u64 i = 0;
     while (i != n)

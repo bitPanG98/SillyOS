@@ -10,6 +10,8 @@ cross-llvm/
 Modules/
 #ignore Documents
 Documents/
+#ignore Protocols for now
+Protocols/
 
 #ignore all object files
 **/*.o

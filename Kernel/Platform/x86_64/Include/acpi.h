@@ -7,7 +7,7 @@ namespace ACPI
 
 /*
     A lots of ACPI tables
-GC: Holy shittt got a lot of things to copy from the spec.
+GC: Holy shittt got a lot of things to implement from the spec.
 */
 namespace ACPI::Tables{
 //System Description Table Header
