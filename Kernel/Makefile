@@ -3,8 +3,8 @@ include $(PROJECT_ROOT)/rules.mk
 
 LINKER_SCRIPT := $(PLAT)-core.ld
 
-PLAT_ASM_SRC := $(wildcard Platform/$(PLAT)/asm/*.asm)
-PLAT_ASM_SRC += $(wildcard Platform/$(PLAT)/asm/**/*.asm)
+PLAT_ASM_SRC := $(wildcard Platform/$(PLAT)/Assembly/*.asm)
+PLAT_ASM_SRC += $(wildcard Platform/$(PLAT)/Assembly/**/*.asm)
 
 PLAT_CXX_SRC := $(wildcard Platform/$(PLAT)/*.cxx)
 PLAT_CXX_SRC += $(wildcard Platform/$(PLAT)/**/*.cxx)

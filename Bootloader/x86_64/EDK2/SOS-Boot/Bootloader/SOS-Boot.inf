@@ -7,9 +7,9 @@
     ENTRY_POINT                     = UefiMain
 
 [Sources]
-    main.c
-
-    elf_loader.c
+    Main.c
+    ELF_Loader.c
+    
 [Packages]
     MdePkg/MdePkg.dec
     ShellPkg/ShellPkg.dec

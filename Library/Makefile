@@ -2,8 +2,8 @@ include $(PROJECT_ROOT)/config.mk
 include $(PROJECT_ROOT)/rules.mk
 
 #libsilly
-SILLY_ASM_SRC := $(wildcard Silly/asm/*.asm)
-SILLY_ASM_SRC += $(wildcard Silly/asm/**/*.asm)
+SILLY_ASM_SRC := $(wildcard Silly/Assembly/*.asm)
+SILLY_ASM_SRC += $(wildcard Silly/Assembly/**/*.asm)
 
 SILLY_CXX_SRC := $(wildcard Silly/*.cxx)
 SILLY_CXX_SRC += $(wildcard Silly/**/*.cxx)
@@ -12,8 +12,8 @@ SILLY_OBJ := $(patsubst %.asm, %.o, $(SILLY_ASM_SRC))
 SILLY_OBJ += $(patsubst %.cxx, %.o, $(SILLY_CXX_SRC))
 
 #libstd
-STANDARD_ASM_SRC := $(wildcard Standard/asm/*.asm)
-STANDARD_ASM_SRC += $(wildcard Stardard/asm/**/*.asm)
+STANDARD_ASM_SRC := $(wildcard Standard/Assembly/*.asm)
+STANDARD_ASM_SRC += $(wildcard Stardard/Assembly/**/*.asm)
 
 STANDARD_CXX_SRC := $(wildcard Standard/*.cxx)
 STANDARD_CXX_SRC += $(wildcard Standard/**/*.cxx)
