@@ -40,16 +40,14 @@ PLATFORM_ENTRY:
 FlushGDT:
   ;edi: code esi: data
   ;allocate 16 byte
-  sub     rsp, 0x10
-  lea     rax, [.rocket_jump]
-  mov     [rsp], rax
-  mov     [rsp+4], di
-  jmp     dword far [rsp]
-
+  sub rsp, 0x10
+  lea rax, [.rocket_jump]
+  mov [rsp], rax
+  mov [rsp+4], di
+  jmp dword far [rsp]
 .rocket_jump:
   ;restore stack
   add rsp, 0x10
-
   mov ax, si
   mov es, ax
   mov ds, ax

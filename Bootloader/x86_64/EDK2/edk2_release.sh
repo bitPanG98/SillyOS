@@ -11,7 +11,7 @@ else
 	#				compiler compile files with -Werror, so any warning could pause the process.
 	#				The fix is simple, just reomove '-Werror' and it work just fine.
 	#				Dunno how wrong this move could be :\ 
-	make -C ./edk2/BaseTools
+	make -C ./edk2/BaseTools || rm -R ./edk2
 fi
 #remove old source before build
 if [ -e "./edk2/SOS-Boot" ] 

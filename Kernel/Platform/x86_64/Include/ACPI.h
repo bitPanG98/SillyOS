@@ -22,7 +22,7 @@ typedef struct
     u32 TableRevision;
     u32 CreatorID;
     u32 CreateRevision;
-} __attritube__((packed)) ACPI_SDTH;
+} PACKED ACPI_SDTH;
 
 //Root System Description Pointer
 typedef struct
@@ -36,7 +36,7 @@ typedef struct
     u64 XsdtAddress;
     u8 ExtendedChecksum;
     u8 Reserved[3];
-} __attribute__((packed)) ACPI_RSDP;
+} PACKED ACPI_RSDP;
 
 //Root System Description Table
 typedef struct
@@ -52,140 +52,176 @@ typedef struct
     u32 CreatorID;
     u32 CreatorRevision;
     u32 EntryStart;
-} __attritube__((packed)) ACPI_RSDT;
-/*
+} PACKED ACPI_RSDT;
+
 //Fixed ACPI Description Table
 typedef struct
 {
-
-} __attritube__((packed)) ACPI_FADT;
+    ACPI_SDTH Header;
+    u32 Signature;
+    u32 Length;
+    u8 Version;
+    u8 Checksum;
+    u8 OEMID[6];
+    u64 OEMTableID;
+    u32 OEMRevision;
+    u32 CreatorID;
+    u32 CreatorRevision;
+    u32 FirmwareControl;
+    u32 DSDTAddress;
+    u8 Reserved;
+    u8 PMProfile;
+    u16 SCIINT;
+    u32 SMICMD;
+    u8 
+} PACKED ACPI_FADT;
 
 //Firmware ACPI Control Structure
 typedef struct
 {
-
-} __attritube__((packed)) ACPI_FACS;
-
+    u32 Signature;
+    u32 Length;
+    u32 HardwareSignature;
+    u32 FirmwareWakingVector;
+    u32 GlobalLock;
+    u32 Flags;
+    u64 XFirmwareWakingVector;
+    u8 Version;
+    u8 ReservedA[3];
+    u32 OSPMFlags;
+    u8 ReservedB[24];
+} PACKED ACPI_FACS;
+/*
 //Differentiated System Description Table
 typedef struct
 {
+    ACPI_SDTH Header;
+    u32 Signature;
+    u32 Length;
+    u8 Revision;
+    u8 Checksum;
+    u8 OEMID[6];
+    u64 OEMTableID;
+    u32 OEMRevision;
+    u32 CreatorID;
+    u32 CreatorRevision;
 
-} __attritube__((packed)) ACPI_DSDT;
-
+} PACKED ACPI_DSDT;
+*/
 //Secondary System Description Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_SSDT;
+} PACKED ACPI_SSDT;
 
 //Multiple APIC Description Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_MADT;
-
+} PACKED ACPI_MADT;
+/*
 //Smart Battery Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_SBST;
+} PACKED ACPI_SBST;
 
 //Extended System Description Table
 typedef struct
 {
     ACPI_SDTH Header;
 
-} __attritube__((packed)) ACPI_XSDT;
+} PACKED ACPI_XSDT;
 
 //Embedded Controller Boot Resources Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_ECDT;
+} PACKED ACPI_ECDT;
 
 //System Locality Distance Information Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_SLIT;
+} PACKED ACPI_SLIT;
 
 //System Resource Affinity Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_SRAT;
+} PACKED ACPI_SRAT;
 
 //Corrected Platform Error Polling Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_CPEP;
+} PACKED ACPI_CPEP;
 
 //Maximum System Characteristics Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_MSCT;
+} PACKED ACPI_MSCT;
 
 //ACPI RAS Feature Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_RASF;
+} PACKED ACPI_RASF;
 
 //Memory Power StateTable
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_MPST;
+} PACKED ACPI_MPST;
 
 //Platform Memory Topology Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_PMTT;
+} PACKED ACPI_PMTT;
 
 //Boot Graphics Resource Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_BGRT;
+} PACKED ACPI_BGRT;
 
 //Firmware Performance Data Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_FPDT;
+} PACKED ACPI_FPDT;
 
 //Generic Timer Description Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_GTDT;
+} PACKED ACPI_GTDT;
 
 //NVDIMM Firmware Interface Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_NFIT;
+} PACKED ACPI_NFIT;
 
 //Heterogeneous Memory Attributes Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_HMAT;
+} PACKED ACPI_HMAT;
 
 //Platform Debug Trigger Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_PDTT;
+} PACKED ACPI_PDTT;
 
 //Processor Properties Topology Table
 typedef struct
 {
 
-} __attritube__((packed)) ACPI_PPTT;*/
+} PACKED ACPI_PPTT;*/
 }
 /*
     Defined signatures by ACPI

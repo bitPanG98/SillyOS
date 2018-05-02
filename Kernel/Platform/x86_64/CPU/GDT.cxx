@@ -1,6 +1,6 @@
-#include <cpu.h>
-#include <ui.h>
-#include <string.h>
+#include <CPU.h>
+#include <UI.h>
+#include <String.h>
 /*
     Global Descriptor Table or GDT,
     Are basiclly useless in Flat Mode.
@@ -14,7 +14,6 @@
 
 */
 namespace CPU::GDT {
-    extern "C" void AsmFlushGdt(u16 code, u16 data);
 
     //null, Ring0 Code, Ring0 data
     const u16 GDT_ENTRIES_NUMBER = 3;
@@ -60,7 +59,7 @@ namespace CPU::GDT {
 
     void ApplyGDT(GDT_PTR *ptr, u16 code, u16 data){
         asm volatile("lgdt (%0)"::"r"(ptr));
-        AsmFlushGdt(code, data);
+        FlushGDT(code, data);
     }
 
     void ReadGDT(GDT_PTR *ptr){

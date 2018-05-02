@@ -1,4 +1,4 @@
-#include <cpu.h>
+#include <CPU.h>
 
 namespace CPU::MSR{
 
@@ -8,11 +8,11 @@ namespace CPU::MSR{
         return regs[3] & F1_EDX_MSR ? true : false;
     }
 
-    void ReadMSR(u32 addr, u32 *high, u32 *low){
-        asm()
+    void ReadMSR(u32 msr, u32 *high, u32 *low){
+        __asm__("rdmsr" : "=a"(*low), "=d"(*high): "c"(msr));
     }
-    void WriteMSR(u32 addr, u32 high, u32 low){
-
+    void WriteMSR(u32 msr, u32 high, u32 low){
+        __asm__("wrmsr" : : "a"(low), "d"(high), "c"(msr));
     }
 
 }

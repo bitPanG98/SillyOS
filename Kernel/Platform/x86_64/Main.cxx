@@ -42,7 +42,7 @@ extern "C" void PlatformMain(SOS_BOOT_INFO *boot_info)
     UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
     
     Interrupt::Initialize();
-    //Early memory allocation (Basic malloc, free)
+    //Early memory allocation
     //Initialize memory management
     //End early memory allocation
     //Initialize interrupt

@@ -21,15 +21,11 @@ C_FLAG := -std=c++14  -ffreestanding  -mno-red-zone -nostdlib -fno-builtin -nost
 C_FLAG += -I $(PROJECT_ROOT)/Library/Silly/Include
 
 C_LIB := -L $(BUILD_DIR) -lsilly
-ifeq ($(TOOL), LLVM)
-# LLVM
-C_FLAG += -target x86_64-pc-none-elf
-C_FLAG += -I $(PROJECT_ROOT)/cross-llvm/build/llvm/lib/clang/**/include
-else
+
 # GCC
 C_FLAG += -I $(PROJECT_ROOT)/CC/lib/gcc/x86_64-elf/**/include
 C_LIB += -lgcc
-endif
+
 C_FLAG += -fno-rtti -fno-exceptions
 C_FLAG += -O2 
 C_FLAG +=  -Wall -Wextra

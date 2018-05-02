@@ -16,8 +16,8 @@ typedef long long i64;
 /*
     Coding sugar!
 */
+#define PACKED __attribute__((packed))
 #define UNSAFE
-
 
 #ifndef __C_PLUS_PLUS
     #define bool u8

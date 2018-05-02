@@ -3,6 +3,7 @@
 
 //gdt.cxx
 namespace CPU::GDT {
+    extern "C" void FlushGDT(u16 code, u16 data);
 /*
     Global Descriptor Table
     See Figure 5-1 on page 2829 of 'Intel's osdev bible'
@@ -94,7 +95,7 @@ typedef struct {
 // #define F1_ECX_Reserved_bit11 1 << 11
 #define F1_ECX_FMA 1 << 12
 #define F1_ECX_CX16 1 << 13
-#define F1_ECX_xTPR 1 << 14
+#define F1_ECX_XTPR 1 << 14
 #define F1_ECX_PDCM 1 << 15
 // #define F1_ECX_Reserved_bit16 1 << 16
 #define F1_ECX_PCID 1 << 17

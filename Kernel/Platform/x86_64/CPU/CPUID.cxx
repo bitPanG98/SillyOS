@@ -1,4 +1,4 @@
-#include <cpu.h>
+#include <CPU.h>
 
 namespace CPU::CPUID {
 u32 GetFeatures() {
