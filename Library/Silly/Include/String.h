@@ -16,4 +16,4 @@ UNSAFE void ToUpper(char *text);
 
 UNSAFE u64 CopyMemory(void *des, const void *src, u64 n);
 UNSAFE u64 SetMemory(void *des, u8 src, u64 n);
-UNSAFE bool CmpMemory(void *to, void *from);
+UNSAFE bool CmpMemory(void *to, void *from, u64 n);

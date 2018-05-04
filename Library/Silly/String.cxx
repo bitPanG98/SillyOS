@@ -10,7 +10,7 @@
 // %%: print %
 // %c: color
 char* Format(const char* fmt, ...){
-    char buff[MAX_STRING_LENGTH];
+    static char buff[MAX_STRING_LENGTH];
     SetMemory(buff, 0, MAX_STRING_LENGTH);
     va_list vl;
     va_start(vl, fmt);

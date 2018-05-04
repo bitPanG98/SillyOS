@@ -3,6 +3,7 @@
 
 namespace ACPI
 {
+    void Initialize(void *RSDP);
 }
 
 /*
@@ -31,49 +32,72 @@ typedef struct
     u8 Checksum;
     u8 OEMID[6];
     u8 Revision;
-    u32 RsdtAddress;
+    u32 RsdtAddress; //we dont need this
     u32 Length;
     u64 XsdtAddress;
     u8 ExtendedChecksum;
     u8 Reserved[3];
 } PACKED ACPI_RSDP;
 
-//Root System Description Table
-typedef struct
-{
-    ACPI_SDTH Header;
-    u32 Signature;
-    u32 Length;
-    u8 Revision;
-    u8 Checksum;
-    u8 OEMID[6];
-    u64 OEMTableID;
-    u32 OEMRevision;
-    u32 CreatorID;
-    u32 CreatorRevision;
-    u32 EntryStart;
-} PACKED ACPI_RSDT;
-
 //Fixed ACPI Description Table
 typedef struct
 {
     ACPI_SDTH Header;
-    u32 Signature;
-    u32 Length;
-    u8 Version;
-    u8 Checksum;
-    u8 OEMID[6];
-    u64 OEMTableID;
-    u32 OEMRevision;
-    u32 CreatorID;
-    u32 CreatorRevision;
-    u32 FirmwareControl;
-    u32 DSDTAddress;
-    u8 Reserved;
-    u8 PMProfile;
-    u16 SCIINT;
-    u32 SMICMD;
-    u8 
+    u32 FIRMWARE_CTRL;
+    u32 DSDT;
+    u8 ReservedA;
+    u8 Preferred_PM_Profile;
+    u16 SCI_INT;
+    u32 SMI_CMD;
+    u8 ACPI_ENABLE;
+    u8 ACPI_DISABLE;
+    u8 S4BIOS_REQ;
+    u8 PSTATE_CNT;
+    u8 PM1a_EVT_BLK;
+    u8 PM1b_EVT_BLK;
+    u32 PM1a_CNT_BLK;
+    u32 PM1b_CNT_BLK;
+    u32 PM2_CNT_BLK;
+    u32 PM_TMR_BLK;
+    u32 GPE0_BLK;
+    u32 GPE1_BLK;
+    u8 PM1_EVT_LEN;
+    u8 PM1_CNT_LEN;
+    u8 PM2_CNT_LEN;
+    u8 PM_TMR_LEN;
+    u8 GPE0_BLK_LEN;
+    u8 GPE1_BLK_LEN;
+    u8 GPE1_BASE;
+    u8 CST_CNT;
+    u16 P_LVL2_LAT;
+    u16 P_LVL3_LAT;
+    u16 FLUSH_SIZE;
+    u16 FLUSH_STRIDE;
+    u8 DUTY_OFFSET;
+    u8 DUTY_WIDTH;
+    u8 DAY_ALRM;
+    u8 MON_ALRM;
+    u8 CENTURY;
+    u16 IAPC_BOOT_ARCH;
+    u8 ReservedB;
+    u32 Flags;
+    u8 RESET_REG[12];
+    u8 RESET_VALUE;
+    u16 ARM_BOOT_ARCH;
+    u8 MinorVersion;
+    u64 X_FIRMWARE_CTRL;
+    u64 X_DSDT;
+    u8 X_PM1a_EVT_BLK[12];
+    u8 X_PM1b_EVT_BLK[12];
+    u8 X_PM1a_CNT_BLK[12];
+    u8 X_PM1b_CNT_BLK[12];
+    u8 X_PM2_CNT_BLK[12];
+    u8 X_PM_TMR_BLK[12];
+    u8 X_GPE0_BLK[12];
+    u8 X_GPE1_BLK[12];
+    u8 SLEEP_CONTROL_REG[12];
+    u8 SLEEP_STATUS_REG[12];
+    u8 HypervisorVendorID[12]; 
 } PACKED ACPI_FADT;
 
 //Firmware ACPI Control Structure
@@ -91,6 +115,15 @@ typedef struct
     u32 OSPMFlags;
     u8 ReservedB[24];
 } PACKED ACPI_FACS;
+
+//Multiple APIC Description Table
+typedef struct
+{
+    ACPI_SDTH Header;
+    u32 LocalAPIC;
+    u32 Flags;
+    //A list of Interrupt Controller Structures here
+} PACKED ACPI_MADT;
 /*
 //Differentiated System Description Table
 typedef struct
@@ -108,30 +141,13 @@ typedef struct
 
 } PACKED ACPI_DSDT;
 */
-//Secondary System Description Table
-typedef struct
-{
 
-} PACKED ACPI_SSDT;
-
-//Multiple APIC Description Table
-typedef struct
-{
-
-} PACKED ACPI_MADT;
 /*
 //Smart Battery Table
 typedef struct
 {
 
 } PACKED ACPI_SBST;
-
-//Extended System Description Table
-typedef struct
-{
-    ACPI_SDTH Header;
-
-} PACKED ACPI_XSDT;
 
 //Embedded Controller Boot Resources Table
 typedef struct
