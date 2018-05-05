@@ -3,7 +3,7 @@
 
 namespace ACPI
 {
-    void Initialize(void *RSDP);
+    void Initialize(void *rsdp_ptr);
 }
 
 /*
@@ -32,7 +32,7 @@ typedef struct
     u8 Checksum;
     u8 OEMID[6];
     u8 Revision;
-    u32 RsdtAddress; //we dont need this
+    u32 RsdtAddress;
     u32 Length;
     u64 XsdtAddress;
     u8 ExtendedChecksum;
