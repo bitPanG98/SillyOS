@@ -27,4 +27,3 @@ echo Copying needed files...
 cp -r ./SOS-Boot ./edk2/
 
 cd edk2 && source edksetup.sh && build --buildtarget=DEBUG -p SOS-Boot/SOS-Bootloader.dsc -s -q -t GCC5 -a X64 -d 0 && cp -r ./Build/SOS/DEBUG_GCC5/X64/SOS-Bootloader.efi $BUILD_DIR/bootloader.efi
-
