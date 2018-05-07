@@ -31,3 +31,4 @@ cd ../
 rm -R build-*
 rm -R binutils-*
 rm -R gcc-*
+cd ../

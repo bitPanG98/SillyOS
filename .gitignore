@@ -4,6 +4,7 @@ Build/
 #ignore tools
 edk2/
 CC/
+CC-host/
 cross-llvm/
 
 #ignore Modules for now
@@ -16,3 +17,5 @@ Protocols/
 #ignore all object files
 **/*.o
 *.o
+
+*iso

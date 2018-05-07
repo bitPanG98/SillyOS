@@ -12,7 +12,9 @@ libgmp-dev \
 libmpfr-dev \
 curl \
 python \
-python3
+python3 \
+dosfstools \
+mtools
 
 WORKDIR /workspace
 
