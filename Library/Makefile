@@ -5,21 +5,21 @@ include $(PROJECT_ROOT)/rules.mk
 SILLY_ASM_SRC := $(wildcard Silly/Assembly/*.asm)
 SILLY_ASM_SRC += $(wildcard Silly/Assembly/**/*.asm)
 
-SILLY_CXX_SRC := $(wildcard Silly/*.cxx)
-SILLY_CXX_SRC += $(wildcard Silly/**/*.cxx)
+SILLY_CXX_SRC := $(wildcard Silly/*.c)
+SILLY_CXX_SRC += $(wildcard Silly/**/*.c)
 
 SILLY_OBJ := $(patsubst %.asm, %.o, $(SILLY_ASM_SRC))
-SILLY_OBJ += $(patsubst %.cxx, %.o, $(SILLY_CXX_SRC))
+SILLY_OBJ += $(patsubst %.c, %.o, $(SILLY_CXX_SRC))
 
 #libstd
 STANDARD_ASM_SRC := $(wildcard Standard/Assembly/*.asm)
 STANDARD_ASM_SRC += $(wildcard Stardard/Assembly/**/*.asm)
 
-STANDARD_CXX_SRC := $(wildcard Standard/*.cxx)
-STANDARD_CXX_SRC += $(wildcard Standard/**/*.cxx)
+STANDARD_CXX_SRC := $(wildcard Standard/*.c)
+STANDARD_CXX_SRC += $(wildcard Standard/**/*.c)
 
 STANDARD_OBJ := $(patsubst %.asm, %.o, $(STANDARD_ASM_SRC))
-STANDARD_OBJ += $(patsubst %.cxx, %.o, $(STANDARD_CXX_SRC))
+STANDARD_OBJ += $(patsubst %.c, %.o, $(STANDARD_C_SRC))
 
 C_FLAG := -std=c++14  -ffreestanding  -mno-red-zone -nostdlib -fno-builtin -nostdinc
 C_FLAG += -I $(PROJECT_ROOT)/Library/Silly/Include

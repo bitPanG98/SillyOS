@@ -212,11 +212,12 @@ case PixelBitMask:
         break;
     }
 
-    boot_video.Checksum =
-        -(boot_video.VerticalResolution + boot_video.HorizontalResolution +
-          boot_video.FrameBufferBase + boot_video.FrameBufferSize +
-          boot_video.PixelSize + boot_video.RIndex + boot_video.GIndex +
-          boot_video.BIndex);
+    boot_video.Checksum = 0;
+    UINT32 sum = 0;
+    for(UINT32 i = 0; i < sizeof(SOS_BOOT_VIDEO_INFO); i++){
+        sum += ((UINT8 *)&boot_video)[i];
+    }    
+    boot_video.Checksum = -(sum);
 
     boot_info.VideoInfo = &boot_video;
 
@@ -224,19 +225,17 @@ case PixelBitMask:
     boot_info.MemoryMapSize = MemMapSize;
     boot_info.DescriptorSize = DesSize;
     // ACPI Table
-    boot_info.AcpiVersion = Acpi_version;
     boot_info.RSDP = (VOID *)RSDP;
 
     boot_info.RuntimeServices = (VOID *)(ST->RuntimeServices);
 
     // calculate ckecksum
-    boot_info.Checksum =
-        -(MAGIC + PLATFORM_EFI + CONTENT_VERSION +
-          (UINT64)(boot_info.KernelAddress) + boot_info.KernelSize +
-          (UINT64)(boot_info.VideoInfo) + (UINT64)(boot_info.MemoryMap) +
-          boot_info.MemoryMapSize + boot_info.DescriptorSize +
-          boot_info.AcpiVersion + (UINT64)(boot_info.RSDP) +
-          (UINT64)(boot_info.RuntimeServices));
+    boot_info.Checksum = 0;
+    sum = 0;
+    for(UINT32 i = 0; i < sizeof(SOS_BOOT_INFO); i++){
+        sum += ((UINT8 *)&boot_info)[i];
+    }
+    boot_info.Checksum = -(sum);
 
     // See you in Kernel :)
     KernelEntry(&boot_info);

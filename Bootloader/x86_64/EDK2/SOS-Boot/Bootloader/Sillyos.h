@@ -11,7 +11,7 @@
 #define KERNEL_FILE L"\\x86_64-sillyos.core"
 
 typedef struct{
-    UINT64 Checksum;
+    UINT32 Checksum;
 	UINT32 VerticalResolution;
     UINT32 HorizontalResolution;
     UINT64 FrameBufferBase;
@@ -30,7 +30,7 @@ typedef struct{
 typedef struct{
 	UINT32 Magic;
     UINT8 Platform;
-    UINT64 Checksum;
+    UINT32 Checksum;
     UINT8 Version;
 	//Kernel
 	VOID *KernelAddress;
@@ -42,7 +42,6 @@ typedef struct{
 	UINT64 MemoryMapSize;
 	UINT64 DescriptorSize;
 	//Tables
-	UINT8 AcpiVersion;
 	VOID *RSDP;
 	//UEFI only
 	VOID *RuntimeServices;

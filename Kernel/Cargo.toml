@@ -1,0 +1,11 @@
+[package]
+name = "Kernel"
+version = "0.1.0"
+authors = ["GarbageCollections <eddy199883@gmail.com>"]
+
+[lib]
+crate-type = ["staticlib"]
+
+[dependencies]
+rlibc = "1.0.0"
+x86 = "0.9.0"

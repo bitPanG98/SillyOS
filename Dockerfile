@@ -14,7 +14,12 @@ curl \
 python \
 python3 \
 dosfstools \
-mtools
+mtools \
+xorriso \
+qemu
+
+RUN useradd -s /bin/bash dever
+USER dever
 
 WORKDIR /workspace
 
