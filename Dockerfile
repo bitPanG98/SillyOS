@@ -1,5 +1,5 @@
 FROM ubuntu:xenial
-MAINTAINER GC
+MAINTAINER GarbageCollections
 RUN mkdir -p /workspace
 VOLUME /workspace
 #Install all the needed package
@@ -15,8 +15,7 @@ python \
 python3 \
 dosfstools \
 mtools \
-xorriso \
-qemu
+xorriso
 
 RUN useradd -s /bin/bash dever
 USER dever
