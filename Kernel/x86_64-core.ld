@@ -29,7 +29,13 @@ SECTIONS {
     }
 
     /DISCARD/ : {
-        *(.comment)
+        /*
+            RESERVE COMMENTS FOR THE GLORY OF LLVM!
+        */
+        /*
+            *(.comment) 
+        */
+
         *(.eh_frame)
     }
 }

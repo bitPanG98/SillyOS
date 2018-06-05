@@ -22,8 +22,8 @@ STANDARD_OBJ := $(patsubst %.asm, %.o, $(STANDARD_ASM_SRC))
 STANDARD_OBJ += $(patsubst %.c, %.o, $(STANDARD_C_SRC))
 
 C_FLAG := -std=c++14  -ffreestanding  -mno-red-zone -nostdlib -fno-builtin -nostdinc
-C_FLAG += -I $(PROJECT_ROOT)/Library/Silly/Include
-C_FLAG += -I $(PROJECT_ROOT)/CC/lib/gcc/$(PLAT)-elf/**/include
+C_FLAG += -I $(PROJECT_ROOT)/Library/libsilly/**/**
+#C_FLAG += -I $(PROJECT_ROOT)/CC/lib/gcc/$(PLAT)-elf/**/include
 
 LIB_SILLY_A := $(BUILD_DIR)/libsilly.a
 LIB_STANDARD := $(BUILD_DIR)/libstd.a

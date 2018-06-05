@@ -1,7 +1,6 @@
 #include <Interrupt.h>
 #include <CPU.h>
 #include <UI.h>
-#include <String.h>
 
 using namespace CPU::CPUID;
 namespace Interrupt {
@@ -12,7 +11,7 @@ IDT_ENTRY idt[256];
 
 void Initialize(){
     //Zero out the table
-    SetMemory((void *)idt, 0x0, 256);
+    //SetMemory((void *)idt, 0x0, 256);
 
     //Check is APIC available
     u32 regs[4];

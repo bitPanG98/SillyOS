@@ -1,6 +1,5 @@
 #include <ACPI.h>
 #include <UI.h>
-#include <String.h>
 
 using namespace ACPI::Tables;
 
@@ -11,9 +10,9 @@ namespace ACPI {
     void Initialize(void *rsdp_ptr){
         ACPI_RSDP *unsafe_rsdp = (ACPI_RSDP *)rsdp_ptr;
         //if signature isn't 'RSD PTR\0'
-        if(!CmpMemory((void *)&(unsafe_rsdp->Signature), (void *)ACPI_RSDP_SIGNATURE, 8)){
-            PANIC("[ACPI] => Invalid RSDP signature!\n");
-        }
+        // if(!CmpMemory((void *)&(unsafe_rsdp->Signature), (void *)ACPI_RSDP_SIGNATURE, 8)){
+        //     PANIC("[ACPI] => Invalid RSDP signature!\n");
+        // }
         /*  
             To calculate the checksum of RSDP
             we sum up every bytes in the structure

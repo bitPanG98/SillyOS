@@ -1,6 +1,5 @@
 #include <CPU.h>
 #include <UI.h>
-#include <String.h>
 /*
     Global Descriptor Table or GDT,
     Are basiclly useless in Flat Mode.

@@ -13,6 +13,8 @@ And now he still have no closer...
     * APT side:
         * nasm
         * build-essential
+        * clang
+        * llvm
         * git (A MUST HAVE PACKAGE!)
         * make (I had tried tup, python, lua. And found out make is the best. :expressionless: )
         * mtools
@@ -21,17 +23,10 @@ And now he still have no closer...
         * ovmf (For UEFI Testing)
         * uuid-dev (EDK2)
         * python3 (I wrote script in Python3)
-2. Build tools
-```bash
-# GCC
-$ source ./Scripts/mkgcc.sh
-# Clang (Not done yet, do not use)
-$ source ./Scripts/mkllvm.sh
-```
-3. Edit ```Config.mk```
-4. Setup environment by ```source ./setup.h```
-5. Type ``` make all ``` for full system compilation. 
-6. Type ``` make qemu ``` emulate at host's qemu.
+2. Edit ```Config.mk```
+3. Setup environment by ```source ./setup.h```
+    * Type ``` make all ``` for full system compilation. 
+    * Type ``` make qemu ``` emulate at host's qemu.
 
 ## :running:What do I need to run SillyOS?
 Running on real machine:
@@ -39,7 +34,7 @@ Running on real machine:
 * UEFI bios supported (optional)
 * DETERMINATION!
 
-Running on VM:
+Run on VM:
 1. make your own image file
     ```bash
     $ make efi_iso

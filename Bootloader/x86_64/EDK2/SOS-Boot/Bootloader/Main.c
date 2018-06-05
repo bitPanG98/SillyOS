@@ -49,6 +49,7 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
     Print(L"[Current] HR: %d VR: %d PF: %d PPSL: %d\n",
           gop_info->HorizontalResolution, gop_info->VerticalResolution,
           gop_info->PixelFormat, gop_info->PixelsPerScanLine);
+
     UINT32 target_mode = 0;
     for (int i = 0; i < max_mode; ++i) {
         status = GOP->QueryMode(GOP, i, &info_size, &gop_info);
@@ -72,7 +73,7 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
     CHECK(status);
     Print(L"Success\n");
     // clear screen
-    ST->ConOut->ClearScreen(ST->ConOut);
+    //ST->ConOut->ClearScreen(ST->ConOut);
 
     /*
         2. Print header

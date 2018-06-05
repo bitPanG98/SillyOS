@@ -4,7 +4,6 @@
 #include <UI.h>
 #include <CPU.h>
 #include <Peripheral.h>
-#include <String.h>
 #include <Interrupt.h>
 #include <ACPI.h>
 
@@ -18,6 +17,7 @@ extern "C" void PlatformMain(SOS_BOOT_INFO *boot_info)
 
     //Initialize graphics (Frame Buffer, EDID...)
     Graphics::Initialize(boot_info->VideoInfo);
+    Graphics::Clear(0xffffff);
     // 'self comment' code
     UI::Terminal::Initialize();
     //Graphics OK msg
@@ -43,16 +43,16 @@ extern "C" void PlatformMain(SOS_BOOT_INFO *boot_info)
     UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
 
     // Initialize ACPI
-    ACPI::Initialize(boot_info->RSDP);
-    //ACPI OK msg
-    LOG("[");
-    UI::Terminal::SetColor(0xf4f141);
-    LOG("ACPI");
-    UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
-    LOG("] => ");
-    UI::Terminal::SetColor(0x42f486);
-    LOG("OK\n");
-    UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
+    // ACPI::Initialize(boot_info->RSDP);
+    // //ACPI OK msg
+    // LOG("[");
+    // UI::Terminal::SetColor(0xf4f141);
+    // LOG("ACPI");
+    // UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
+    // LOG("] => ");
+    // UI::Terminal::SetColor(0x42f486);
+    // LOG("OK\n");
+    // UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
     //Interrupt::Initialize();
     //Early memory allocation
     //Initialize memory management

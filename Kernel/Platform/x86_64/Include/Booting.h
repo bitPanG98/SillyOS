@@ -12,7 +12,7 @@
 #include <Types.h>
 
 typedef struct {
-    u64 Checksum;
+    u32 Checksum;
     u32 VerticalResolution;
     u32 HorizontalResolution;
     u64 FrameBufferBase;
@@ -30,7 +30,7 @@ typedef struct {
 typedef struct {
     u32 Magic;
     u8 Platform;
-    u64 Checksum;
+    u32 Checksum;
     u8 Version;
     // Kernel
     void *KernelAddress;
@@ -42,7 +42,6 @@ typedef struct {
     u64 MemoryMapSize;
     u64 DescriptorSize;
     // Tables
-    u8 AcpiVersion;
     void *RSDP;
     // UEFI only
     void *RuntimeServices;
