@@ -17,8 +17,9 @@ ifeq ($(BOOT_TYPE), LEGACY)
 endif
 
 libsilly:
-	@$(MAKE) -s -C Library silly
-
+#discard for now
+#@$(MAKE) -s -C Library silly
+	@echo skipped
 libstd:
 	@$(MAKE) -s -C Library standard
 

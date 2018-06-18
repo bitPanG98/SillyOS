@@ -4,10 +4,15 @@ DEBUG ?= 1
 PLAT ?= x86_64
 TARG ?= $(PLAT)-sillyos
 BOOT_TYPE ?= EFI
-# Files
+## Files
+#kernel
 CORE_FILE := $(TARG).core
+#image
 ISO_FILE ?= sillyos.iso
-# Tools
+## Tools
+# C++ compiler
 CC := clang
+# Linker
 LD := ld.lld
+# Assembler
 NASM := nasm
