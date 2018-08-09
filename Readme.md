@@ -21,7 +21,7 @@ And now he still have no closer...
         2. Type ``` make all ``` for full system compilation.
         3. Type ``` make qemu ``` emulate at host's qemu.
     #### Build it using Docker(recommanded)
-        1. Type ```python forge.py```
+        1. Type ```forge.py -h``` for help
 
 ## :running:What do I need to run SillyOS?
 Running on real machine:

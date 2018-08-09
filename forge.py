@@ -1,6 +1,8 @@
+#!/usr/bin/python3
 import docker
 from docker import errors
 import os
+from argparse import ArgumentParser
 
 IMAGE_ID = 'sillyos-dev:latest'
 
@@ -38,6 +40,37 @@ class DockerRemote:
         
 
 if __name__ == '__main__':
-    print(os.path.abspath(os.curdir))
+    
+    print("       ,")
+    print("      /(  ___________")
+    print("     |  >:===========`")
+    print("      )(")
+    print("      \"\"")
+    print("       T")
+    print("   ====|==========")
+    print("   ////v//////////")
+    print("   ===============")
+    print("=== SillyOS Forge ===")
+    print("")
+
+    ap = ArgumentParser(prog='forge.py', description='Build system for SillyOS')
+    ap.add_argument('-iso', action='store_true', help='Build EFI ISO image')
+    ap.add_argument('-clean', action='store_true', help='Cleaning workspace')
+    ap.add_argument('-kernel', action='store_true', help='Build kernal')
+    ap.add_argument('-boot', action='store_true', help='Build boot loader')
+
+    args = ap.parse_args()
     remote = DockerRemote()
-    remote.execute('make efi_iso')
+
+    if args.iso:
+        print("Task: EFI ISO")
+        remote.execute('make efi_iso')
+    elif args.clean:
+        print("Task: Clean")
+        remote.execute('make clean')
+    elif args.kernel:
+        print("Task: Kernel")
+        remote.execute('make kernel')
+    elif args.bootloader:
+        print("Task: Bootloader")
+        remote.execute('make bootloader')
