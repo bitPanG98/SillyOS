@@ -16,11 +16,11 @@ And now he still have no closer...
         * ovmf (For UEFI testing)
 2. Edit ```Config.mk```
 3. Build it!
-    a. Build it on host
+    #### Build it on host
         1. Setup environment by ```source ./setup.h```
         2. Type ``` make all ``` for full system compilation.
         3. Type ``` make qemu ``` emulate at host's qemu.
-    b. Build it using Docker(recommanded)
+    #### Build it using Docker(recommanded)
         1. Type ```python forge.py```
 
 ## :running:What do I need to run SillyOS?
@@ -31,11 +31,11 @@ Running on real machine:
 
 Run on VM:
 1. make your own image file
-    ```bash
-    $ make qemu
-    ```
-2. mount it on virtual machine (qemu, Virtual Box, VMWare etc.)
-
+2. boot it on virtual machine (qemu, Virtual Box, VMWare etc.)
+```bash
+# qemu
+make qemu
+```
 ## :warning:Something goes wrong!
 <details>
 <summary>Getting error when building EDK2 tools?</summary>
