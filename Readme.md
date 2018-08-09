@@ -10,23 +10,18 @@ And now he still have no closer...
 
 ## :hammer:How do I build it?
 1. Install needed packages
-    * APT side:
-        * nasm
-        * build-essential
-        * clang
-        * llvm
-        * git (A MUST HAVE PACKAGE!)
-        * make (I had tried tup, python, lua. And found out make is the best. :expressionless: )
-        * mtools
-        * xorriso
+    * Host side:
+        * docker (For building)
         * qemu (For testing)
-        * ovmf (For UEFI Testing)
-        * uuid-dev (EDK2)
-        * python3 (I wrote script in Python3)
+        * ovmf (For UEFI testing)
 2. Edit ```Config.mk```
-3. Setup environment by ```source ./setup.h```
-    * Type ``` make all ``` for full system compilation. 
-    * Type ``` make qemu ``` emulate at host's qemu.
+3. Build it!
+    a. Build it on host
+        1. Setup environment by ```source ./setup.h```
+        2. Type ``` make all ``` for full system compilation.
+        3. Type ``` make qemu ``` emulate at host's qemu.
+    b. Build it using Docker(recommanded)
+        1. Type ```python forge.py```
 
 ## :running:What do I need to run SillyOS?
 Running on real machine:
@@ -37,9 +32,9 @@ Running on real machine:
 Run on VM:
 1. make your own image file
     ```bash
-    $ make efi_iso
+    $ make qemu
     ```
-2. use it on virtual machine (qemu, Virtual Box, VMWare etc.)
+2. mount it on virtual machine (qemu, Virtual Box, VMWare etc.)
 
 ## :warning:Something goes wrong!
 <details>
@@ -68,7 +63,7 @@ $ patch  /<path of your edk2 dir>/BaseTools/Source/C/Makefiles/headers.makefile\
 </p>
 </details>
 
-## :bulb:Milestone
+## :bulb:Milestones
 <!--Boot loader-->
 <details>
 <summary>Boot Loader</summary>
