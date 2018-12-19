@@ -18,6 +18,16 @@ IN_REAL_MODE:
 	mov bx, ax
 	mov cx, ax
 	mov dx, ax
+
+	mov cs, ax
 	mov ds, ax
 	mov es, ax
 	mov ss, ax
+	mov si, ax
+	mov sp, ax
+
+	; self loading
+
+	; activate A20
+
+	; goto protected mode

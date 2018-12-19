@@ -1,11 +1,3 @@
-  ; 3=====================================================================D
-  ;     @File:    entry.asm
-  ;     @Path:  /Kernel/Platform/x86_64/src
-  ;     @Authors:   KeyboardMayCry[eddy199883@gmail.com]
-  ;     @Descriptions:  System entry for x86_64 platform.
-  ;     @Updates:
-  ;        12 Jan 2018    ||  KeyboardMayCry  ||  File Created. 
-  ; 3=====================================================================D
 [bits 64]
 global PLATFORM_ENTRY
 global FlushGDT

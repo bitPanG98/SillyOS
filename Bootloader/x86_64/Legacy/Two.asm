@@ -10,3 +10,10 @@
 %include "three.asm"
 [bits 32]
 IN_PROTECTED_MODE:
+    ; setup gdt
+
+    ;setup paging
+
+    ;toggle MSR
+
+    ;goto flat mode

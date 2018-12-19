@@ -33,7 +33,7 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
     */
 
     /*
-        1. Graphics settings
+        Graphics settings
     */
     EFI_GRAPHICS_OUTPUT_PROTOCOL *GOP;
     Print(L"Getting GOProtocol...");
@@ -43,13 +43,14 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
     Print(L"Success\n");
 
     Print(L"Attempt to get better graphics setting...\n");
+    
     UINTN info_size;
     EFI_GRAPHICS_OUTPUT_MODE_INFORMATION *gop_info = GOP->Mode->Info;
     UINT32 max_mode = GOP->Mode->MaxMode;
-    Print(L"[Current] HR: %d VR: %d PF: %d PPSL: %d\n",
+    Print(L"[Current mode] HR: %d VR: %d PF: %d PPSL: %d\n",
           gop_info->HorizontalResolution, gop_info->VerticalResolution,
           gop_info->PixelFormat, gop_info->PixelsPerScanLine);
-
+    Print(L"Available video modes:\n");
     UINT32 target_mode = 0;
     for (int i = 0; i < max_mode; ++i) {
         status = GOP->QueryMode(GOP, i, &info_size, &gop_info);
@@ -73,16 +74,10 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
     CHECK(status);
     Print(L"Success\n");
     // clear screen
-    //ST->ConOut->ClearScreen(ST->ConOut);
+    ST->ConOut->ClearScreen(ST->ConOut);
 
     /*
-        2. Print header
-    */
-    Print(L"SillyOS Bootloader\n");
-    Print(L"Version: %s\n", BOOTLOADER_VERSION);
-
-    /*
-        3. Load kernel
+        Load kernel
     */
     Print(L"Loading kernel...");
     UINTN kmem_size = 0;
@@ -95,7 +90,7 @@ EFI_STATUS EFIAPI UefiMain(IN EFI_HANDLE IH, IN EFI_SYSTEM_TABLE *ST) {
     KERNEL_ENTRY *KernelEntry = (KERNEL_ENTRY *)KERNEL;
 
     /*
-        4. Get RSDP
+        Get RSDP
     */
     Print(L"Getting RSDP Table...");
     EFI_CONFIGURATION_TABLE *CT = ST->ConfigurationTable;

@@ -10,3 +10,11 @@
 
 [bits 64]
 IN_FLAT_MODE:
+
+    ;setup registers
+
+    ;gather info
+
+    ;setup stack
+
+    ;pass control to kernel

@@ -1,14 +1,15 @@
-FROM ubuntu:xenial
+FROM ubuntu:latest
 MAINTAINER GarbageCollections
 RUN mkdir -p /workspace
 VOLUME /workspace
 
 #Install all the needed package
+#clang-7.0 \
+#llvm-7.0 \
+#lld-7.0 \
 RUN apt-get -y update && apt-get -y install \
 build-essential \
-clang-6.0 \
-llvm-6.0 \
-lld-6.0 \
+llvm-toolchain \
 nasm \
 git \
 curl \

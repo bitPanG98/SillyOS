@@ -11,8 +11,8 @@ CORE_FILE := $(TARG).core
 ISO_FILE ?= sillyos.iso
 ## Tools
 # C++ compiler
-CC := clang-6.0
+CC := clang++
 # Linker
-LD := ld.lld-6.0
+LD := ld.lld
 # Assembler
 NASM := nasm

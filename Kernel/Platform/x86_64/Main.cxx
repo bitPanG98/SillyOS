@@ -42,17 +42,21 @@ extern "C" void PlatformMain(SOS_BOOT_INFO *boot_info)
     LOG("OK\n");
     UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
 
-    // Initialize ACPI
-    // ACPI::Initialize(boot_info->RSDP);
-    // //ACPI OK msg
-    // LOG("[");
-    // UI::Terminal::SetColor(0xf4f141);
-    // LOG("ACPI");
-    // UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
-    // LOG("] => ");
-    // UI::Terminal::SetColor(0x42f486);
-    // LOG("OK\n");
-    // UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
+    //Initialize ACPI
+    ACPI::Initialize(boot_info->RSDP);
+    //ACPI OK msg
+    LOG("[");
+    UI::Terminal::SetColor(0xf4f141);
+    LOG("ACPI");
+    UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
+    LOG("] => ");
+    UI::Terminal::SetColor(0x42f486);
+    LOG("OK\n");
+    UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
+
+    Memory::Initialize();
+
+
     //Interrupt::Initialize();
     //Early memory allocation
     //Initialize memory management
