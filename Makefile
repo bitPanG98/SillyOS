@@ -10,18 +10,16 @@ kernel: .force libsilly CreateDirs
 
 bootloader: .force CreateDirs
 ifeq ($(BOOT_TYPE), EFI)
-	@$(MAKE) -s -C ./Bootloader/x86_64/EDK2
+	@$(MAKE) -s -C ./Bootloader/EDK2
 endif
 ifeq ($(BOOT_TYPE), LEGACY)
-	@$(MAKE) -s -C ./Bootloader/x86_64/Legacy
+	@$(MAKE) -s -C ./Bootloader/Legacy
 endif
 
 libsilly:
 #discard for now
-#@$(MAKE) -s -C Library silly
+	@$(MAKE) -s -C silly
 	@echo skipped
-libstd:
-	@$(MAKE) -s -C Library standard
 
 efi_iso: .force bootloader kernel
 	@rm -fvr $(BUILD_DIR)/efi.img
@@ -36,13 +34,13 @@ else
 	@mv $(BUILD_DIR)/bootloader.efi $(BUILD_DIR)/bootx64.efi
 	@mcopy -i $(BUILD_DIR)/efi.img $(BUILD_DIR)/bootx64.efi ::/efi/boot
 endif
-	@mcopy -i $(BUILD_DIR)/efi.img $(BUILD_DIR)/*-sillyos.core ::/
+	@mcopy -i $(BUILD_DIR)/efi.img $(BUILD_DIR)/*.core ::/
 	@mkdir $(BUILD_DIR)/iso
 	@cp -f $(BUILD_DIR)/efi.img $(BUILD_DIR)/iso
 	@xorriso -as mkisofs -R -f -e efi.img -no-emul-boot -o $(PROJECT_ROOT)/sillyos.iso $(BUILD_DIR)/iso
 
 qemu: .force efi_iso
-	@sudo qemu-system-$(PLAT)  -serial stdio -cpu Haswell  -bios /usr/share/ovmf/x64/OVMF_CODE.fd  -drive file=./sillyos.iso -m 2G
+	@sudo qemu-system-x86_64  -serial stdio -cpu Haswell  -bios /usr/share/ovmf/x64/OVMF_CODE.fd  -drive file=./sillyos.iso -m 2G
 
 CreateDirs: .force clean
 	@mkdir -p $(BUILD_DIR)
@@ -51,10 +49,10 @@ clean:
 	@echo Cleaning...
 	@rm -fvr $(BUILD_DIR)
 ifneq ($(BOOT_TYPE), EFI)
-	@$(MAKE) -C ./Bootloader/x86_64/Legacy clean
+	@$(MAKE) -C ./Bootloader/Legacy clean
 endif
 	@$(MAKE) -C Kernel clean
-	@$(MAKE) -C Library clean
+	@$(MAKE) -C libsilly clean
 
 	
 .force:

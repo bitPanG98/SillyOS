@@ -2,6 +2,7 @@
 #include <CPU.h>
 #include <UI.h>
 
+
 using namespace CPU::CPUID;
 namespace Interrupt {
 inline void EnableInterrupt() { asm("cli"); }
@@ -11,7 +12,7 @@ IDT_ENTRY idt[256];
 
 void Initialize(){
     //Zero out the table
-    //SetMemory((void *)idt, 0x0, 256);
+    MemSet(0, (void *)idt, 256*sizeof(IDT_ENTRY));
 
     //Check is APIC available
     u32 regs[4];

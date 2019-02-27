@@ -54,7 +54,7 @@ extern "C" void PlatformMain(SOS_BOOT_INFO *boot_info)
     LOG("OK\n");
     UI::Terminal::SetColor(DEFAULT_TEXT_COLOR);
 
-    Memory::Initialize();
+    //Memory::Initialize();
 
 
     //Interrupt::Initialize();

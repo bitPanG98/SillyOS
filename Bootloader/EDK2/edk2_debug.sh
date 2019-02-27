@@ -24,7 +24,6 @@ then
 	rm -fR ./edk2/Build
 fi
 echo Copying needed files...
-cp -r $PROJECT_ROOT/Library/libsilly/Protocols/SillyOS/Booting.h ./SOS-Boot/Bootloader
 cp -r ./SOS-Boot ./edk2/
 
 

@@ -12,6 +12,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
+typedef float f32;
+typedef double f64;
+
 #define PACKED __attribute__((packed))
 
 #define null ((void*)0)

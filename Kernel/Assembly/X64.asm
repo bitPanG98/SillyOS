@@ -25,9 +25,8 @@ PLATFORM_ENTRY:
     ;if we somehow get in here, we need to stop it
     cli
     hlt
-    dd BLOCK_SIZE
 
-;See https://github.com/tianocore/edk2/blob/master/UefiCpuPkg/CpuDxe/X64/CpuAsm.nasm
+;Ref: See https://github.com/tianocore/edk2/blob/master/UefiCpuPkg/CpuDxe/X64/CpuAsm.nasm
 ;Thanks to MouseOS: http://www.mouseos.com/os/tools/nasm.html
 FlushGDT:
   ;edi: code esi: data

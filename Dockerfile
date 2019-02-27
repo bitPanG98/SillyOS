@@ -1,15 +1,11 @@
-FROM ubuntu:latest
+FROM ubuntu:disco
 MAINTAINER GarbageCollections
 RUN mkdir -p /workspace
 VOLUME /workspace
 
 #Install all the needed package
-#clang-7.0 \
-#llvm-7.0 \
-#lld-7.0 \
 RUN apt-get -y update && apt-get -y install \
 build-essential \
-llvm-toolchain \
 nasm \
 git \
 curl \
@@ -18,7 +14,9 @@ python3 \
 uuid-dev \
 dosfstools \
 mtools \
-xorriso
+xorriso \
+clang \
+lld
 
 RUN useradd -s /bin/bash dever
 USER dever

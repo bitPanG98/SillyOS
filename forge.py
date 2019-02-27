@@ -64,13 +64,13 @@ if __name__ == '__main__':
 
     if args.iso:
         print("Task: EFI ISO")
-        remote.execute('make efi_iso')
+        remote.execute('make -s efi_iso')
     elif args.clean:
         print("Task: Clean")
-        remote.execute('make clean')
+        remote.execute('make -s clean')
     elif args.kernel:
         print("Task: Kernel")
-        remote.execute('make kernel')
+        remote.execute('make -s kernel')
     elif args.bootloader:
         print("Task: Bootloader")
-        remote.execute('make bootloader')
+        remote.execute('make -s bootloader')

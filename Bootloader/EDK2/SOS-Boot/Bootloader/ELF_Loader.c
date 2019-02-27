@@ -62,19 +62,16 @@ EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data,
         gBS->LocateHandleBuffer(ByProtocol, &gEfiSimpleFileSystemProtocolGuid,
                                 NULL, &MaxHandles, &handles);
     if (EFI_ERROR(status)) {
-        // Print(L"\n1\n");
         return status;
     }
     for (UINTN i = 0; i < MaxHandles; i++) {
         status = gBS->HandleProtocol(
             handles[i], &gEfiSimpleFileSystemProtocolGuid, (void **)&SFS);
         if (EFI_ERROR(status)) {
-            // Print(L"\n2\n");
             return status;
         }
         status = SFS->OpenVolume(SFS, &root);
         if (EFI_ERROR(status)) {
-            // Print(L"\n3\n");
             return status;
         }
         // check is needed file exist?
@@ -100,11 +97,9 @@ EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data,
         status = gBS->AllocatePool(EfiBootServicesData, InfoBuffSize,
                                    (VOID **)&info);
         if (EFI_ERROR(status)) {
-            // Print(L"\n4\n");
             return status;
         }
     } else if (EFI_ERROR(status)) {
-        // Print(L"\n5\n");
         return status;
     }
 
@@ -112,7 +107,6 @@ EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data,
     // do the real getinfo().
     status = file->GetInfo(file, &gEfiFileInfoGuid, &InfoBuffSize, info);
     if (EFI_ERROR(status)) {
-        // Print(L"\n6\n");
         return status;
     }
     *Size = info->FileSize;
@@ -120,21 +114,18 @@ EFI_STATUS LoadFileFromTheDrive(IN CHAR16 *FileName, OUT VOID **Data,
 
     status = gBS->AllocatePool(EfiLoaderData, *Size, Data);
     if (EFI_ERROR(status)) {
-        // Print(L"\n7\n");
         return status;
     }
 
     // Read file
     status = file->Read(file, Size, (UINT8 *)*Data);
     if (EFI_ERROR(status)) {
-        // Print(L"\n8\n");
         return status;
     }
 
     // Finish!
     status = file->Close(file);
     if (EFI_ERROR(status)) {
-        // Print(L"\n9\n");
         return status;
     }
     root->Close(root);
