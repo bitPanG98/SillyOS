@@ -1,6 +1,7 @@
 #include <Interrupt.h>
 #include <CPU.h>
 #include <UI.h>
+#include <BaseMemory.h>
 
 
 using namespace CPU::CPUID;

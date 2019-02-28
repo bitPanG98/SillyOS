@@ -39,6 +39,21 @@ typedef struct
     u8 Reserved[3];
 } PACKED ACPI_RSDP;
 
+//Extended System Description Table
+typedef struct{
+    ACPI_SDTH header;
+    u32 Signature;
+    u32 Length;
+    u8 Revision;
+    u8 Checksum;
+    u8 OEMID[6];
+    u64 OEMTableID;
+    u32 OEMRevision;
+    u32 CreatorID;
+    u32 CreatorRevision;
+    ACPI_SDTH *DescriptionHeaders;
+} ACPI_XSDT;
+
 //Fixed ACPI Description Table
 typedef struct
 {
@@ -120,11 +135,22 @@ typedef struct
 typedef struct
 {
     ACPI_SDTH Header;
-    u32 LocalAPIC;
-    u32 Flags;
+    u32 Signature;
+    u32 Length;
+    u8 Revision;
+    u8 Checksum;
+    u8 OEMID[6];
+    u64 OEMTableID;
+    u32 OEMRevision;
+    u32 CreatorID;
+    u32 CreatorRevision;
+    u32 LocalCtrlAddress;
+    u8 PCAT_COMPAT: 1;
+    u8 FlagReserved[31];
+    u8 PICStart;
     //A list of Interrupt Controller Structures here
 } PACKED ACPI_MADT;
-/*
+
 //Differentiated System Description Table
 typedef struct
 {
@@ -138,9 +164,8 @@ typedef struct
     u32 OEMRevision;
     u32 CreatorID;
     u32 CreatorRevision;
-
+    u8 DefBlockStart;
 } PACKED ACPI_DSDT;
-*/
 
 /*
 //Smart Battery Table

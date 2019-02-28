@@ -30,8 +30,15 @@ namespace ACPI {
         //RSDP is good to go
         rsdp = unsafe_rsdp;
 
-        //TODO: CHECK XSDT and RSDT(dunno do we really need to implement it)
+        ACPI_XSDT *xsdp = (ACPI_XSDT *)rsdp->XsdtAddress;
+        //check signature
+        if(!MemCmp((void *)&(xsdt->Signature), (void *)ACPI_XSDT_SIGNATURE, 8)){
+            PANIC("[ACPI] => Invalid XSDT signature!\n");
+        }
 
+        //checksum NOTE: XSDT's length include n description tables!
+
+        //FADT->DSDT
     }   
 
     //TODO: MOVE THIS FUNCTION TO SillyLib(maybe?)

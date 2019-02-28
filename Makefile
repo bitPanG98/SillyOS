@@ -5,7 +5,7 @@ default: CreateDirs bootloader kernel
 pack:
 	@echo Packing... 
 
-kernel: .force libsilly CreateDirs
+kernel: .force CreateDirs
 	@$(MAKE) -s -C Kernel
 
 bootloader: .force CreateDirs
