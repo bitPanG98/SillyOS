@@ -1,4 +1,7 @@
 # SillyOS
+
+**SillyOS are currently halted due to Flow-lang development, Will be resume with rewrite in Flow-lang. wish me luck!**
+
 Currently screenshot:
 
 ![alt text](screenshot_format.png "Ayy boiiiiiiiiiiii")
